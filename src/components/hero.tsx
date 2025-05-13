@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Image from 'next/image'
+// import Image from 'next/image'
 import { BorderBeam } from '@/components/magicui/border-beam'
 import { BlurFade } from '@/components/magicui/blur-fade'
 import { cn } from '@/lib/utils'
@@ -84,26 +84,20 @@ export function HeroSection () {
 	return (
 		<section className='relative flex flex-col items-center justify-start w-full pb-96 sm:pb-[32rem] '>
 			{/* Background image with enhanced fade */}
-			<div className='absolute inset-0 flex items-center justify-center z-0'>
+			{/* <div className='absolute inset-0 flex items-center justify-center z-0'>
                 <div className={cn(
-                    "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
-                    "relative w-full h-full"
+                "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
+                "relative w-full h-[600px] sm:h-[700px] md:h-[800px] flex items-center justify-center"
                 )}>
                     <Image
-                        src='/images/str-logo.jpg'
-                        alt='Background'
+                        src="/images/str-logo.jpg"
+                        alt="Keyboard"
                         fill
-                        className={cn(
-                            'object-cover object-center',
-                            'opacity-90 dark:opacity-90',
-                            'transition-all duration-700',
-                            'invert dark:invert-0',
-                            'pb-200'
-                        )}
+                        className="object-cover object-center opacity-90 dark:opacity-90 invert dark:invert-0"
                         priority
                     />
                 </div>
-			</div>
+			</div> */}
 
 			{/* Content overlay */}
 			<div className='relative z-10 flex flex-col items-center text-center mt-24 sm:mt-32 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8'>

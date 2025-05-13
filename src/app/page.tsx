@@ -28,7 +28,7 @@ export default function Home() {
           Focus without fragmentation.
         </h2>
         <p className={cn(
-          "text-base sm:text-lg font-medium text-center mb-6",
+          "text-base sm:text-lg font-medium text-center",
           "bg-clip-text text-transparent",
           "bg-gradient-to-r",
           "from-foreground via-foreground/80 to-foreground/60",
