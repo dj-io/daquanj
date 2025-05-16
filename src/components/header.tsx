@@ -12,17 +12,17 @@ export function Header() {
 				<div className='w-full px-4 pb-3 flex items-center justify-between'>
 					{/* Logo and Brand */}
 					<Link href="/" className="flex items-center gap-2">
-						<div className="w-8 h-5 flex items-center justify-center rounded-full overflow-hidden bg-black dark:bg-white">
+						<div className="w-8 h-8 flex items-center justify-center rounded-full overflow-hidden">
 							<Image
 								src='/images/str-logo.jpg'
 								alt='Grit logo'
 								width={60}
 								height={60}
-								className='w-6 h-6 object-cover transition-colors dark:invert'
+								className='w-8 h-8 object-cover transition-colors'
 								priority
 							/>
 						</div>
-						<span className="text-base text-muted-foreground font-semibold tracking-tight">Grit</span>
+						<span className="text-base text-foreground font-semibold tracking-tight">Grit</span>
 					</Link>
 
 					{/* Mobile Tagline */}
@@ -42,17 +42,17 @@ export function Header() {
 				<div className='bg-background/90 dark:bg-background/80 max-w-5xl w-[95vw] py-2 flex items-center justify-between'>
 					{/* Left: Logo and Brand */}
 					<Link href="/" className="flex items-center gap-2 group">
-						<div className="w-12 h-8 flex items-center justify-center rounded-full overflow-hidden bg-black dark:bg-white">
+						<div className="w-9 h-9 flex items-center justify-center rounded-full overflow-hidden bg-black dark:bg-white">
 							<Image
 								src='/images/str-logo.jpg'
 								alt='Grit logo'
 								width={100}
 								height={100}
-								className='w-12 h-12 object-cover transition-colors dark:invert'
+								className='w-12 h-12 object-cover transition-colors'
 								priority
 							/>
 						</div>
-						<span className="text-muted-foreground font-semibold text-4xl tracking-tight">Grit</span>
+						<span className="text-foreground font-semibold text-4xl tracking-tight">Grit</span>
 					</Link>
 
 					{/* Desktop Tagline */}

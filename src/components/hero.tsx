@@ -48,7 +48,7 @@ export function HeroSection () {
 				.email('Invalid email address')
 				.required('Please fill out this field'),
 		}),
-		onSubmit: async (values, { setSubmitting }) => {
+		onSubmit: async (values, { setSubmitting, resetForm }) => {
 			try {
 				await fetch('/api/waitlist', {
 					method: 'POST',
@@ -58,6 +58,7 @@ export function HeroSection () {
 					body: JSON.stringify(values),
 				})
 				setSubmitted(true)
+				resetForm()
 			} catch (error) {
 				console.error('Error submitting form:', error)
 			} finally {
@@ -106,10 +107,10 @@ export function HeroSection () {
                         'text-4xl sm:text-5xl md:text-6xl font-bold mb-4 leading-tight',
                         'bg-clip-text text-transparent',
                         'bg-gradient-to-b from-foreground via-foreground/80 to-foreground/60',
-                        'dark:from-white dark:via-white/80 dark:to-white/60',
+                        'dark:from-white dark:via-white/100 dark:to-white/100',
                         'transition-colors duration-300'
                     )}>
-						The AI Note <span className='text-muted-foreground'>Editor.</span>
+						The AI Note <span className='text-foreground'>Editor.</span>
 					</h1>
 				</BlurFade>
 				<BlurFade delay={0.4}>
@@ -136,11 +137,11 @@ export function HeroSection () {
 								value={formik.values.email}
 								className={cn(
 									'w-full h-9 px-4 rounded-md',
-									'bg-background dark:bg-zinc-900',
-									'text-foreground dark:text-zinc-100',
-									'border border-border dark:border-zinc-700',
-									'focus:outline-none focus:ring-2 focus:ring-ring dark:focus:ring-zinc-700',
-									'placeholder:text-muted-foreground',
+									'bg-background dark:bg-[#0C0A09]',
+									'text-foreground dark:text-foreground',
+									'border border-border dark:border-[#383838]/60',
+									'focus:outline-none focus:ring-2 focus:ring-ring dark:focus:ring-[#383838]/60',
+									'placeholder:text-[#9CA3AF]/80',
 									'cursor-text',
 									showError ? 'border-destructive' : ''
 								)}
@@ -158,22 +159,22 @@ export function HeroSection () {
 								'relative overflow-hidden',
 								'flex items-center justify-center h-9 px-4 min-w-32',
 								'rounded-md',
-								'bg-background dark:bg-zinc-900',
+								'bg-background dark:bg-[#0C0A09]',
 								'text-foreground dark:text-zinc-100',
-								'border border-border dark:border-zinc-700',
+								'border border-border dark:border-[#383838]/60',
 								'font-medium shadow-sm',
-								'hover:bg-accent dark:hover:bg-zinc-800',
+								'hover:bg-accent/80 dark:hover:bg-[#0F0F0F]/50',
 								'transition-colors text-sm',
-								'focus:outline-none focus:ring-2 focus:ring-ring dark:focus:ring-zinc-700',
+								'focus:outline-none focus:ring-2 focus:ring-ring dark:focus:ring-[#383838]/60',
 								'cursor-pointer',
 								formik.isSubmitting && 'opacity-50 cursor-not-allowed'
 							)}
 						>
 							{submitted ? 'Thanks!' : formik.isSubmitting ? 'Joining...' : 'Join Waitlist'}
 							<BorderBeam
-								size={50}
+								size={55}
 								initialOffset={20}
-								className="from-zinc-900/40 via-zinc-500/50 to-transparent dark:via-[#bfc3c9] dark:to-[#6b7280]"
+								className="from-zinc-900/40 via-zinc-500/50 to-transparent dark:via-[#0F0F0F] dark:to-[#6b7280]"
 								transition={{
 									type: "spring",
 									duration: 10
@@ -186,18 +187,18 @@ export function HeroSection () {
                 <BlurFade delay={0.1}>
                     <p className={cn(
                         'text-xs',
-                        'text-muted-foreground dark:text-muted-foreground',
+                        'text-[#383838] dark:text-[#9CA3AF]/80',
                         'transition-colors duration-300'
                     )}>
                         {version} &nbsp;|&nbsp; {os} &nbsp;|&nbsp; {installInfo}
                     </p>
-                    <div className={cn(
+                    {/* <div className={cn(
                         'text-xs',
                         'text-muted-foreground dark:text-muted-foreground',
                         'transition-colors duration-300',
                         'pt-4'
                     )}>
-                    </div>
+                    </div> */}
                 </BlurFade>
 			</div>
 

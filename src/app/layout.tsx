@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: "Grit - The AI Note Editor",
   description: "Grit is designed to make you extraordinarily productive, Grit is the best way to write and take notes with AI",
   authors: [{ name: "Stratum Labs", url: "https://stratumlabs.ai" }],
-  keywords: ["Grit", "AI", "Note", "Editor", "AI Note taking", "AI Notes", "AI Writing Assistant", "AI Writing", "Text Generation", "Productivity", "Note-taking", "Note-taking app"],
+  keywords: ["Grit", "AI", "Note", "Editor", "AI Note taking", "AI Notes","AI Meeting Notes", "AI Writing Assistant", "AI Writing", "Text Generation", "Productivity", "Note-taking", "Note-taking app"],
   applicationName: "Grit",
   generator: "Next.js", // what does generator do?
   robots: "index, follow",
@@ -72,6 +72,7 @@ export default function RootLayout({
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
+          // forcedTheme="light"
           enableSystem
           disableTransitionOnChange
         >

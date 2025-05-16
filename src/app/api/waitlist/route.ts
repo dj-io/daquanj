@@ -1,33 +1,72 @@
-import { NextResponse } from 'next/server'
 
+import { NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
+import { Resend } from 'resend';
+import { nanoid } from 'nanoid';
+import React from 'react';
+import { ConfirmationEmail } from '@/components/email-templates/confirmation-email';
+
+// Initialize Supabase client
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ANON_KEY!
+);
+
+// Initialize Resend client
+const resend = new Resend(process.env.RESEND_API_KEY!);
+
+
+// POST handler for the waitlist endpoint
 export async function POST(request: Request) {
   try {
-    const body = await request.json()
-    const { email } = body
+    // Parse the incoming request
+    const body = await request.json();
+    const { email } = body;
 
     if (!email) {
-      return NextResponse.json(
-        { error: 'Email is required' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Email is required' }, { status: 400 });
     }
 
-    // TODO: Add your waitlist logic here
-    // For example:
-    // - Save to a database
-    // - Send to an email service
-    // - Add to a mailing list
+    // Generate a unique token for email confirmation
+    const token = nanoid();
 
-    // For now, we'll just return a success response
+    // Insert the waitlist entry into Supabase [https://supabase.com/]
+    const { error: dbError } = await supabase.from('waitlist').insert([
+      { email, token }
+    ]);
+
+    if (dbError) {
+      console.error('Supabase Error:', dbError);
+      return NextResponse.json(
+        { error: 'Database insertion failed', details: dbError.message },
+        { status: 500 }
+      );
+    }
+
+    // Send the confirmation email using Resend [https://resend.com/]
+    const { data, error } = await resend.emails.send({
+      from: `Stratum <${process.env.FROM_EMAIL!}>`,
+      to: [email],
+      subject: 'Grit waitlist signup confirmation!',
+      react: React.createElement(ConfirmationEmail, { token })
+    });
+
+    if (error) {
+      return NextResponse.json(
+        { error: 'Failed to send confirmation email', details: error.message },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(
-      { message: 'Successfully joined waitlist' },
+      { message: 'Confirmation email sent', data },
       { status: 200 }
-    )
+    );
   } catch (error) {
-    console.error('Error processing waitlist request:', error)
+    console.error('Error processing waitlist request:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error },
       { status: 500 }
-    )
+    );
   }
 }

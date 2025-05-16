@@ -13,10 +13,10 @@ export default function Home() {
       <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
       <Particles
           quantity={300}
-          size={0.7}
+          size={0.9}
           ease={80}
-          refresh
-          color="#6b7280"
+          refresh={true}
+          color="#383838"
           className="w-full h-full opacity-50 dark:opacity-80 text-foreground dark:text-white/40 light:text-white/40"
         />
       </div>
@@ -24,7 +24,7 @@ export default function Home() {
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center pt-24 fixed bottom-0 w-full">
          {/* Section heading and grid (z-10 to be above particles) */}
       <div className="relative z-10 w-full flex flex-col items-center justify-center mb-10">
-        <h2 className="text-2xl sm:text-xl font-semibold text-center text-muted-foreground mb-1">
+        <h2 className="text-2xl sm:text-xl font-semibold text-center text-[#9CA3AF] dark:text-[#9CA3AF] transition-colors duration-300 mb-1">
           Focus without fragmentation.
         </h2>
         <p className={cn(
