@@ -1,4 +1,4 @@
-// pages/privacy-policy.tsx
+
 import { BlurFade } from '@/components/magicui/blur-fade'
 import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
