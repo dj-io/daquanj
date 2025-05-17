@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { BlurFade } from '@/components/magicui/blur-fade';
+import { posthog } from '@/lib/posthog'
 
 export default function ConfirmPage() {
   const searchParams = useSearchParams()
@@ -44,10 +45,23 @@ export default function ConfirmPage() {
       setTimeout(() => {
         router.push('/')
       }, 2000)
+
+      posthog.capture('confirmation_succeeded', {
+        time_to_confirm: Date.now() - performance.timeOrigin, // ms since page load
+        token_present: Boolean(token)
+      })
     } catch (error) {
       setStatus('error')
       setMessage(error instanceof Error ? error.message : 'Failed to confirm email')
+      posthog.capture('confirmation_failed', {
+        error_message: message,
+        token_present: Boolean(token)
+      })
     }
+
+    posthog.capture('confirmation_requested', {
+      token_present: Boolean(token)
+    })
   }
 
   const isButtonDisabled = status === 'confirming' || status === 'success'
@@ -147,6 +161,7 @@ export default function ConfirmPage() {
           If you have any issue confirming your account please contact,{' '}
           <a
             href="mailto:hq@stratumlabs.ai"
+            onClick={() => posthog.capture('support_email_clicked')}
             className={cn(
               'text-[#bfc3c9] hover:text-[#383838]',
               'transition-colors duration-200'

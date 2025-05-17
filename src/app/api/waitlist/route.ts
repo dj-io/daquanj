@@ -1,10 +1,10 @@
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { Resend } from 'resend';
 import { nanoid } from 'nanoid';
 import React from 'react';
 import { ConfirmationEmail } from '@/components/email-templates/confirmation-email';
+import { PostHog } from 'posthog-node'
 
 // Initialize Supabase client
 const supabase = createClient(
@@ -15,6 +15,10 @@ const supabase = createClient(
 // Initialize Resend client
 const resend = new Resend(process.env.RESEND_API_KEY!);
 
+const posthogClient = new PostHog(
+  process.env.POSTHOG_SERVER_KEY!,
+  { host: process.env.NEXT_PUBLIC_POSTHOG_HOST! }
+)
 
 // POST handler for the waitlist endpoint
 export async function POST(request: Request) {
@@ -56,6 +60,21 @@ export async function POST(request: Request) {
         { error: 'Failed to send confirmation email', details: error.message },
         { status: 500 }
       );
+    }
+
+    try {
+      // Capture the waitlist submission event
+      posthogClient.capture({
+        distinctId: email,
+        event: 'waitlist_form_submitted',
+        properties: {
+          email
+        }
+      })
+
+      await posthogClient.shutdown()
+    } catch (phError) {
+      console.error('PostHog tracking error (non-fatal):', phError)
     }
 
     return NextResponse.json(
