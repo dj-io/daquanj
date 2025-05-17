@@ -8,16 +8,16 @@ import { PostHog } from 'posthog-node'
 
 // Initialize Supabase client
 const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ANON_KEY!
+  process.env.SUPABASE_URL as string,
+  process.env.SUPABASE_SERVICE_ANON_KEY as string
 );
 
 // Initialize Resend client
-const resend = new Resend(process.env.RESEND_API_KEY!);
+const resend = new Resend(process.env.RESEND_API_KEY as string);
 
 const posthogClient = new PostHog(
-  process.env.POSTHOG_SERVER_KEY!,
-  { host: process.env.NEXT_PUBLIC_POSTHOG_HOST! }
+  process.env.POSTHOG_SERVER_KEY as string,
+  { host: process.env.POSTHOG_HOST as string }
 )
 
 // POST handler for the waitlist endpoint

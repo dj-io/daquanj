@@ -5,8 +5,8 @@ import { WelcomeEmail } from '@/components/email-templates/welcome-email';
 import { Resend } from 'resend';
 
 const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ANON_KEY!
+  process.env.SUPABASE_URL as string,
+  process.env.SUPABASE_SERVICE_ANON_KEY as string
 );
 
 const resend = new Resend(process.env.RESEND_API_KEY!);

@@ -7,12 +7,12 @@ import { FollowupEmail } from '@/components/email-templates/follow-up-email';
 
 // Initialize the Supabase client using environment variables
 const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ANON_KEY!
+  process.env.SUPABASE_URL as string,
+  process.env.SUPABASE_SERVICE_ANON_KEY as string
 );
 
 // Initialize the Resend client using your API key
-const resend = new Resend(process.env.RESEND_API_KEY!);
+const resend = new Resend(process.env.RESEND_API_KEY as string);
 
 export async function GET() {
   try {
