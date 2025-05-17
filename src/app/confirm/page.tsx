@@ -1,10 +1,10 @@
 'use client';
 
+import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import Image from 'next/image';
-import Link from 'next/link';
 import { BlurFade } from '@/components/magicui/blur-fade';
 
 export default function ConfirmPage() {
@@ -159,4 +159,12 @@ export default function ConfirmPage() {
       </div>
     </div>
   )
+}
+
+export const metadata = {
+  title: 'Confirm Your Account - Grit',
+  robots: {
+    index: false,
+    follow: false,
+  }
 }

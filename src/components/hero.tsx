@@ -7,6 +7,7 @@ import { BlurFade } from '@/components/magicui/blur-fade'
 import { cn } from '@/lib/utils'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import Link from 'next/link'
 // import { ModeToggle } from './theme-toggle'
 
 // OS detection logic
@@ -98,7 +99,7 @@ export function HeroSection () {
                         priority
                     />
                 </div>
-			</div> */}
+			 </div> */}
 
 			{/* Content overlay */}
 			<div className='relative z-10 flex flex-col items-center text-center mt-24 sm:mt-32 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8'>
@@ -121,11 +122,14 @@ export function HeroSection () {
                         'bg-clip-text text-transparent',
                         'transition-colors duration-300'
                     )}>
-						Designed to make you extraordinarily productive, Grit will be the best way to write and take notes with AI
+						{/* WAITLIST ONE LINER */}
+						<span>A context aware note editor that learns from you, Grit bridges the gap between everyday note taking and power use.</span>
+						{/* BETA LAUNCH ONE LINER */}
+						{/* <span >Built to make you seriously productive, Grit bridges the gap between everyday note taking and power use.</span> */}
 					</p>
 				</BlurFade>
 				<BlurFade delay={0.3}>
-					<form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4 mb-8 w-full max-w-md'>
+					<form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4 w-full max-w-md'>
 						<div className='relative flex-1'>
 							<input
 								id="email"
@@ -181,25 +185,57 @@ export function HeroSection () {
 								}}
 							/>
 						</button>
-                    {/* <ModeToggle /> */}
 					</form>
 				</BlurFade>
-                <BlurFade delay={0.1}>
-                    <p className={cn(
-                        'text-xs',
-                        'text-[#383838] dark:text-[#9CA3AF]/80',
-                        'transition-colors duration-300'
-                    )}>
-                        {version} &nbsp;|&nbsp; {os} &nbsp;|&nbsp; {installInfo}
-                    </p>
-                    {/* <div className={cn(
-                        'text-xs',
-                        'text-muted-foreground dark:text-muted-foreground',
-                        'transition-colors duration-300',
-                        'pt-4'
-                    )}>
-                    </div> */}
-                </BlurFade>
+
+				{/* Separate BlurFade for the privacy text with different delay */}
+				<BlurFade delay={0.4}>
+					<div className="w-full max-w-md mt-2">
+						<p className={cn(
+							'text-xs',
+							'text-center',
+							'text-[#9CA3AF]/70 dark:text-[#9CA3AF]/50',
+							'transition-colors duration-300',
+							'tracking-tight',
+							'px-4',
+							'whitespace-nowrap'
+						)}>
+							By joining the waitlist, you agree to our{' '}
+							<Link
+								href="/privacy"
+								className={cn(
+									'underline underline-offset-2',
+									'hover:text-[#9CA3AF] dark:hover:text-[#9CA3AF]/80',
+									'transition-colors duration-300'
+								)}
+							>
+								Privacy Policy
+							</Link>
+							{' '}and{' '}
+							<Link
+								href="/terms"
+								className={cn(
+									'underline underline-offset-2',
+									'hover:text-[#9CA3AF] dark:hover:text-[#9CA3AF]/80',
+									'transition-colors duration-300'
+								)}
+							>
+								Terms of Use
+							</Link>
+						</p>
+					</div>
+				</BlurFade>
+
+				<BlurFade delay={0.5}>
+					<p className={cn(
+						'text-xs',
+						'text-[#383838] dark:text-[#9CA3AF]/80',
+						'transition-colors duration-300',
+						'mt-6'
+					)}>
+						{version} &nbsp;|&nbsp; {os} &nbsp;|&nbsp; {installInfo}
+					</p>
+				</BlurFade>
 			</div>
 
 			{/* SVG Apple icon (for macOS button) */}
