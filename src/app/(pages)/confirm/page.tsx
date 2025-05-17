@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 import { BlurFade } from '@/components/magicui/blur-fade';
 import { posthog } from '@/lib/posthog'
 
-export default function ConfirmPage() {
+export default function ConfirmContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [status, setStatus] = useState<'pending' | 'confirming' | 'success' | 'error'>('pending')
@@ -174,12 +174,4 @@ export default function ConfirmPage() {
       </div>
     </div>
   )
-}
-
-export const metadata = {
-  title: 'Confirm Your Account - Grit',
-  robots: {
-    index: false,
-    follow: false,
-  }
 }
