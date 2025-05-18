@@ -1,24 +1,11 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import { Resend } from 'resend';
 import { nanoid } from 'nanoid';
 import React from 'react';
 import { ConfirmationEmail } from '@/components/email-templates/confirmation-email';
-import { PostHog } from 'posthog-node'
 
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.SUPABASE_URL as string,
-  process.env.SUPABASE_SERVICE_ANON_KEY as string
-);
+import { supabase, resend, posthogClient } from '../lib/client';
 
-// Initialize Resend client
-const resend = new Resend(process.env.RESEND_API_KEY as string);
 
-const posthogClient = new PostHog(
-  process.env.POSTHOG_SERVER_KEY as string,
-  { host: process.env.POSTHOG_HOST as string }
-)
 
 // POST handler for the waitlist endpoint
 export async function POST(request: Request) {
