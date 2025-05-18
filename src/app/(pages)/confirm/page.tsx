@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { BlurFade } from '@/components/magicui/blur-fade';
-import { posthog } from '@/lib/posthog'
+import { captureEvent } from '@/lib/posthog'
 
 export default function ConfirmContent() {
   const searchParams = useSearchParams()
@@ -22,7 +22,7 @@ export default function ConfirmContent() {
     if (action === 'waitlist_joined' && !token) {
       setStatus('waitlist_joined')
       setMessage(email ? `We've sent a confirmation link to ${email}. Please check your inbox (and spam folder) to finish.` : 'We\'ve sent a confirmation link to your email. Please check your inbox (and spam folder) to finish.')
-      posthog.capture('waitlist_confirmation_pending_page_viewed', { email: email || 'not_provided' })
+      captureEvent('waitlist_confirmation_pending_page_viewed', { email: email || 'not_provided' })
     } else if (token) {
       // Existing token confirmation logic can remain, or be triggered by a button
       // For simplicity, if a token is present, we assume the user wants to confirm.
@@ -32,7 +32,7 @@ export default function ConfirmContent() {
       // No token and no specific action - could be an invalid access
       setStatus('error')
       setMessage('Invalid page access. If you are trying to confirm your email, please use the link from your email.')
-      posthog.capture('confirm_page_invalid_access')
+      captureEvent('confirm_page_invalid_access')
     }
   }, [searchParams, router])
 
@@ -68,20 +68,20 @@ export default function ConfirmContent() {
         router.push('/')
       }, 2000)
 
-      posthog.capture('confirmation_succeeded', {
+      captureEvent('confirmation_succeeded', {
         time_to_confirm: Date.now() - performance.timeOrigin, // ms since page load
         token_present: Boolean(token)
       })
     } catch (error) {
       setStatus('error')
       setMessage(error instanceof Error ? error.message : 'Failed to confirm email')
-      posthog.capture('confirmation_failed', {
+      captureEvent('confirmation_failed', {
         error_message: message,
         token_present: Boolean(token)
       })
     }
 
-    posthog.capture('confirmation_requested', {
+    captureEvent('confirmation_requested', {
       token_present: Boolean(token)
     })
   }
@@ -247,7 +247,7 @@ export default function ConfirmContent() {
         If you have any issue confirming your account please contact,{' '}
         <a
           href="mailto:hq@stratumlabs.ai"
-          onClick={() => posthog.capture('support_email_clicked')}
+          onClick={() => captureEvent('support_email_clicked')}
           className={cn(
             'text-[#bfc3c9] hover:text-[#383838]',
             'transition-colors duration-200'

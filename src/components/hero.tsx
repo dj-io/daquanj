@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import Link from 'next/link'
-import { posthog } from '@/lib/posthog'
+import { captureEvent } from '@/lib/posthog'
 import { useRouter } from 'next/navigation'
 // import { ModeToggle } from './theme-toggle'
 
@@ -69,13 +69,13 @@ export function HeroSection () {
 				const submittedEmail = values.email
 				resetForm()
 				const timeElapsed = Date.now() - performance.timeOrigin
-				posthog.capture('waitlist_form_submitted', {
+				captureEvent('waitlist_form_submitted', {
 					form_completion_time: timeElapsed
 				})
 				router.push(`/confirm?action=waitlist_joined&email=${encodeURIComponent(submittedEmail)}`)
 			} catch (error) {
 				console.error('Error submitting form:', error)
-				posthog.capture('waitlist_form_submission_error', {
+				captureEvent('waitlist_form_submission_error', {
 					error_message: error instanceof Error ? error.message : 'Unknown error'
 				})
 			} finally {
@@ -150,7 +150,7 @@ export function HeroSection () {
 								onChange={formik.handleChange}
 								onBlur={formik.handleBlur}
 								value={formik.values.email}
-								onFocus={() => posthog.capture('join_waitlist_focused')}
+								onFocus={() => captureEvent('join_waitlist_focused')}
 								className={cn(
 									'w-full h-9 px-4 rounded-md',
 									'bg-background dark:bg-[#0C0A09]',
