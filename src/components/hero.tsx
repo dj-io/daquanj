@@ -9,6 +9,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import Link from 'next/link'
 import { posthog } from '@/lib/posthog'
+import { useRouter } from 'next/navigation'
 // import { ModeToggle } from './theme-toggle'
 
 // OS detection logic
@@ -25,7 +26,7 @@ function detectOS () {
 
 export function HeroSection () {
 	const [os, setOS] = useState('macOS')
-	const [submitted, setSubmitted] = useState(false)
+	const router = useRouter()
 
 	useEffect(() => {
 		setOS(detectOS())
@@ -52,19 +53,26 @@ export function HeroSection () {
 		}),
 		onSubmit: async (values, { setSubmitting, resetForm }) => {
 			try {
-				await fetch('/api/waitlist', {
+				const fetchResponse = await fetch('/api/waitlist', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
 					},
 					body: JSON.stringify(values),
 				})
-				setSubmitted(true)
+
+				if (!fetchResponse.ok) {
+					const errorData = await fetchResponse.json().catch(() => ({}))
+					throw new Error(errorData.message || `API request failed with status ${fetchResponse.status}`)
+				}
+
+				const submittedEmail = values.email
 				resetForm()
 				const timeElapsed = Date.now() - performance.timeOrigin
 				posthog.capture('waitlist_form_submitted', {
-					form_completion_time: timeElapsed // ms between form focus and submission
+					form_completion_time: timeElapsed
 				})
+				router.push(`/confirm?action=waitlist_joined&email=${encodeURIComponent(submittedEmail)}`)
 			} catch (error) {
 				console.error('Error submitting form:', error)
 				posthog.capture('waitlist_form_submission_error', {
@@ -72,7 +80,6 @@ export function HeroSection () {
 				})
 			} finally {
 				setSubmitting(false)
-				
 			}
 		},
 		validateOnBlur: true,
@@ -94,49 +101,44 @@ export function HeroSection () {
 
 	return (
 		<section className='relative flex flex-col items-center justify-start w-full pb-96 sm:pb-[32rem] '>
-			{/* Background image with enhanced fade */}
-			{/* <div className='absolute inset-0 flex items-center justify-center z-0'>
-                <div className={cn(
-                "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
-                "relative w-full h-[600px] sm:h-[700px] md:h-[800px] flex items-center justify-center"
-                )}>
-                    <Image
-                        src="/images/str-logo.jpg"
-                        alt="Keyboard"
-                        fill
-                        className="object-cover object-center opacity-90 dark:opacity-90 invert dark:invert-0"
-                        priority
-                    />
-                </div>
-			 </div> */}
-
 			{/* Content overlay */}
 			<div className='relative z-10 flex flex-col items-center text-center mt-24 sm:mt-32 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8'>
 				<BlurFade delay={0.1}>
 					<h1 className={cn(
                         'text-4xl sm:text-5xl md:text-6xl font-bold mb-4 leading-tight',
+						'text-[#9CA3AF] dark:text-[#9CA3AF]',
                         'bg-clip-text text-transparent',
                         'bg-gradient-to-b from-foreground via-foreground/80 to-foreground/60',
-                        'dark:from-white dark:via-white/100 dark:to-white/100',
-                        'transition-colors duration-300'
                     )}>
-						The AI Note <span className='text-foreground'>Editor.</span>
+						The AI Note <span className='text-[#9CA3AF]'>Editor.</span>
 					</h1>
 				</BlurFade>
 				<BlurFade delay={0.4}>
-					<p className={cn(
+					<p className="text-lg sm:text-xl mb-12 font-medium text-foreground dark:text-foreground">
+					  A <span className={cn(
+						'line-through',
+						'bg-clip-text',
+						'transition-colors duration-300'
+						)}>Rich Text Editor</span>
+					<span className={cn(
                         'text-lg sm:text-xl mb-12 font-medium',
-                        'bg-gradient-to-r from-foreground via-foreground/80 to-foreground/60',
-                        'dark:from-white dark:via-[#bfc3c9] dark:to-[#6b7280]',
-                        'bg-clip-text text-transparent',
+                        'bg-clip-text',
                         'transition-colors duration-300'
                     )}>
-						{/* WAITLIST ONE LINER */}
-						<span>A context aware note editor that learns from you, Grit bridges the gap between everyday note taking and power use.</span>
-						{/* BETA LAUNCH ONE LINER */}
-						{/* <span >Built to make you seriously productive, Grit bridges the gap between everyday note taking and power use.</span> */}
+						{/* WAITLIST ONE LINERs */}
+						{/* <span>A first of its kind Generative, Rich, Intelligent Text Editor for agentic note taking.</span> */}
+						{/* <span>A context aware note editor that learns from you, Grit bridges the gap between everyday note taking and power use.</span> */}
+						{/* <span>Grit bridges the gap between everyday note taking and power use.</span> */}
+						{/* <span>Take notes and write professionally with AI at your fingertips, all in one place. </span> */}
+					     {/* <span className={cn(
+						'text-lg sm:text-xl mb-12 font-medium',
+						'bg-clip-text',
+						'transition-colors duration-300'
+						)}>	Generative, Rich, Intelligent Text Editor for agentic note taking.</span> */}
+						 <span style={{ textShadow: '0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff' }}> G</span>enerative, <span style={{ textShadow: '0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff' }}>R</span>ich, <span style={{ textShadow: '0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff' }}>I</span>ntelligent <span style={{ textShadow: '0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff' }}>T</span>ext Editor for agentic note taking.
+					</span>
 					</p>
-				</BlurFade>
+				 </BlurFade>
 				<BlurFade delay={0.3}>
 					<form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4 w-full max-w-md'>
 						<div className='relative flex-1'>
@@ -184,7 +186,7 @@ export function HeroSection () {
 								formik.isSubmitting && 'opacity-50 cursor-not-allowed'
 							)}
 						>
-							{submitted ? 'Thanks!' : formik.isSubmitting ? 'Joining...' : 'Join Waitlist'}
+							{formik.isSubmitting ? 'Joining...' : 'Join Waitlist'}
 							<BorderBeam
 								size={55}
 								initialOffset={20}
@@ -207,7 +209,6 @@ export function HeroSection () {
 							'text-[#9CA3AF]/70 dark:text-[#9CA3AF]/50',
 							'transition-colors duration-300',
 							'tracking-tight',
-							'px-4',
 							'whitespace-nowrap'
 						)}>
 							By joining the waitlist, you agree to our{' '}
@@ -243,7 +244,7 @@ export function HeroSection () {
 						'transition-colors duration-300',
 						'mt-6'
 					)}>
-						{version} &nbsp;|&nbsp; {os} &nbsp;|&nbsp; {installInfo}
+						{version} &nbsp;|&nbsp; {os} &nbsp;|&nbsp; {installInfo && `${installInfo}`}
 					</p>
 				</BlurFade>
 			</div>

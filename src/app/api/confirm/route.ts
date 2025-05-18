@@ -1,15 +1,8 @@
 import React from 'react';
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
 import { WelcomeEmail } from '@/components/email-templates/welcome-email';
-import { Resend } from 'resend';
+import { supabase, resend } from '@/app/api/lib/client';
 
-const supabase = createClient(
-  process.env.SUPABASE_URL as string,
-  process.env.SUPABASE_SERVICE_ANON_KEY as string
-);
-
-const resend = new Resend(process.env.RESEND_API_KEY!);
 
 export async function PATCH(request: Request) {
   const { token } = await request.json();

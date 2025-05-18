@@ -73,9 +73,8 @@ export default function RootLayout({
         <PostHogProvider>
           <ThemeProvider
             attribute="class"
-            // defaultTheme="system"
+            defaultTheme="system"
             // forcedTheme="light"
-            forcedTheme="dark"
             enableSystem
             disableTransitionOnChange
           >

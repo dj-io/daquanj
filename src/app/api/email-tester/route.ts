@@ -1,14 +1,7 @@
 // import React from 'react';
 // import { NextResponse } from 'next/server';
-// // import { WelcomeEmail } from '@/components/email-templates/welcome-email';
-// import { Resend } from 'resend';
 // import { ConfirmationEmail } from '@/components/email-templates/confirmation-email';
-// // import { FollowupEmail } from '@/components/email-templates/follow-up-email';
-
-// const resend = new Resend(process.env.RESEND_API_KEY!);
-// const welcomeTemplate = React.createElement(WelcomeEmail, { email: 'delivered@resend.dev' })
-// const confirmationTemplate = React.createElement(ConfirmationEmail, { token: '1234567890' })
-// const followUpTemplate = React.createElement(FollowupEmail, { email: 'delivered@resend.dev' })
+// import { resend } from '@/app/api/lib/client';
 
 // export async function GET() {
 // const resend_email = 'delivered@resend.dev'
@@ -49,4 +42,4 @@
 
 export async function POST() {
     return new Response("Email tester disabled in production", { status: 404 });
-  }
+}

@@ -381,7 +381,7 @@ export default function PrivacyPolicy() {
             </section>
 
             {/* Separator with glow effect */}
-            <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 relative">
+            <div className="w-full max-w-[1280px] mx-auto sm:px-6 md:px-8 relative">
                 <div
                 className="w-full h-[2px] relative bg-gradient-to-r from-transparent via-border to-transparent"
                 style={{
@@ -390,7 +390,7 @@ export default function PrivacyPolicy() {
                 >
                 {/* Glow effect */}
                 <div
-                    className="absolute left-1/2 -translate-x-1/2 -top-[100px] -bottom-[100px] w-[600px]"
+                    className="absolute left-1/2 -translate-x-1/2 -top-[100px] -bottom-[100px] w-[400px]"
                     style={{
                     background: 'radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 25%, rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.01) 75%, transparent 100%)',
                     maskImage: 'linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1) 45%, rgba(0, 0, 0, 1) 55%, transparent)',

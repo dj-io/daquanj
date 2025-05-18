@@ -1,18 +1,8 @@
 
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import { Resend } from 'resend';
 import React from 'react';
 import { FollowupEmail } from '@/components/email-templates/follow-up-email';
-
-// Initialize the Supabase client using environment variables
-const supabase = createClient(
-  process.env.SUPABASE_URL as string,
-  process.env.SUPABASE_SERVICE_ANON_KEY as string
-);
-
-// Initialize the Resend client using your API key
-const resend = new Resend(process.env.RESEND_API_KEY as string);
+import { supabase, resend } from '@/app/api/lib/client';
 
 export async function GET() {
   try {
