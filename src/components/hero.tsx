@@ -140,8 +140,8 @@ export function HeroSection () {
 					</p>
 				 </BlurFade>
 				<BlurFade delay={0.3}>
-					<form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4 w-full max-w-md'>
-						<div className='relative flex-1'>
+					<form onSubmit={handleSubmit} className='flex flex-row gap-2 w-full max-w-md'>
+						<div className='relative flex-1 min-w-0'>
 							<input
 								id="email"
 								name="email"
@@ -159,6 +159,7 @@ export function HeroSection () {
 									'focus:outline-none focus:ring-2 focus:ring-ring dark:focus:ring-[#383838]/60',
 									'placeholder:text-[#9CA3AF]/80',
 									'cursor-text',
+									'text-sm',
 									showError ? 'border-destructive' : ''
 								)}
 							/>
@@ -173,7 +174,8 @@ export function HeroSection () {
 							disabled={formik.isSubmitting}
 							className={cn(
 								'relative overflow-hidden',
-								'flex items-center justify-center h-9 px-4 min-w-32',
+								'flex items-center justify-center h-9 px-4',
+								'w-28',
 								'rounded-md',
 								'bg-background dark:bg-[#0C0A09]',
 								'text-foreground dark:text-zinc-100',
@@ -183,6 +185,7 @@ export function HeroSection () {
 								'transition-colors text-sm',
 								'focus:outline-none focus:ring-2 focus:ring-ring dark:focus:ring-[#383838]/60',
 								'cursor-pointer',
+								'whitespace-nowrap',
 								formik.isSubmitting && 'opacity-50 cursor-not-allowed'
 							)}
 						>
