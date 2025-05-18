@@ -113,7 +113,7 @@ export function HeroSection () {
 						The AI Note <span className='text-[#9CA3AF]'>Editor.</span>
 					</h1>
 				</BlurFade>
-				<BlurFade delay={0.4}>
+				<BlurFade delay={0.2}>
 					<p className="text-lg sm:text-xl mb-12 font-medium text-foreground dark:text-foreground">
 					  A <span className={cn(
 						'line-through',
@@ -204,7 +204,7 @@ export function HeroSection () {
 				</BlurFade>
 
 				{/* Separate BlurFade for the privacy text with different delay */}
-				<BlurFade delay={0.4}>
+				<BlurFade delay={0.2}>
 					<div className="w-full max-w-md mt-2">
 						<p className={cn(
 							'text-xs',
@@ -240,15 +240,26 @@ export function HeroSection () {
 					</div>
 				</BlurFade>
 
-				<BlurFade delay={0.5}>
-					<p className={cn(
-						'text-xs',
-						'text-[#383838] dark:text-[#9CA3AF]/80',
-						'transition-colors duration-300',
-						'mt-6'
-					)}>
-						{version} &nbsp;|&nbsp; {os} &nbsp;|&nbsp; {installInfo && `${installInfo}`}
-					</p>
+				<BlurFade delay={0.3}>
+					{installInfo ? (
+						<p className={cn(
+							'text-xs',
+							'text-[#383838] dark:text-[#9CA3AF]/80',
+							'transition-colors duration-300',
+							'mt-6'
+						)}>
+							{version} &nbsp;|&nbsp; {os} &nbsp;|&nbsp; {installInfo}
+						</p>
+					) : (
+						<p className={cn(
+								'text-xs',
+								'text-[#383838] dark:text-[#9CA3AF]/80',
+								'transition-colors duration-300',
+								'mt-6'
+						)}>
+							{version} &nbsp;|&nbsp; {os}
+						</p>
+					)}
 				</BlurFade>
 			</div>
 
