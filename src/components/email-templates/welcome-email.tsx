@@ -105,7 +105,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
         color: '#9CA3AF',
         margin: '0 0 8px 0',
       }}>
-        Visit the forum and join the conversation for real time updates.
+        Join the Discord for real time updates.
       </p>
 
       <p style={{
@@ -118,7 +118,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
       </p>
 
       <a
-        href="https://forum.gritai.app"
+        href="https://discord.gg/xVgaz2dQH7"
         style={{
           display: 'inline-block',
           backgroundColor: '#27272A',
@@ -131,7 +131,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
           border: '1px solid #383838',
         }}
       >
-        Visit the Forum
+        Join the Discord
       </a>
     </div>
 
