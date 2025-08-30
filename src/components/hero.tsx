@@ -170,7 +170,7 @@ export function HeroSection () {
 	const placeholder = `Enter your email to ${selectedMode.placeholder} ${selectedModel.title}...`
 
 	return (
-		<section className='relative flex flex-col items-center justify-center w-full min-h-screen pb-10'>
+		<section className='relative flex flex-col items-center justify-center w-full h-full pb-[env(safe-area-inset-bottom)]'>
 			<div className='relative z-10 flex flex-col items-center text-center mt-28 sm:mt-21 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8'>
 				{/* Chat conversation */}
 				<div className="w-full max-w-4xl">
