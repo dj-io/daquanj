@@ -5,7 +5,10 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/header";
 import { PostHogProvider } from "@/components/posthog-provider";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Grit - The AI Note Editor",
   description: "Grit is the AI note editor that helps you write and accomplish tasks faster and more efficiently.",
   authors: [{ name: "Stratum Labs", url: "https://stratumlabs.ai" }],
@@ -20,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Grit",
     description: "The AI Note Editor.",
-    url: "https://gritai.app",
+    url: siteUrl,
     siteName: "Grit",
     images: [
       {
@@ -38,7 +41,7 @@ export const metadata: Metadata = {
     images: ["/images/grit-icon-macOS-Dark-1x.png"],
   },
   alternates: {
-    canonical: "https://gritai.app",
+    canonical: siteUrl,
   },
 };
 

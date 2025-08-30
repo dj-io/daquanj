@@ -34,22 +34,27 @@ const TextStream = ({ text, delay = 0, speed = 50 }: { text: string; delay?: num
 	}, [text, delay, speed, hasStarted])
 
 		return (
-		<span className="relative inline-block w-full">
-			{/* Invisible text to maintain layout space - inherits all parent styling */}
-			<span className="invisible whitespace-pre-wrap" aria-hidden="true" style={{ lineHeight: 'inherit', fontSize: 'inherit', fontWeight: 'inherit' }}>
+		<span className="relative block w-full">
+			{/* Spacer: fully non-painted to avoid iOS flicker */}
+			<span
+				aria-hidden="true"
+				className="opacity-0 text-transparent pointer-events-none select-none whitespace-pre-wrap"
+				style={{ lineHeight: 'inherit', fontSize: 'inherit', fontWeight: 'inherit' }}
+			>
 				{text}
 			</span>
 
 			{/* Visible streaming text */}
-			<span className="absolute inset-0 whitespace-pre-wrap" style={{ lineHeight: 'inherit', fontSize: 'inherit', fontWeight: 'inherit' }}>
+			<span
+				className="absolute inset-0 whitespace-pre-wrap transform-gpu will-change-[opacity,transform]"
+				style={{ lineHeight: 'inherit', fontSize: 'inherit', fontWeight: 'inherit' }}
+			>
 				{displayedWords.map((word, index) => (
 					<span key={index}>
 						<span
 							className={cn(
-								"transition-opacity duration-300",
-								index === currentWordIndex && !isComplete
-									? "opacity-50 animate-in fade-in-0"
-									: "opacity-100"
+								"transition-opacity duration-200",
+								index === currentWordIndex && !isComplete ? "animate-in fade-in-0" : "opacity-100"
 							)}
 						>
 							{word}
