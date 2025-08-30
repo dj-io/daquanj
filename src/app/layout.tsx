@@ -1,28 +1,17 @@
 
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/header";
 import { PostHogProvider } from "@/components/posthog-provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
   title: "Grit - The AI Note Editor",
-  description: "Grit is designed to make you extraordinarily productive, Grit is the best way to write and take notes with AI",
+  description: "Grit is the AI note editor that helps you write and accomplish tasks faster and more efficiently.",
   authors: [{ name: "Stratum Labs", url: "https://stratumlabs.ai" }],
-  keywords: ["Grit", "AI", "Note", "Editor", "AI Note taking", "AI Notes","AI Meeting Notes", "AI Writing Assistant", "AI Writing", "Text Generation", "Productivity", "Note-taking", "Note-taking app"],
+  keywords: ["Grit", "AI", "Note", "Editor", "AI Note taking", "AI Notes","AI Meeting Notes", "AI Writing Assistant", "AI Writing", "Text Generation", "Productivity", "Note-taking", "Note-taking app", "Write with AI"],
   applicationName: "Grit",
-  generator: "Next.js", // what does generator do?
+  generator: "Next.js",
   robots: "index, follow",
   icons: {
     icon: "/favicon.ico",
@@ -35,7 +24,7 @@ export const metadata: Metadata = {
     siteName: "Grit",
     images: [
       {
-        url: "/images/str-logo.jpg",
+        url: "/images/grit-icon-macOS-Dark-1x.png",
         width: 800,
         height: 600,
         alt: "Grit",
@@ -46,7 +35,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Grit",
     description: "The AI Note Editor.",
-    images: ["/images/str-logo.jpg"],
+    images: ["/images/grit-icon-macOS-Dark-1x.png"],
   },
   alternates: {
     canonical: "https://gritai.app",
@@ -68,7 +57,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className="font-[family-name:var(--font-family-base)]"
       >
         <PostHogProvider>
           <ThemeProvider

@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-// import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import { BorderBeam } from '@/components/magicui/border-beam'
 import { BlurFade } from '@/components/magicui/blur-fade'
 import { cn } from '@/lib/utils'
@@ -10,7 +10,23 @@ import * as Yup from 'yup'
 import Link from 'next/link'
 import { captureEvent } from '@/lib/posthog'
 import { useRouter } from 'next/navigation'
-// import { ModeToggle } from './theme-toggle'
+import { Button } from '@/components/ui/button'
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import type { LucideIcon } from 'lucide-react'
+import {
+	AtSign,
+	MessageCircle,
+	Brain,
+	InfinityIcon,
+	ChevronUp,
+} from 'lucide-react'
+import { TextStream } from './ui/text-stream'
 
 // OS detection logic
 function detectOS () {
@@ -24,17 +40,102 @@ function detectOS () {
 	return 'macOS'
 }
 
+export interface ChatMode {
+	title: string
+	placeholder: string
+	icon: LucideIcon
+	shortcut: string
+	separate?: boolean
+}
+
+export interface ModelItem {
+	title: string
+	model: string
+	icon: LucideIcon | React.ComponentType<{ className?: string }>
+	shortcut: string
+}
+
+export interface ModelGroup {
+	title: string
+	url: string
+	icon: LucideIcon
+	shortcut: string
+	separate?: boolean
+	submenu: ModelItem[]
+}
+
+export const CHAT_MODES: ChatMode[] = [
+	{
+		title: 'Ask',
+		placeholder: 'ask',
+		icon: MessageCircle,
+		shortcut: '⌘Q',
+	},
+	{
+		title: 'Research',
+		placeholder: 'research with',
+		icon: Brain,
+		shortcut: '⌘R',
+	},
+	{
+		title: 'Agent',
+		placeholder: 'get assistance from',
+		icon: InfinityIcon,
+		shortcut: '⌘A',
+		separate: true,
+	},
+]
+
+// Custom icon component for Grit logo
+const GritIcon = ({ className }: { className?: string }) => (
+	<Image
+		src="/images/grit-icon-macOS-Dark-1x.png"
+		alt="Grit"
+		width={16}
+		height={16}
+		className={cn("rounded-sm", className)}
+	/>
+)
+
+export const MODEL_GROUPS: ModelGroup[] = [
+	{
+		title: 'Grit Models',
+		url: '',
+		icon: Brain,
+		shortcut: '⌘M',
+		submenu: [
+			{
+				title: 'Grit',
+				model: 'grit-v1',
+				icon: GritIcon,
+				shortcut: '⌘G',
+			},
+			{
+				title: 'Grit Large',
+				model: 'grit-large',
+				icon: GritIcon,
+				shortcut: '⌘L',
+			},
+		],
+	},
+]
+
 export function HeroSection () {
 	const [os, setOS] = useState('macOS')
+	const [selectedMode, setSelectedMode] = useState<ChatMode>(CHAT_MODES[0])
+	const [selectedModel, setSelectedModel] = useState<ModelItem>(MODEL_GROUPS[0].submenu[0])
+	const [open, setOpen] = useState(false)
+
 	const router = useRouter()
+	const inputRef = useRef<HTMLInputElement | null>(null)
 
 	useEffect(() => {
 		setOS(detectOS())
 	}, [])
 
-	const version = 'v0.1.0'
+	const version = 'v0.1.9'
 	const installInfo = os === 'macOS'
-		? 'macOS 13+'
+		? 'macOS 11+'
 		: os === 'Windows'
 			? 'Windows 10+'
 			: os === 'Linux'
@@ -86,140 +187,223 @@ export function HeroSection () {
 		validateOnChange: false,
 	})
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
+	const handleSend = async () => {
 		await formik.validateForm()
 		formik.setTouched({ email: true })
-		formik.handleSubmit(e)
+		if (!formik.errors.email) {
+			captureEvent('join_waitlist_clicked', { mode: selectedMode.title })
+			await formik.submitForm()
+		}
 	}
 
-	// Show error if:
-	// 1. User submitted form and there's an error (regardless of value)
-	// 2. Field was blurred (touched) AND has a non-empty value AND has an error
+	const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter') {
+			e.preventDefault()
+			await handleSend()
+		}
+	}
+
+	const handleModeClick = () => {
+		const currentIndex = CHAT_MODES.findIndex(mode => mode.title === selectedMode.title)
+		const nextIndex = (currentIndex + 1) % CHAT_MODES.length
+		setSelectedMode(CHAT_MODES[nextIndex])
+		captureEvent('chat_mode_cycled', { from: selectedMode.title, to: CHAT_MODES[nextIndex].title })
+	}
+
+	// Show error if submitted or touched with value and has an error
 	const showError = (formik.submitCount > 0 && formik.errors.email) ||
 		(formik.touched.email && formik.values.email.length > 0 && formik.errors.email)
 
+	const placeholder = `Enter your email to ${selectedMode.placeholder} ${selectedModel.title}...`
+
 	return (
-		<section className='relative flex flex-col items-center justify-start w-full pb-96 sm:pb-[32rem] '>
-			{/* Content overlay */}
-			<div className='relative z-10 flex flex-col items-center text-center mt-24 sm:mt-32 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8'>
-				<BlurFade delay={0.1}>
-					<h1 className={cn(
-                        'text-4xl sm:text-5xl md:text-6xl font-bold mb-4 leading-tight',
-						'text-[#9CA3AF] dark:text-[#9CA3AF]',
-                        'bg-clip-text text-transparent',
-                        'bg-gradient-to-b from-foreground via-foreground/80 to-foreground/60',
-                    )}>
-						The AI Note <span className='text-[#9CA3AF]'>Editor.</span>
-					</h1>
-				</BlurFade>
-				<BlurFade delay={0.2}>
-					<p className="text-lg sm:text-xl mb-12 font-medium text-foreground dark:text-foreground">
-					  A <span className={cn(
-						'line-through',
-						'bg-clip-text',
-						'transition-colors duration-300'
-						)}>Rich Text Editor</span>
-					<span className={cn(
-                        'text-lg sm:text-xl mb-12 font-medium',
-                        'bg-clip-text',
-                        'transition-colors duration-300'
-                    )}>
-						{/* WAITLIST ONE LINERs */}
-						{/* <span>A first of its kind Generative, Rich, Intelligent Text Editor for agentic note taking.</span> */}
-						{/* <span>A context aware note editor that learns from you, Grit bridges the gap between everyday note taking and power use.</span> */}
-						{/* <span>Grit bridges the gap between everyday note taking and power use.</span> */}
-						{/* <span>Take notes and write professionally with AI at your fingertips, all in one place. </span> */}
-					     {/* <span className={cn(
-						'text-lg sm:text-xl mb-12 font-medium',
-						'bg-clip-text',
-						'transition-colors duration-300'
-						)}>	Generative, Rich, Intelligent Text Editor for agentic note taking.</span> */}
-						 <span style={{ textShadow: '0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff' }}> G</span>enerative, <span style={{ textShadow: '0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff' }}>R</span>ich, <span style={{ textShadow: '0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff' }}>I</span>ntelligent <span style={{ textShadow: '0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff' }}>T</span>ext Editor for agentic note taking.
-					</span>
-					</p>
-				 </BlurFade>
-				<BlurFade delay={0.3}>
-					<form onSubmit={handleSubmit} className='flex flex-row gap-2 w-full max-w-md'>
-						<div className='relative flex-1 min-w-0'>
-							<input
-								id="email"
-								name="email"
-								type="email"
-								placeholder="Enter your email"
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
-								value={formik.values.email}
-								onFocus={() => captureEvent('join_waitlist_focused')}
-								className={cn(
-									'w-full h-9 px-4 rounded-md',
-									'bg-background dark:bg-[#0C0A09]',
-									'text-foreground dark:text-foreground',
-									'border border-border dark:border-[#383838]/60',
-									'focus:outline-none focus:ring-2 focus:ring-ring dark:focus:ring-[#383838]/60',
-									'placeholder:text-[#9CA3AF]/80',
-									'cursor-text',
-									'text-sm',
-									showError ? 'border-destructive' : ''
-								)}
-							/>
-							{showError && (
-								<div className="absolute -bottom-6 left-0 text-xs text-destructive">
-									{formik.errors.email}
-								</div>
-							)}
+		<section className='relative flex flex-col items-center justify-start w-full min-h-screen pb-10'>
+			<div className='relative z-10 flex flex-col items-center text-center mt-28 sm:mt-21 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8'>
+				{/* Chat conversation */}
+				<div className="w-full max-w-4xl">
+					{/* User message bubble */}
+					<div className="flex justify-end mr-4">
+						<BlurFade delay={0.2} blur="6px" duration={0.6}>
+							<div className="bg-chat text-white px-4 py-2.5 rounded-2xl border border-border rounded-br-md max-w-xs">
+								<p className="text-sm font-medium">what is grit?</p>
+							</div>
+						</BlurFade>
+					</div>
+
+					{/* AI response container */}
+					<div className="py-6 text-left pl-6">
+						<div className="max-w-[95%]">
+							<h1 className={cn(
+								'text-4xl sm:text-2xl md:text-6xl font-[550] mb-6 leading-tight',
+								'[&>span]:text-foreground'
+							)}>
+								<TextStream text="The AI Note Editor that Writes, Edits and Explores Ideas with you" delay={500} speed={100} />
+							</h1>
+							<p className="text-base sm:text-lg text-foreground/90 leading-relaxed">
+								<TextStream text={`Grit is a simple but powerful tool built to help you work faster. It lets you use any AI Model you want to find answers, resources, or the next spark of inspiration—all in one unified notespace.
+
+From capturing quick ideas to working with others—Grit adapts so that you can write, collaborate, and edit without breaking your flow.`} delay={2100} speed={50} />
+							</p>
 						</div>
-						<button
-							type="submit"
-							disabled={formik.isSubmitting}
+					</div>
+				</div>
+
+				{/* Chat-style input */}
+				<BlurFade delay={0.25}>
+					<form
+						onSubmit={(e) => {
+							e.preventDefault()
+							handleSend()
+						}}
+						className='w-[90vw] max-w-2xl mt-10'
+					>
+						<div
 							className={cn(
-								'relative overflow-hidden',
-								'flex items-center justify-center h-9 px-4',
-								'w-28',
-								'rounded-md',
-								'bg-background dark:bg-[#0C0A09]',
-								'text-foreground dark:text-zinc-100',
-								'border border-border dark:border-[#383838]/60',
-								'font-medium shadow-sm',
-								'hover:bg-accent/80 dark:hover:bg-[#0F0F0F]/50',
-								'transition-colors text-sm',
-								'focus:outline-none focus:ring-2 focus:ring-ring dark:focus:ring-[#383838]/60',
-								'cursor-pointer',
-								'whitespace-nowrap',
-								formik.isSubmitting && 'opacity-50 cursor-not-allowed'
+								'flex flex-col items-start bg-chat border border-border rounded-lg shadow-xs w-full'
 							)}
 						>
-							{formik.isSubmitting ? 'Joining...' : 'Join Waitlist'}
-							<BorderBeam
-								size={55}
-								initialOffset={20}
-								className="from-zinc-900/40 via-zinc-500/50 to-transparent dark:via-[#0F0F0F] dark:to-[#6b7280]"
-								transition={{
-									type: "spring",
-									duration: 10
-								}}
-							/>
-						</button>
+							{/* Textarea with @ button inline */}
+							<div className='w-full px-3 py-3 flex items-start gap-2'>
+								<Button
+									type='button'
+									variant='outline'
+									size='sm'
+									className='rounded-full px-2.5 h-8 mt-1 shrink-0'
+									onClick={() => captureEvent('chat_at_clicked')}
+								>
+									<AtSign className='h-4 w-4 text-muted-foreground' />
+								</Button>
+
+								<input
+									ref={inputRef}
+									id='email'
+									name='email'
+									type='email'
+									spellCheck={false}
+									placeholder={placeholder}
+									value={formik.values.email}
+									onChange={(e) => {
+										formik.setFieldValue('email', e.target.value)
+									}}
+									onBlur={formik.handleBlur}
+									onFocus={() => {
+										captureEvent('join_waitlist_focused', { mode: selectedMode.title })
+									}}
+									onKeyDown={handleKeyDown}
+									className={cn(
+										'block w-full bg-transparent text-foreground placeholder:text-muted-foreground/70',
+										'px-0 py-2 text-sm leading-6 focus:outline-none',
+										'flex-1'
+									)}
+								/>
+							</div>
+
+							{/* Controls row - Selector + Request Access button */}
+							<div className="flex items-center w-full gap-3 justify-between px-3 pb-3">
+								{/* Left side - mode/model selector */}
+								<div className='flex items-center bg-chat-foreground rounded-md h-8 pl-0.5 pr-0.5'>
+									<Button
+										type='button'
+										variant='ghost'
+										size='sm'
+										className='h-7 w-auto rounded-l-sm bg-chat border-0 active:scale-[0.97] hover:bg-background cursor-pointer'
+										onClick={handleModeClick}
+										title='Click to cycle modes'
+									>
+										<selectedMode.icon className='h-4 w-4' />
+										<span className='text-sm font-medium'>{selectedMode?.title}</span>
+									</Button>
+									<DropdownMenu open={open} onOpenChange={setOpen}>
+										<DropdownMenuTrigger asChild>
+											<Button
+												type='button'
+												variant='ghost'
+												size='sm'
+												className='h-7 w-auto rounded-r-sm rounded-l-none bg-transparent border-0 hover:bg-transparent active:bg-transparent cursor-pointer'
+												title='Select model • ⌘.'
+											>
+												<selectedModel.icon className='h-4 w-4' />
+												<ChevronUp className='h-3 w-3' />
+											</Button>
+										</DropdownMenuTrigger>
+										<DropdownMenuContent
+											side='top'
+											align='start'
+											alignOffset={-50}
+											className='w-[150px] bg-chat'
+										>
+											{MODEL_GROUPS.map((modelGroup) => (
+												<div key={modelGroup.title}>
+													{modelGroup.submenu.map((modelItem) => (
+														<DropdownMenuItem
+															key={modelItem.title}
+															onClick={() => {
+																setSelectedModel(modelItem)
+																setOpen(false)
+																captureEvent('model_selected', { model: modelItem.model })
+															}}
+															className='cursor-pointer'
+														>
+															<modelItem.icon className='h-4 w-4 text-muted-foreground' />
+															<span>{modelItem.title}</span>
+															<span className='ml-auto text-xs text-muted-foreground'>{modelItem.shortcut}</span>
+														</DropdownMenuItem>
+													))}
+													{modelGroup.separate && <DropdownMenuSeparator />}
+												</div>
+											))}
+										</DropdownMenuContent>
+									</DropdownMenu>
+								</div>
+
+								{/* Right side - Send button */}
+								<Button
+									type='submit'
+									disabled={formik.isSubmitting}
+									variant='secondary'
+									className={cn(
+										'relative overflow-hidden rounded-md h-9 px-4 whitespace-nowrap',
+										'bg-chat/70 hover:bg-chat/80',
+										'border border-border',
+										formik.isSubmitting && 'opacity-50 cursor-not-allowed'
+									)}
+								>
+									{formik.isSubmitting ? 'Requesting...' : 'Request Access'}
+									{/* <Send className='h-4 w-4' /> */}
+									<BorderBeam
+										size={55}
+										initialOffset={20}
+										className='from-primary/10 via-primary/30 to-transparent'
+										transition={{ type: 'spring', duration: 10 }}
+									/>
+								</Button>
+							</div>
+						</div>
+
+						{/* Error */}
+						{showError && (
+							<div className='mt-2 text-xs text-destructive'>
+								{formik.errors.email}
+							</div>
+						)}
 					</form>
 				</BlurFade>
 
-				{/* Separate BlurFade for the privacy text with different delay */}
-				<BlurFade delay={0.2}>
-					<div className="w-full max-w-md mt-2">
+				{/* Privacy / terms */}
+				<BlurFade delay={0.3}>
+					<div className='w-full max-w-2xl mt-2'>
 						<p className={cn(
-							'text-xs',
-							'text-center',
-							'text-[#9CA3AF]/70 dark:text-[#9CA3AF]/50',
+							'text-xs text-center',
+							'text-muted-foreground',
 							'transition-colors duration-300',
-							'tracking-tight',
-							'whitespace-nowrap'
+							'tracking-tight whitespace-nowrap'
 						)}>
 							By joining the waitlist, you agree to our{' '}
 							<Link
-								href="/privacy"
+								href='/privacy'
 								className={cn(
 									'underline underline-offset-2',
-									'hover:text-[#9CA3AF] dark:hover:text-[#9CA3AF]/80',
+									'hover:text-foreground',
 									'transition-colors duration-300'
 								)}
 							>
@@ -227,10 +411,10 @@ export function HeroSection () {
 							</Link>
 							{' '}and{' '}
 							<Link
-								href="/terms"
+								href='/terms'
 								className={cn(
 									'underline underline-offset-2',
-									'hover:text-[#9CA3AF] dark:hover:text-[#9CA3AF]/80',
+									'hover:text-foreground',
 									'transition-colors duration-300'
 								)}
 							>
@@ -240,26 +424,12 @@ export function HeroSection () {
 					</div>
 				</BlurFade>
 
-				<BlurFade delay={0.3}>
-					{installInfo ? (
-						<p className={cn(
-							'text-xs',
-							'text-[#383838] dark:text-[#9CA3AF]/80',
-							'transition-colors duration-300',
-							'mt-6'
-						)}>
-							{version} &nbsp;|&nbsp; {os} &nbsp;|&nbsp; {installInfo}
-						</p>
-					) : (
-						<p className={cn(
-								'text-xs',
-								'text-[#383838] dark:text-[#9CA3AF]/80',
-								'transition-colors duration-300',
-								'mt-6'
-						)}>
-							{version} &nbsp;|&nbsp; {os}
-						</p>
-					)}
+				<BlurFade delay={0.35}>
+					<p className={cn(
+						'text-xs text-muted-foreground transition-colors duration-300 mt-6'
+					)}>
+						{version} &nbsp;|&nbsp; {os} {installInfo ? ` | ${installInfo}` : ''}
+					</p>
 				</BlurFade>
 			</div>
 

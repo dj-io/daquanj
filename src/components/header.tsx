@@ -12,58 +12,54 @@ export function Header() {
 				<div className='w-full px-4 pb-3 flex items-center justify-between'>
 					{/* Logo and Brand */}
 					<Link href="/" className="flex items-center gap-2">
-						<div className="w-8 h-8 flex items-center justify-center rounded-full overflow-hidden">
-							<Image
-								src='/images/str-logo.jpg'
-								alt='Grit logo'
-								width={60}
-								height={60}
-								className='w-8 h-8 object-cover transition-colors'
-								priority
-							/>
-						</div>
+						<Image
+							src='/images/grit-icon-macOS-Dark-1x.png'
+							alt='Grit logo'
+							width={60}
+							height={60}
+							className='w-6 h-6 object-cover transition-colors'
+							priority
+						/>
 						<span className="text-base text-foreground font-semibold tracking-tight">Grit</span>
 					</Link>
 
 					{/* Mobile Tagline */}
 					<p className={cn(
-						"text-sm text-muted-foreground/80 font-medium",
+						"text-sm text-muted-foreground/80 font-medium italic",
 						"bg-gradient-to-r from-foreground via-foreground/80 to-foreground/60",
 						"dark:from-white dark:via-[#bfc3c9] dark:to-[#6b7280]",
 						"bg-clip-text text-transparent",
 					)}>
-						Write with Intelligence
+						Work Faster
 					</p>
 				</div>
 			</nav>
 
 			{/* Desktop Header */}
 			<nav className='fixed top-4 left-0 w-full z-50 hidden lg:flex justify-center'>
-				<div className='bg-background/90 dark:bg-background/80 max-w-5xl w-[95vw] py-2 flex items-center justify-between'>
+				<div className='max-w-5xl w-[95vw] py-2 flex items-center justify-between'>
 					{/* Left: Logo and Brand */}
 					<Link href="/" className="flex items-center gap-2 group">
-						<div className="w-9 h-9 flex items-center justify-center rounded-full overflow-hidden bg-black dark:bg-white">
-							<Image
-								src='/images/str-logo.jpg'
-								alt='Grit logo'
-								width={100}
-								height={100}
-								className='w-12 h-12 object-cover transition-colors'
-								priority
-							/>
-						</div>
-						<span className="text-foreground font-semibold text-4xl tracking-tight">Grit</span>
+						<Image
+							src='/images/grit-icon-macOS-Dark-1x.png'
+							alt='Grit logo'
+							width={100}
+							height={100}
+							className='w-8 h-8 object-cover transition-colors'
+							priority
+						/>
+						<span className="text-foreground font-semibold text-2xl tracking-tight">Grit</span>
 					</Link>
 
 					{/* Desktop Tagline */}
 					<p className={cn(
-						"text-2xl text-muted-foreground font-semibold",
+						"text-2xl text-muted-foreground font-semibold italic",
 						"bg-gradient-to-r from-foreground via-foreground/80 to-foreground/60",
 						"dark:from-white dark:via-[#bfc3c9] dark:to-[#6b7280]",
 						"bg-clip-text text-transparent",
 						"transition-colors duration-300"
 					)}>
-						Write with Intelligence
+						Work faster
 					</p>
 				</div>
 			</nav>

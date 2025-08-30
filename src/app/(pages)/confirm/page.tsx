@@ -100,7 +100,7 @@ export default function ConfirmContent() {
           <Link href="/" className="flex items-center gap-2 group">
             <div className="w-12 h-12 flex items-center justify-center rounded-full overflow-hidden bg-black dark:bg-white">
               <Image
-                src='/images/str-logo.jpg'
+                src='/images/grit-icon-macOS-Dark-1x.png'
                 alt='Grit logo'
                 width={100}
                 height={100}
@@ -164,7 +164,7 @@ export default function ConfirmContent() {
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-12 h-12 flex items-center justify-center rounded-full overflow-hidden bg-black dark:bg-white">
             <Image
-              src='/images/str-logo.jpg'
+              src='/images/grit-icon-macOS-Dark-1x.png'
               alt='Grit logo'
               width={100}
               height={100}
