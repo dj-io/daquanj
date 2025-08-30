@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
 import { BorderBeam } from '@/components/magicui/border-beam'
 import { BlurFade } from '@/components/magicui/blur-fade'
 import { cn } from '@/lib/utils'
@@ -18,113 +17,22 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import type { LucideIcon } from 'lucide-react'
+
 import {
 	AtSign,
-	MessageCircle,
-	Brain,
-	InfinityIcon,
 	ChevronUp,
 } from 'lucide-react'
 import { TextStream } from './ui/text-stream'
-
-// OS detection logic
-function detectOS () {
-	if (typeof window === 'undefined') return 'macOS'
-	const { userAgent, platform } = window.navigator
-	if (/Mac/i.test(platform)) return 'macOS'
-	if (/Win/i.test(platform)) return 'Windows'
-	if (/Linux/i.test(platform)) return 'Linux'
-	if (/iPhone|iPad|iPod/i.test(userAgent)) return 'iOS'
-	if (/Android/i.test(userAgent)) return 'Android'
-	return 'macOS'
-}
-
-export interface ChatMode {
-	title: string
-	placeholder: string
-	icon: LucideIcon
-	shortcut: string
-	separate?: boolean
-}
-
-export interface ModelItem {
-	title: string
-	model: string
-	icon: LucideIcon | React.ComponentType<{ className?: string }>
-	shortcut: string
-}
-
-export interface ModelGroup {
-	title: string
-	url: string
-	icon: LucideIcon
-	shortcut: string
-	separate?: boolean
-	submenu: ModelItem[]
-}
-
-export const CHAT_MODES: ChatMode[] = [
-	{
-		title: 'Ask',
-		placeholder: 'ask',
-		icon: MessageCircle,
-		shortcut: '⌘Q',
-	},
-	{
-		title: 'Research',
-		placeholder: 'research with',
-		icon: Brain,
-		shortcut: '⌘R',
-	},
-	{
-		title: 'Agent',
-		placeholder: 'get assistance from',
-		icon: InfinityIcon,
-		shortcut: '⌘A',
-		separate: true,
-	},
-]
-
-// Custom icon component for Grit logo
-const GritIcon = ({ className }: { className?: string }) => (
-	<Image
-		src="/images/grit-icon-macOS-Dark-1x.png"
-		alt="Grit"
-		width={16}
-		height={16}
-		className={cn("rounded-sm", className)}
-	/>
-)
-
-export const MODEL_GROUPS: ModelGroup[] = [
-	{
-		title: 'Grit Models',
-		url: '',
-		icon: Brain,
-		shortcut: '⌘M',
-		submenu: [
-			{
-				title: 'Grit',
-				model: 'grit-v1',
-				icon: GritIcon,
-				shortcut: '⌘G',
-			},
-			{
-				title: 'Grit Large',
-				model: 'grit-large',
-				icon: GritIcon,
-				shortcut: '⌘L',
-			},
-		],
-	},
-]
+import { ChatMode, ModelItem } from '@/lib/types'
+import { detectOS } from '@/lib/utils'
+import { CHAT_MODES, MODEL_GROUPS, COPY, COPY_STORAGE_KEY, COPY_TTL_MS } from '@/lib/constants'
 
 export function HeroSection () {
 	const [os, setOS] = useState('macOS')
 	const [selectedMode, setSelectedMode] = useState<ChatMode>(CHAT_MODES[0])
 	const [selectedModel, setSelectedModel] = useState<ModelItem>(MODEL_GROUPS[0].submenu[0])
 	const [open, setOpen] = useState(false)
+	const [copyIndex, setCopyIndex] = useState<number | null>(null)
 
 	const router = useRouter()
 	const inputRef = useRef<HTMLInputElement | null>(null)
@@ -132,6 +40,42 @@ export function HeroSection () {
 	useEffect(() => {
 		setOS(detectOS())
 	}, [])
+
+	// Copy selection logic - persist choice for 24h
+	useEffect(() => {
+		// Check for existing choice
+		const stored = localStorage.getItem(COPY_STORAGE_KEY)
+		if (stored) {
+			try {
+				const { index, ts } = JSON.parse(stored)
+				const isValid = COPY[index] && Date.now() - ts < COPY_TTL_MS
+				if (isValid) {
+					setCopyIndex(index)
+					// Track existing variant view
+					captureEvent('copy_variant_viewed', {
+						variant: index === 0 ? 'A' : 'B',
+						copy_heading: COPY[index].heading,
+						is_returning_user: true
+					})
+					return
+				}
+			} catch {}
+		}
+
+		// Pick new random choice
+		const idx = Math.floor(Math.random() * COPY.length)
+		setCopyIndex(idx)
+		localStorage.setItem(COPY_STORAGE_KEY, JSON.stringify({ index: idx, ts: Date.now() }))
+
+		// Track new variant assignment
+		captureEvent('copy_variant_assigned', {
+			variant: idx === 0 ? 'A' : 'B',
+			copy_heading: COPY[idx].heading,
+			is_new_user: true
+		})
+	}, [])
+
+	const selectedCopy = COPY[copyIndex ?? 0]
 
 	const version = 'v0.1.9'
 	const installInfo = os === 'macOS'
@@ -171,7 +115,10 @@ export function HeroSection () {
 				resetForm()
 				const timeElapsed = Date.now() - performance.timeOrigin
 				captureEvent('waitlist_form_submitted', {
-					form_completion_time: timeElapsed
+					form_completion_time: timeElapsed,
+					copy_variant: copyIndex === 0 ? 'A' : 'B',
+					copy_heading: selectedCopy.heading,
+					conversion_funnel: 'hero_copy_to_signup'
 				})
 				router.push(`/confirm?action=waitlist_joined&email=${encodeURIComponent(submittedEmail)}`)
 			} catch (error) {
@@ -191,7 +138,13 @@ export function HeroSection () {
 		await formik.validateForm()
 		formik.setTouched({ email: true })
 		if (!formik.errors.email) {
-			captureEvent('join_waitlist_clicked', { mode: selectedMode.title })
+			// Enhanced tracking with copy variant
+			captureEvent('join_waitlist_clicked', {
+				mode: selectedMode.title,
+				copy_variant: copyIndex === 0 ? 'A' : 'B',
+				copy_heading: selectedCopy.heading,
+				copy_body_preview: selectedCopy.body.slice(0, 50) + '...'
+			})
 			await formik.submitForm()
 		}
 	}
@@ -237,12 +190,14 @@ export function HeroSection () {
 								'text-4xl sm:text-2xl md:text-6xl font-[550] mb-6 leading-tight',
 								'[&>span]:text-foreground'
 							)}>
-								<TextStream text="The AI Note Editor that Writes, Edits and Explores Ideas with you" delay={500} speed={100} />
+								{copyIndex !== null && (
+									<TextStream text={selectedCopy.heading} delay={500} speed={100} />
+								)}
 							</h1>
 							<p className="text-base sm:text-lg text-foreground/90 leading-relaxed">
-								<TextStream text={`Grit is a simple but powerful tool built to help you work faster. It lets you use any AI Model you want to find answers, resources, or the next spark of inspiration—all in one unified notespace.
-
-From capturing quick ideas to working with others—Grit adapts so that you can write, collaborate, and edit without breaking your flow.`} delay={2100} speed={50} />
+								{copyIndex !== null && (
+									<TextStream text={selectedCopy.body} delay={2100} speed={50} />
+								)}
 							</p>
 						</div>
 					</div>
