@@ -300,7 +300,7 @@ export function HeroSection () {
 															className='cursor-pointer'
 														>
 															<modelItem.icon className='h-4 w-4 text-muted-foreground' />
-															<span>{modelItem.title}</span>
+															<span>{modelItem.model}</span>
 															<span className='ml-auto text-xs text-muted-foreground'>{modelItem.shortcut}</span>
 														</DropdownMenuItem>
 													))}

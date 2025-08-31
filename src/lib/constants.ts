@@ -33,19 +33,19 @@ export const MODEL_GROUPS: ModelGroup[] = [
 		submenu: [
 			{
 				title: 'Grit-1',
-				model: 'grit-v1',
+				model: 'Grit-1',
 				icon: GritIcon,
 				shortcut: '⌘G',
 			},
 			{
 				title: 'Grit Large',
-				model: 'grit-large',
+				model: 'Grit Large',
 				icon: GritIcon,
 				shortcut: '⌘L',
 			},
 			{
-				title: 'Any Model',
-				model: 'any-model',
+				title: 'AI',
+				model: 'Any Model',
 				icon: SparklesIcon,
 				shortcut: '⌘A',
 			},
