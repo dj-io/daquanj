@@ -1,4 +1,4 @@
-import { Brain, InfinityIcon, MessageCircle } from "lucide-react";
+import { Brain, InfinityIcon, MessageCircle, SparklesIcon } from "lucide-react";
 import { ChatMode, Copy, ModelGroup } from "./types";
 import { GritIcon } from "@/components/ui/grit-icon";
 
@@ -32,7 +32,7 @@ export const MODEL_GROUPS: ModelGroup[] = [
 		shortcut: '⌘M',
 		submenu: [
 			{
-				title: 'Grit',
+				title: 'Grit-1',
 				model: 'grit-v1',
 				icon: GritIcon,
 				shortcut: '⌘G',
@@ -42,6 +42,12 @@ export const MODEL_GROUPS: ModelGroup[] = [
 				model: 'grit-large',
 				icon: GritIcon,
 				shortcut: '⌘L',
+			},
+			{
+				title: 'Any Model',
+				model: 'any-model',
+				icon: SparklesIcon,
+				shortcut: '⌘A',
 			},
 		],
 	},

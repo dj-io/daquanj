@@ -30,7 +30,7 @@ import { CHAT_MODES, MODEL_GROUPS, COPY, COPY_STORAGE_KEY, COPY_TTL_MS } from '@
 export function HeroSection () {
 	const [os, setOS] = useState('macOS')
 	const [selectedMode, setSelectedMode] = useState<ChatMode>(CHAT_MODES[0])
-	const [selectedModel, setSelectedModel] = useState<ModelItem>(MODEL_GROUPS[0].submenu[0])
+	const [selectedModel, setSelectedModel] = useState<ModelItem>(MODEL_GROUPS[0].submenu[2])
 	const [open, setOpen] = useState(false)
 	const [copyIndex, setCopyIndex] = useState<number | null>(null)
 
@@ -261,7 +261,7 @@ export function HeroSection () {
 										type='button'
 										variant='ghost'
 										size='sm'
-										className='h-7 w-auto rounded-l-sm bg-chat border-0 active:scale-[0.97] hover:bg-background cursor-pointer'
+										className='h-7 w-auto rounded-l-sm bg-chat border-0 hover:bg-background cursor-pointer'
 										onClick={handleModeClick}
 										title='Click to cycle modes'
 									>
@@ -323,7 +323,7 @@ export function HeroSection () {
 										formik.isSubmitting && 'opacity-50 cursor-not-allowed'
 									)}
 								>
-									{formik.isSubmitting ? 'Requesting...' : 'Request Access'}
+									{formik.isSubmitting ? 'Requesting...' : 'Get Early Access'}
 									{/* <Send className='h-4 w-4' /> */}
 									<BorderBeam
 										size={55}
@@ -353,7 +353,7 @@ export function HeroSection () {
 							'transition-colors duration-300',
 							'tracking-tight whitespace-nowrap'
 						)}>
-							By joining the waitlist, you agree to our{' '}
+							By joining the early access list, you agree to our{' '}
 							<Link
 								href='/privacy'
 								className={cn(

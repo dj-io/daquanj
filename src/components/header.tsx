@@ -25,7 +25,7 @@ export function Header() {
 
 					{/* Mobile Tagline */}
 					<p className={cn(
-						"text-sm text-muted-foreground/80 font-medium italic",
+						"text-sm text-muted-foreground/80 font-medium",
 						"bg-gradient-to-r from-foreground via-foreground/80 to-foreground/60",
 						"dark:from-white dark:via-[#bfc3c9] dark:to-[#6b7280]",
 						"bg-clip-text text-transparent",
@@ -53,7 +53,7 @@ export function Header() {
 
 					{/* Desktop Tagline */}
 					<p className={cn(
-						"text-2xl text-muted-foreground font-semibold italic",
+						"text-2xl text-muted-foreground font-semibold",
 						"bg-gradient-to-r from-foreground via-foreground/80 to-foreground/60",
 						"dark:from-white dark:via-[#bfc3c9] dark:to-[#6b7280]",
 						"bg-clip-text text-transparent",
