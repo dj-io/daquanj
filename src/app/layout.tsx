@@ -19,26 +19,27 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
-  manifest: "/manifest.json",
   openGraph: {
-    title: "Grit",
-    description: "The AI Note Editor.",
+    title: "Grit - The AI Note Editor",
+    description: "Grit is the AI note editor that helps you write and accomplish tasks faster and more efficiently.",
     url: siteUrl,
     siteName: "Grit",
     images: [
       {
-        url: "/images/grit-icon-macOS-Dark-1x.png",
-        width: 800,
-        height: 600,
-        alt: "Grit",
+        url: `${siteUrl}/images/ask-grit.png`,
+        width: 1200,
+        height: 630,
+        alt: "Grit - The AI Note Editor",
       },
     ],
+    type: 'website',
   },
   twitter: {
     card: "summary_large_image",
-    title: "Grit",
-    description: "The AI Note Editor.",
-    images: ["/images/grit-icon-macOS-Dark-1x.png"],
+    title: "Grit - The AI Note Editor",
+    description: "Grit is the AI note editor that helps you write and accomplish tasks faster and more efficiently.",
+    images: [`${siteUrl}/images/ask-grit.png`],
+    creator: "@gritxai",
   },
   alternates: {
     canonical: siteUrl,
