@@ -1,37 +1,37 @@
 // import React from 'react';
 // import { NextResponse } from 'next/server';
-// import { ConfirmationEmail } from '@/components/email-templates/confirmation-email';
+// // import { ConfirmationEmail } from '@/components/email-templates/confirmation-email';
 // import { ChangelogEmail } from '@/components/email-templates/changelog-email';
 
 // import { resend } from '@/app/api/lib/client';
 
 // export async function GET() {
 // const resend_email = 'delivered@resend.dev'
-// const token = '1234567890'
+// // const token = '1234567890'
 
-    // test welcome email template and email delivery
-    // const { data, error } = await resend.emails.send({
-    //   from: `Gleam From Grit <${process.env.WELCOME_EMAIL!}>`,
-    //   to: [resend_email],
-    //   subject: 'Welcome to Grit!',
-    //   react:  React.createElement(WelcomeEmail, { email: resend_email })
-    // });
+// //     test welcome email template and email delivery
+// //     const { data, error } = await resend.emails.send({
+// //       from: `Gleam From Grit <${process.env.WELCOME_EMAIL!}>`,
+// //       to: [resend_email],
+// //       subject: 'Welcome to Grit!',
+// //       react:  React.createElement(WelcomeEmail, { email: resend_email })
+// //     });
 
-    // test confirmation email template and email delivery
-    // const { data, error } = await resend.emails.send({
-    //     from: `Stratum <${process.env.FROM_EMAIL!}>`,
-    //     to: [resend_email],
-    //     subject: 'Confirm your Grit waitlist signup!',
-    //     react: React.createElement(ConfirmationEmail, { token })
-    // });
+// //     test confirmation email template and email delivery
+// //     const { data, error } = await resend.emails.send({
+// //         from: `Stratum <${process.env.FROM_EMAIL!}>`,
+// //         to: [resend_email],
+// //         subject: 'Confirm your Grit waitlist signup!',
+// //         react: React.createElement(ConfirmationEmail, { token })
+// //     });
 
-      // test changelog email template and email delivery
-    //   const { data, error } = await resend.emails.send({
-    //   from: `Gleam From Grit <${process.env.WELCOME_EMAIL!}>`,
-    //   to: [resend_email],
-    //   subject: 'You\'re absolutely right!',
-    //   react:  React.createElement(ChangelogEmail, { email: resend_email })
-    // });
+//     //   test changelog email template and email delivery
+//       const { data, error } = await resend.emails.send({
+//       from: `Gleam From Grit <${process.env.WELCOME_EMAIL!}>`,
+//       to: [resend_email],
+//       subject: 'You\'re in, the Grit Private Beta is here!',
+//       react:  React.createElement(ChangelogEmail, { email: resend_email })
+//     });
 
 //     if (!data) {
 //       console.error('No data returned from Resend')

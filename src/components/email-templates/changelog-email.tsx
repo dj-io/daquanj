@@ -1,4 +1,5 @@
 import * as React from 'react';
+// import Image from 'next/image';
 
 interface ChangelogEmailProps {
   email: string;
@@ -7,6 +8,19 @@ interface ChangelogEmailProps {
 const baseUrl =
 	process.env.NEXT_PUBLIC_SITE_URL
 	|| (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+
+// ANATOMY OF CHANGELOG EMAIL (every email should follow this structure)
+// 1. Logo Container
+// 2. Title
+// 3. Changelog Writeup
+// 4. Download Buttons
+// 5. Divider
+// 6. Features section
+// 7. Divider
+// 8. Closing Remarks
+// 9. Community CTA
+// 10. Grit Icon
+// 11. Footer (email, unsubscribe link)
 
 export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
   email,
@@ -61,64 +75,61 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
         color: '#A1A1AA',
         margin: '0 0 16px 0',
       }}>
-        Great writers and note takers aren’t looking for AI to do the work for them. Just like the best programmers, they want tools that accelerate ideas and spark inspiration—while keeping full control of the creative process. There’s something satisfying about shaping a page yourself, solving real problems, and seeing your own thoughts take form. That spirit—the love for <em style={{ color: '#ffffff' }}>“getting to done,” not just rushing to “done”</em>—is what inspires Grit.
-      </p>
-
-      <p style={{
-        fontSize: '15px',
-        lineHeight: '1.5',
-        color: '#A1A1AA',
-        margin: '0 0 16px 0',
-      }}>
-        When you explore the features below, I hope they showcase the vision I have for Grit: a productivity tool that&apos;s both simple AND powerful. Grit is designed to remove the trade-off we&apos;ve always faced with productivity tools, simplicity or capability. It&apos;s built to answer the questions I and others have been asking; What are the most useful AI integrations for doers, thinkers and creatives? What tool delivers on that while also keeping the core deliverable, a great writing environment, front and center?
+        Great writers and note takers aren’t looking for AI to do the work for them. Just like the best programmers, they want tools that accelerate ideas and spark inspiration—while keeping full control of the creative process. There’s something satisfying about shaping a page yourself, solving real problems, and seeing your own thoughts take form. That spirit—the love for <em style={{ color: '#ffffff' }}>“getting to done,” not just rushing to “done”</em>—is what inspired Grit.
       </p>
       <div style={{ marginBottom: '24px' }}>
-        <p style={{
-          fontSize: '16px',
-          color: '#ffffff',
-          margin: '0 0 16px 0',
-          fontWeight: '500',
-        }}>
-          Grit Private Beta is here for macOS! →
-        </p>
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '8px' }}>
-          <a
-            href="https://grit-desktop-releases.s3.us-east-2.amazonaws.com/Grit-0.1.9-universal.dmg"
-            style={{
-              display: 'inline-block',
-              backgroundColor: '#27272A',
-              color: '#ffffff',
-              padding: '10px 16px',
-              borderRadius: '6px',
-              textDecoration: 'none',
-              fontSize: '12px',
-              fontWeight: '500',
-              border: '1px solid #383838',
-            }}
-          >
-            Download → macOS Universal (Intel + Apple Silicon)
-          </a>
-          <a
-            href="https://grit-desktop-releases.s3.us-east-2.amazonaws.com/Grit-0.1.9-arm64.dmg"
-            style={{
-              display: 'inline-block',
-              backgroundColor: '#27272A',
-              color: '#ffffff',
-              padding: '10px 16px',
-              borderRadius: '6px',
-              textDecoration: 'none',
-              fontSize: '12px',
-              fontWeight: '500',
-              border: '1px solid #383838',
-            }}
-          >
-            Download → macOS Silicon (Apple M1+)
-          </a>
+        <div style={{ textAlign: 'center', marginBottom: '8px' }}>
+            <table cellPadding="0" cellSpacing="0" style={{ margin: '0 auto' }}>
+                <tr>
+                <td>
+                    <a
+                        href="https://grit-desktop-releases.s3.us-east-2.amazonaws.com/Grit-0.1.9-universal.dmg"
+                        style={{
+                            display: 'inline-block',
+                            backgroundColor: '#27272A',
+                            color: '#ffffff',
+                            padding: '8px 12px',
+                            borderRadius: '6px',
+                            textDecoration: 'none',
+                            fontSize: '12px',
+                            fontWeight: '500',
+                            border: '1px solid #383838',
+                            marginRight: '8px',
+                        }}
+                    >
+                        Download Now
+                        <br />
+                        Universal (Intel)
+                    </a>
+                </td>
+                <td>
+                    <a
+                    href="https://grit-desktop-releases.s3.us-east-2.amazonaws.com/Grit-0.1.9-arm64.dmg"
+                    style={{
+                        display: 'inline-block',
+                        backgroundColor: '#27272A',
+                        color: '#ffffff',
+                        padding: '8px 12px',
+                        borderRadius: '6px',
+                        textDecoration: 'none',
+                        fontSize: '12px',
+                        fontWeight: '500',
+                        border: '1px solid #383838',
+                    }}
+                    >
+                    Download Now
+                    <br />
+                    Apple Silicon (M1+)
+                    </a>
+                </td>
+            </tr>
+        </table>
         </div>
         <p style={{
             fontSize: '12px',
             color: '#A1A1AA',
             margin: '0 0 16px 0',
+            textAlign: 'center',
         }}>
             Requires version 11 or later
         </p>
@@ -416,6 +427,13 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
       </div>
     </div>
 
+    {/* Divider */}
+    <div style={{
+      height: '1px',
+      backgroundColor: '#27272A',
+      margin: '24px 0',
+    }}></div>
+
     <p style={{
       fontSize: '14px',
       lineHeight: '1.5',
@@ -456,7 +474,6 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
     {/* Questions Section with Background */}
     <div style={{
       backgroundColor: 'oklch(0.1781 0.002 286.19)',
-      border: '1px solid #27272A',
       borderRadius: '8px',
       padding: '14px',
       margin: '32px 0',
@@ -470,28 +487,21 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
       }}>
         Questions?
       </p>
-      <p style={{
-        fontSize: '14px',
-        color: '#A1A1AA',
-        margin: '0 0 16px 0',
-      }}>
-        Visit our Help Center.
-      </p>
       <a
         href="https://discord.gg/xVgaz2dQH7"
         style={{
           display: 'inline-block',
           backgroundColor: '#27272A',
           color: '#ffffff',
-          padding: '10px 16px',
+          padding: '8px 12px',
           borderRadius: '6px',
           textDecoration: 'none',
-          fontSize: '14px',
+          fontSize: '12px',
           fontWeight: '500',
           border: '1px solid #383838',
         }}
       >
-        Join the Discord
+        Join us on Discord
       </a>
     </div>
 
@@ -501,10 +511,8 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
         src={`${baseUrl}/images/grit-icon-macOS-Dark-1x.png`}
         alt='Grit Icon'
         style={{
-          width: '32px',
-          height: '32px',
-          borderRadius: '6px',
-          border: '1px solid #383838',
+          width: '42px',
+          height: '42px',
         }}
       />
     </div>
