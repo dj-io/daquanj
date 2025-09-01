@@ -24,11 +24,11 @@ import {
 } from 'lucide-react'
 import { TextStream } from './ui/text-stream'
 import { ChatMode, ModelItem } from '@/lib/types'
-import { detectOS } from '@/lib/utils'
+// import { detectOS } from '@/lib/utils'
 import { CHAT_MODES, MODEL_GROUPS, COPY, COPY_STORAGE_KEY, COPY_TTL_MS } from '@/lib/constants'
 
 export function HeroSection () {
-	const [os, setOS] = useState('macOS')
+	// const [os, setOS] = useState('macOS')
 	const [selectedMode, setSelectedMode] = useState<ChatMode>(CHAT_MODES[0])
 	const [selectedModel, setSelectedModel] = useState<ModelItem>(MODEL_GROUPS[0].submenu[2])
 	const [open, setOpen] = useState(false)
@@ -37,9 +37,9 @@ export function HeroSection () {
 	const router = useRouter()
 	const inputRef = useRef<HTMLInputElement | null>(null)
 
-	useEffect(() => {
-		setOS(detectOS())
-	}, [])
+	// useEffect(() => {
+	// 	setOS(detectOS())
+	// }, [])
 
 	// Copy selection logic - persist choice for 24h
 	useEffect(() => {
@@ -77,14 +77,14 @@ export function HeroSection () {
 
 	const selectedCopy = COPY[copyIndex ?? 0]
 
-	const version = 'v0.1.9'
-	const installInfo = os === 'macOS'
-		? 'macOS 11+'
-		: os === 'Windows'
-			? 'Windows 10+'
-			: os === 'Linux'
-				? 'Linux'
-				: ''
+	// const version = 'v0.1.9'
+	// const installInfo = os === 'macOS'
+	// 	? 'macOS 11+'
+	// 	: os === 'Windows'
+	// 		? 'Windows 10+'
+	// 		: os === 'Linux'
+	// 			? 'Linux'
+	// 			: ''
 
 	const formik = useFormik({
 		initialValues: {
@@ -379,13 +379,13 @@ export function HeroSection () {
 					</div>
 				</BlurFade>
 
-				<BlurFade delay={0.35}>
+				{/* <BlurFade delay={0.35}>
 					<p className={cn(
 						'text-xs text-muted-foreground transition-colors duration-300 mt-6'
 					)}>
 						{version} &nbsp;|&nbsp; {os} {installInfo ? ` | ${installInfo}` : ''}
 					</p>
-				</BlurFade>
+				</BlurFade> */}
 			</div>
 
 			{/* SVG Apple icon (for macOS button) */}

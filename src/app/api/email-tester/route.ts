@@ -29,7 +29,7 @@
 //       const { data, error } = await resend.emails.send({
 //       from: `Gleam From Grit <${process.env.WELCOME_EMAIL!}>`,
 //       to: [resend_email],
-//       subject: 'You\'re in, the Grit Private Beta is here!',
+//       subject: 'You\'re absolutely right!',
 //       react:  React.createElement(ChangelogEmail, { email: resend_email })
 //     });
 
