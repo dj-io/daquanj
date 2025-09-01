@@ -171,7 +171,7 @@ export function HeroSection () {
 
 	return (
 		<section className='relative flex flex-col items-center justify-center w-full h-full pb-[env(safe-area-inset-bottom)]'>
-			<div className='relative z-10 flex flex-col items-center text-center mt-28 sm:mt-21 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8'>
+			<div className='relative z-10 flex flex-col items-center text-center mt-28 sm:mt-12 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8'>
 				{/* Chat conversation */}
 				<div className="w-full max-w-4xl">
 					{/* User message bubble */}
@@ -191,12 +191,12 @@ export function HeroSection () {
 								'[&>span]:text-foreground'
 							)}>
 								{copyIndex !== null && (
-									<TextStream text={selectedCopy.heading} delay={500} speed={100} />
+									<TextStream text={selectedCopy.heading} delay={500} speed={90} />
 								)}
 							</h1>
 							<p className="text-base sm:text-lg text-foreground/90 leading-relaxed">
 								{copyIndex !== null && (
-									<TextStream text={selectedCopy.body} delay={2100} speed={50} />
+									<TextStream text={selectedCopy.body} delay={2100} speed={30} />
 								)}
 							</p>
 						</div>

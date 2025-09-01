@@ -58,7 +58,7 @@ export const MODEL_GROUPS: ModelGroup[] = [
 		heading: 'The AI Note Editor that Writes 🖊️, Edits 📝, and Explores Ideas💡with you',
 		body: `A simple, powerful tool built to help you work faster. Grit lets you use any AI Model you want to find answers, resources, or the next spark of inspiration—all in one unified notespace.
 
-From capturing quick ideas to working with others—Grit adapts so that you can write and collaborate without breaking your flow.`,
+Everything in Grit is stored on your device, so your ideas and AI chats are private 🔏, fast 🏎️, and your own.`,
 	},
 	{
 		heading: 'A Simple, Powerful Note Editor Built to Help You Work Faster',

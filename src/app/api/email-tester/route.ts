@@ -6,7 +6,7 @@
 // import { resend } from '@/app/api/lib/client';
 
 // export async function GET() {
-// const resend_email = 'delivered@resend.dev'
+// const resend_email = 'Janelleacarr@gmail.com'
 // // const token = '1234567890'
 
 // //     test welcome email template and email delivery
@@ -27,7 +27,7 @@
 
 //     //   test changelog email template and email delivery
 //       const { data, error } = await resend.emails.send({
-//       from: `Gleam From Grit <${process.env.WELCOME_EMAIL!}>`,
+//       from: `Grit Team <${process.env.FROM_EMAIL!}>`,
 //       to: [resend_email],
 //       subject: 'You\'re absolutely right!',
 //       react:  React.createElement(ChangelogEmail, { email: resend_email })
