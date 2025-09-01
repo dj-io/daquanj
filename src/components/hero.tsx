@@ -187,7 +187,7 @@ export function HeroSection () {
 					<div className="py-6 text-left pl-6">
 						<div className="max-w-[95%]">
 							<h1 className={cn(
-								'text-4xl sm:text-2xl md:text-6xl font-[550] mb-6 leading-tight',
+								'text-4xl sm:text-2xl md:text-6xl font-bold mb-6 leading-tight',
 								'[&>span]:text-foreground'
 							)}>
 								{copyIndex !== null && (
@@ -210,7 +210,7 @@ export function HeroSection () {
 							e.preventDefault()
 							handleSend()
 						}}
-						className='w-[90vw] max-w-2xl mt-10'
+						className='w-[90vw] max-w-2xl mt-2'
 					>
 						<div
 							className={cn(

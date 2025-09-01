@@ -98,7 +98,6 @@ export default function ConfirmContent() {
       <div className="flex flex-col items-center text-center w-full max-w-lg p-6 md:p-8 font-[family-name:var(--font-geist-sans)]">
         <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-12 self-center">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-12 h-12 flex items-center justify-center rounded-full overflow-hidden bg-black dark:bg-white">
               <Image
                 src='/images/grit-icon-macOS-Dark-1x.png'
                 alt='Grit logo'
@@ -107,7 +106,6 @@ export default function ConfirmContent() {
                 className='w-15 h-12 object-cover transition-colors'
                 priority
               />
-            </div>
           </Link>
         </div>
 
