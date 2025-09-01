@@ -103,7 +103,7 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
                 <tr>
                 <td>
                     <a
-                        href="https://grit-desktop-releases.s3.us-east-2.amazonaws.com/Grit-0.1.9-universal.dmg"
+                        href="https://grit-desktop-releases.s3.us-east-2.amazonaws.com/Grit-0.1.10-universal.dmg"
                         style={{
                             display: 'inline-block',
                             backgroundColor: '#27272A',
@@ -124,7 +124,7 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
                 </td>
                 <td>
                     <a
-                    href="https://grit-desktop-releases.s3.us-east-2.amazonaws.com/Grit-0.1.9-arm64.dmg"
+                    href="https://grit-desktop-releases.s3.us-east-2.amazonaws.com/Grit-0.1.10-arm64.dmg"
                     style={{
                         display: 'inline-block',
                         backgroundColor: '#27272A',
