@@ -196,7 +196,7 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
           fontSize: '12px',
           lineHeight: '1.4',
           color: '#A1A1AA',
-          margin: '0',
+          margin: '0 12px 0 0',
         }}>
           Just like workspaces, notespaces make it easy to capture thoughts across different parts of your life—so nothing gets lost or mixed together. You&apos;ll set up your first notespace when you open Grit, nothing works without one.
         </p>
