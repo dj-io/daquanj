@@ -156,12 +156,24 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
       </div>
     </div>
 
-    {/* Divider */}
     <div style={{
-      height: '1px',
-      backgroundColor: '#27272A',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
       margin: '32px 0',
-    }}></div>
+    }}>
+        <p
+          style={{
+            fontSize: '16px',
+            fontWeight: '500',
+            color: '#ffffff',
+            margin: '0 0 2px 0',
+            textAlign: 'center',
+        }}>
+          A look at what&apos;s inside the Beta
+      </p>
+    </div>
 
     {/* Feature 1 - Text Left, Image Right */}
     <div style={{
@@ -374,7 +386,7 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
           color: '#ffffff',
           margin: '0 0 6px 0',
         }}>
-          Notepad
+          Always on Top
         </h3>
         <p style={{
           fontSize: '12px',
@@ -382,13 +394,13 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
           color: '#A1A1AA',
           margin: '0 12px 0 0',
         }}>
-          Notepad lets you pin any page on top of your workflow—keep to-dos, reference material, or key notes visible while working in other apps. Simple, but having my task list &quot;always on top&quot; unlocked more consistent productivity over longer stretches, which is why it made the first version.
+          Always on Top lets you pin any page on top of your workflow—keep to-dos, reference material, or key notes visible while working in other apps. Simple, but having my task list &quot;always on top&quot; unlocked more consistent productivity over longer stretches, which is why it made the first version.
         </p>
       </div>
       <div style={{ flex: '1' }}>
         <img
           src={`${baseUrl}/changelog/0.1.0/floating-notes.gif`}
-          alt='Notepad'
+          alt='Always on Top'
           style={{
             width: '100%',
             maxWidth: '100%',

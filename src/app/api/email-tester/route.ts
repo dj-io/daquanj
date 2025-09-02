@@ -6,7 +6,7 @@
 // import { resend } from '@/app/api/lib/client';
 
 // export async function GET() {
-// const resend_email = 'Janelleacarr@gmail.com'
+// const resend_email = 'delivered@resend.dev'
 // // const token = '1234567890'
 
 // //     test welcome email template and email delivery
