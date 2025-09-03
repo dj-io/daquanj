@@ -170,8 +170,8 @@ export function HeroSection () {
 	const placeholder = `Enter your email to ${selectedMode.placeholder} ${selectedModel.title}...`
 
 	return (
-		<section className='relative flex flex-col items-center justify-center w-full h-full pb-[env(safe-area-inset-bottom)]'>
-			<div className='relative z-10 flex flex-col items-center text-center mt-28 sm:mt-12 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8'>
+		<section className='relative flex flex-col items-center justify-center w-full min-h-0 pb-[env(safe-area-inset-bottom)]'>
+			<div className='relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 w-full'>
 				{/* Chat conversation */}
 				<div className="w-full max-w-4xl">
 					{/* User message bubble */}
@@ -187,14 +187,14 @@ export function HeroSection () {
 					<div className="py-6 text-left pl-6">
 						<div className="max-w-[95%]">
 							<h1 className={cn(
-								'text-4xl sm:text-2xl md:text-6xl font-bold mb-6 leading-tight',
+								'text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight',
 								'[&>span]:text-foreground'
 							)}>
 								{copyIndex !== null && (
 									<TextStream text={selectedCopy.heading} delay={500} speed={90} />
 								)}
 							</h1>
-							<p className="text-base sm:text-lg text-foreground/90 leading-relaxed">
+							<p className="text-sm sm:text-base lg:text-lg text-foreground/90 leading-relaxed">
 								{copyIndex !== null && (
 									<TextStream text={selectedCopy.body} delay={2100} speed={30} />
 								)}
@@ -348,10 +348,10 @@ export function HeroSection () {
 				<BlurFade delay={0.3}>
 					<div className='w-full max-w-2xl mt-2'>
 						<p className={cn(
-							'text-xs text-center',
+							'text-xs text-center px-4',
 							'text-muted-foreground',
 							'transition-colors duration-300',
-							'tracking-tight whitespace-nowrap'
+							'tracking-tight'
 						)}>
 							By joining the early access list, you agree to our{' '}
 							<Link
