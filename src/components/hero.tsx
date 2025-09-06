@@ -194,9 +194,9 @@ export function HeroSection () {
 									<TextStream text={selectedCopy.heading} delay={500} speed={90} />
 								)}
 							</h1>
-							<p className="text-sm sm:text-base lg:text-lg text-foreground/90 leading-relaxed">
+							<p className="text-sm sm:text-base lg:text-lg text-foreground/90 leading-relaxed mb-8">
 								{copyIndex !== null && (
-									<TextStream text={selectedCopy.body} delay={2100} speed={30} />
+									<TextStream text={selectedCopy.body} delay={1250} speed={30} />
 								)}
 							</p>
 						</div>

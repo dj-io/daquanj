@@ -55,16 +55,17 @@ export const MODEL_GROUPS: ModelGroup[] = [
 
 	export const COPY: Copy[] = [
 	{
-		heading: 'The AI Note Editor that Writes 🖊️, Edits 📝, and Explores Ideas💡with you',
-		body: `A simple, powerful tool built to help you work faster. Grit lets you use any AI Model you want to find answers, resources, or the next spark of inspiration—all in one unified notespace.
+		heading: 'Your Knowledge + AI',
+		body: `Grit is an AI Note Editor that integrates frontier models like Claude and GPT-5 so you can write, edit and explore ideas with AI all in one place.
 
-Everything in Grit is stored on your device, so your ideas and AI chats are private 🔏, fast 🏎️, and your own.`,
+Get answers from your notes or pull in sources from the web to make sure your work is relevant, with models that know your workspace.
+
+Grit is a simple, yet powerful tool built to help you work faster.`,
 	},
 	{
-		heading: 'A Simple, Powerful Note Editor Built to Help You Work Faster',
-		body: `Grit is the AI Note Editor that writes, edits and explores ideas with you. Use any AI Model you want to find answers, resources, or the next spark of inspiration—all in one unified notespace.
-
-Everything in Grit is stored on your device, so your ideas and AI chats are private, fast, and your own.`,
+		heading: 'Your Knowledge + AI',
+		body: `Grit is an AI Note Editor that integrates the latest frontier models so you can write, edit and explore ideas with AI all in one place. A simple, yet powerful tool built to help you work faster.
+`,
 	},
 ]
 
