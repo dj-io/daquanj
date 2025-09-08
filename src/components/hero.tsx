@@ -171,54 +171,63 @@ export function HeroSection () {
 	const placeholder = `Enter your email to ${selectedMode.placeholder} ${selectedModel.title}...`
 
 	return (
-		<section className='relative flex flex-col items-center justify-center w-full min-h-0 pb-[env(safe-area-inset-bottom)]'>
-			<div className='relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 w-full'>
+		<section className="w-full">
+			<div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8 space-y-12">
 				{/* Chat conversation */}
-				<div className="w-full max-w-4xl">
+				<div className="space-y-8">
 					{/* User message bubble */}
-					<div className="flex justify-end mr-4">
+					<div className="flex justify-end">
 						<BlurFade delay={0.1} blur="6px" duration={0.6}>
-						<div>
 							<div className="bg-chat text-white px-4 py-2.5 rounded-2xl border border-border rounded-br-md max-w-xs">
 								<p className="text-sm font-medium">what is grit?</p>
 							</div>
-						</div>
 						</BlurFade>
 					</div>
 
 					{/* AI response container */}
-					<div className="py-6 text-left pl-6">
-						<div className="max-w-[95%]">
-							<h1 className={cn(
-								'text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight',
-								'[&>span]:text-foreground'
-							)}>
-								{copyIndex !== null ? (
-									<TextStream text={selectedCopy.heading} delay={500} speed={90} />
-								) : (
-									<span className="opacity-0">Your Knowledge + AI</span>
-								)}
-							</h1>
-							<p className="text-sm sm:text-base lg:text-lg text-foreground/90 leading-relaxed mb-8">
-								{copyIndex !== null ? (
-									<TextStream text={selectedCopy.body} delay={1250} speed={30} />
-								) : (
-									<span className="opacity-0">Grit is an AI Note Editor that integrates the latest frontier models so you can write, edit and explore ideas with AI all in one place. A simple, yet powerful tool built to help you work faster.</span>
-								)}
-							</p>
+					<div className="text-left space-y-6">
+						<h1 className={cn(
+							'text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight',
+							'[&>span]:text-foreground'
+						)}>
+							{copyIndex !== null ? (
+								<TextStream text={selectedCopy.heading} delay={500} speed={90} />
+							) : (
+								<span className="relative block w-full" aria-hidden>
+									<span
+										className="opacity-0 text-transparent pointer-events-none select-none whitespace-pre-wrap"
+										style={{ lineHeight: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', whiteSpace: 'pre-wrap' }}
+									>
+										{selectedCopy.heading}
+									</span>
+								</span>
+							)}
+						</h1>
+						<div className="prose prose-lg  text-foreground/90 ml-2">
+							{copyIndex !== null ? (
+								<TextStream text={selectedCopy.body} delay={1250} speed={30} />
+							) : (
+								<span className="relative block w-full" aria-hidden>
+									<span
+										className="opacity-0 text-transparent pointer-events-none select-none whitespace-pre-wrap"
+										style={{ lineHeight: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', whiteSpace: 'pre-wrap' }}
+									>
+										{selectedCopy.body}
+									</span>
+								</span>
+							)}
 						</div>
 					</div>
 				</div>
 
 				{/* Chat-style input */}
-				{/* <BlurFade delay={0.25}> */}
 				<div>
 					<form
 						onSubmit={(e) => {
 							e.preventDefault()
 							handleSend()
 						}}
-						className='w-[90vw] max-w-2xl mt-2'
+						className='w-full max-w-3xl mx-auto'
 					>
 						<div
 							className={cn(
@@ -354,85 +363,43 @@ export function HeroSection () {
 				{/* </BlurFade> */}
 
 				{/* Privacy / terms */}
-				{/* <BlurFade delay={0.3}> */}
-				<div>
-					<div className='w-full max-w-2xl mt-2'>
-						<p className={cn(
-							'text-xs text-center px-4',
-							'text-muted-foreground',
-							'transition-colors duration-300',
-							'tracking-tight'
-						)}>
-							By joining the early access list, you agree to our{' '}
-							<Link
-								href='/privacy'
-								className={cn(
-									'underline underline-offset-2',
-									'hover:text-foreground',
-									'transition-colors duration-300'
-								)}
-							>
-								Privacy Policy
-							</Link>
-							{' '}and{' '}
-							<Link
-								href='/terms'
-								className={cn(
-									'underline underline-offset-2',
-									'hover:text-foreground',
-									'transition-colors duration-300'
-								)}
-							>
-								Terms of Use
-							</Link>
-						</p>
-					</div>
-				</div>
-				{/* </BlurFade> */}
-
-				{/* Divider between hero and footer */}
-				{/* <BlurFade className='w-full max-w-5xl' delay={0.35}> */}
-				<div className='w-full max-w-5xl'>
-					<div className="w-full max-w-5xl mt-24 mb-16">
-						<hr className="w-full border-t border-border dark:border-sidebar-border" />
-					</div>
-				</div>
-				{/* </BlurFade> */}
-
-				{/* Footer section with social links */}
-				{/* <BlurFade delay={0.4}> */}
-				<div>
-					<div className="w-full max-w-2xl">
-						{/* Copyright */}
-						<p className={cn(
-							'text-center text-xs mb-6',
-							'text-[#9CA3AF] dark:text-[#9CA3AF]/60',
-							'transition-colors duration-300'
-						)}>
-							&copy; {new Date().getFullYear()} Stratum Labs Inc. All rights reserved.
-						</p>
-
-						{/* Social Links */}
-						<SocialLinks />
-					</div>
-				</div>
-				{/* </BlurFade> */}
-
-				{/* <BlurFade delay={0.35}>
-					<p className={cn(
-						'text-xs text-muted-foreground transition-colors duration-300 mt-6'
-					)}>
-						{version} &nbsp;|&nbsp; {os} {installInfo ? ` | ${installInfo}` : ''}
+				<div className="text-center -mt-8">
+					<p className="text-xs text-muted-foreground transition-colors duration-300">
+						By joining the early access list, you agree to our{' '}
+						<Link
+							href='/privacy'
+							className="underline underline-offset-2 hover:text-foreground transition-colors duration-300"
+						>
+							Privacy Policy
+						</Link>
+						{' '}and{' '}
+						<Link
+							href='/terms'
+							className="underline underline-offset-2 hover:text-foreground transition-colors duration-300"
+						>
+							Terms of Use
+						</Link>
 					</p>
-				</BlurFade> */}
+				</div>
 			</div>
 
-			{/* SVG Apple icon (for macOS button) */}
-			<svg style={{ display: 'none' }}>
-				<symbol id='apple-icon' viewBox='0 0 20 20'>
-					<path d='M16.7 13.6c-.2.5-.4 1-.7 1.5-.4.6-.7 1-1.2 1.5-.5.5-1 .8-1.6.8-.4 0-.9-.1-1.5-.3-.6-.2-1.1-.3-1.7-.3-.6 0-1.2.1-1.7.3-.6.2-1.1.3-1.5.3-.6 0-1.1-.3-1.6-.8-.5-.5-.9-1-1.2-1.5-.3-.5-.6-1-.7-1.5-.2-.6-.3-1.2-.3-1.8 0-1 .2-1.8.7-2.4.5-.6 1.1-.9 1.8-.9.4 0 .9.1 1.5.3.6.2 1.1.3 1.7.3.6 0 1.2-.1 1.7-.3.6-.2 1.1-.3 1.5-.3.7 0 1.3.3 1.8.9.5.6.7 1.4.7 2.4 0 .6-.1 1.2-.3 1.8zM13.2 3.2c0 .5-.2 1-.5 1.5-.3.5-.7.9-1.2 1.2-.5.3-1 .5-1.5.5-.1 0-.2 0-.3-.1-.1-.1-.1-.2-.1-.3 0-.5.2-1 .5-1.5.3-.5.7-.9 1.2-1.2.5-.3 1-.5 1.5-.5.1 0 .2 0 .3.1.1.1.1.2.1.3z' />
-				</symbol>
-			</svg>
+			{/* Divider */}
+			<div className="w-full px-6 sm:px-0 mt-6">
+				<hr className="border-t border-border max-w-sm sm:max-w-lg lg:max-w-3xl mx-auto" />
+			</div>
+
+			{/* Footer section with social links */}
+			<footer className="mt-8">
+				<div className="mx-auto max-w-4xl px-4 py-8 text-center space-y-4">
+					{/* Copyright */}
+					<p className="text-xs text-muted-foreground/60 transition-colors duration-300">
+						&copy; {new Date().getFullYear()} Stratum Labs Inc. All rights reserved.
+					</p>
+
+					{/* Social Links */}
+					<SocialLinks />
+				</div>
+			</footer>
 		</section>
 	)
 }

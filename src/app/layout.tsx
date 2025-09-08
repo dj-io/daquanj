@@ -60,19 +60,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className="font-[family-name:var(--font-family-base)]"
-      >
+      <body className="font-[family-name:var(--font-family-base)] antialiased">
         <PostHogProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
-            // forcedTheme="light"
             enableSystem
             disableTransitionOnChange
           >
-            <Header />
-            {children}
+            <div className="min-h-screen flex flex-col">
+              <Header />
+              <main className="flex-1 flex items-center justify-center">
+                {children}
+              </main>
+            </div>
           </ThemeProvider>
         </PostHogProvider>
       </body>

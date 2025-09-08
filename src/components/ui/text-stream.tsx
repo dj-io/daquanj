@@ -39,7 +39,7 @@ const TextStream = ({ text, delay = 0, speed = 50 }: { text: string; delay?: num
 			<span
 				aria-hidden="true"
 				className="opacity-0 text-transparent pointer-events-none select-none whitespace-pre-wrap"
-				style={{ lineHeight: 'inherit', fontSize: 'inherit', fontWeight: 'inherit' }}
+				style={{ lineHeight: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', whiteSpace: 'pre-wrap' }}
 			>
 				{text}
 			</span>
@@ -47,7 +47,7 @@ const TextStream = ({ text, delay = 0, speed = 50 }: { text: string; delay?: num
 			{/* Visible streaming text */}
 			<span
 				className="absolute inset-0 whitespace-pre-wrap transform-gpu will-change-[opacity,transform]"
-				style={{ lineHeight: 'inherit', fontSize: 'inherit', fontWeight: 'inherit' }}
+				style={{ lineHeight: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', whiteSpace: 'pre-wrap' }}
 			>
 				{displayedWords.map((word, index) => (
 					<span key={index}>
