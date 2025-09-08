@@ -26,6 +26,7 @@ import { TextStream } from './ui/text-stream'
 import { ChatMode, ModelItem } from '@/lib/types'
 // import { detectOS } from '@/lib/utils'
 import { CHAT_MODES, MODEL_GROUPS, COPY, COPY_STORAGE_KEY, COPY_TTL_MS } from '@/lib/constants'
+import { SocialLinks } from './social-links'
 
 export function HeroSection () {
 	// const [os, setOS] = useState('macOS')
@@ -176,10 +177,12 @@ export function HeroSection () {
 				<div className="w-full max-w-4xl">
 					{/* User message bubble */}
 					<div className="flex justify-end mr-4">
-						<BlurFade delay={0.2} blur="6px" duration={0.6}>
+						<BlurFade delay={0.1} blur="6px" duration={0.6}>
+						<div>
 							<div className="bg-chat text-white px-4 py-2.5 rounded-2xl border border-border rounded-br-md max-w-xs">
 								<p className="text-sm font-medium">what is grit?</p>
 							</div>
+						</div>
 						</BlurFade>
 					</div>
 
@@ -190,13 +193,17 @@ export function HeroSection () {
 								'text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight',
 								'[&>span]:text-foreground'
 							)}>
-								{copyIndex !== null && (
+								{copyIndex !== null ? (
 									<TextStream text={selectedCopy.heading} delay={500} speed={90} />
+								) : (
+									<span className="opacity-0">Your Knowledge + AI</span>
 								)}
 							</h1>
 							<p className="text-sm sm:text-base lg:text-lg text-foreground/90 leading-relaxed mb-8">
-								{copyIndex !== null && (
+								{copyIndex !== null ? (
 									<TextStream text={selectedCopy.body} delay={1250} speed={30} />
+								) : (
+									<span className="opacity-0">Grit is an AI Note Editor that integrates the latest frontier models so you can write, edit and explore ideas with AI all in one place. A simple, yet powerful tool built to help you work faster.</span>
 								)}
 							</p>
 						</div>
@@ -204,7 +211,8 @@ export function HeroSection () {
 				</div>
 
 				{/* Chat-style input */}
-				<BlurFade delay={0.25}>
+				{/* <BlurFade delay={0.25}> */}
+				<div>
 					<form
 						onSubmit={(e) => {
 							e.preventDefault()
@@ -342,10 +350,12 @@ export function HeroSection () {
 							</div>
 						)}
 					</form>
-				</BlurFade>
+				</div>
+				{/* </BlurFade> */}
 
 				{/* Privacy / terms */}
-				<BlurFade delay={0.3}>
+				{/* <BlurFade delay={0.3}> */}
+				<div>
 					<div className='w-full max-w-2xl mt-2'>
 						<p className={cn(
 							'text-xs text-center px-4',
@@ -377,7 +387,36 @@ export function HeroSection () {
 							</Link>
 						</p>
 					</div>
-				</BlurFade>
+				</div>
+				{/* </BlurFade> */}
+
+				{/* Divider between hero and footer */}
+				{/* <BlurFade className='w-full max-w-5xl' delay={0.35}> */}
+				<div className='w-full max-w-5xl'>
+					<div className="w-full max-w-5xl mt-24 mb-16">
+						<hr className="w-full border-t border-border dark:border-sidebar-border" />
+					</div>
+				</div>
+				{/* </BlurFade> */}
+
+				{/* Footer section with social links */}
+				{/* <BlurFade delay={0.4}> */}
+				<div>
+					<div className="w-full max-w-2xl">
+						{/* Copyright */}
+						<p className={cn(
+							'text-center text-xs mb-6',
+							'text-[#9CA3AF] dark:text-[#9CA3AF]/60',
+							'transition-colors duration-300'
+						)}>
+							&copy; {new Date().getFullYear()} Stratum Labs Inc. All rights reserved.
+						</p>
+
+						{/* Social Links */}
+						<SocialLinks />
+					</div>
+				</div>
+				{/* </BlurFade> */}
 
 				{/* <BlurFade delay={0.35}>
 					<p className={cn(

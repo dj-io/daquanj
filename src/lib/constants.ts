@@ -72,3 +72,17 @@ Grit is a simple, yet powerful tool built to help you work faster.`,
 // Copy selection constants
 export const COPY_STORAGE_KEY = 'grit.copy.choice'
 export const COPY_TTL_MS = 86_400_000 // 24 hours
+
+// Social links
+export const SOCIAL_LINKS = [
+	{
+		name: 'X',
+		url: 'https://x.com/gritxai',
+		handle: '@gritxai'
+	},
+	{
+		name: 'Substack',
+		url: 'https://stratumlabs.substack.com',
+		handle: 'stratumlabs.substack.com'
+	}
+]
