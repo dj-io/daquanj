@@ -16,6 +16,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
             person_profiles: 'always', // or 'always' to create profiles for anonymous users as well
             capture_pageview: false, // Disable automatic pageview capture, as we capture manually
             capture_pageleave: true,
+            disable_session_recording: true,
         })
     }
   }, [])

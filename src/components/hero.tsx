@@ -6,7 +6,7 @@ import { BlurFade } from '@/components/magicui/blur-fade'
 import { cn } from '@/lib/utils'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import Link from 'next/link'
+// import Link from 'next/link'
 import { captureEvent } from '@/lib/posthog'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -362,7 +362,7 @@ export function HeroSection () {
 				</div>
 				{/* </BlurFade> */}
 
-				{/* Privacy / terms */}
+				{/* Privacy / terms
 				<div className="text-center -mt-8">
 					<p className="text-xs text-muted-foreground transition-colors duration-300">
 						By joining the early access list, you agree to our{' '}
@@ -380,7 +380,7 @@ export function HeroSection () {
 							Terms of Use
 						</Link>
 					</p>
-				</div>
+				</div> */}
 			</div>
 
 			{/* Divider */}
