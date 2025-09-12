@@ -495,7 +495,7 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
         color: '#A1A1AA',
         margin: '0 0 16px 0',
       }}>
-        Check out the detailed feature breakdown on <a href="https://substack.com/@stratumlabs" style={{ color: '#ffffff' }} target="_blank">Substack</a> if you want the full story behind each decision.
+        Check out the more from the team on <a href="https://stratumlabs.substack.com" style={{ color: '#ffffff' }} target="_blank">Substack</a> if you want more info on the roadmap ahead.
       </p>
 
       <p style={{

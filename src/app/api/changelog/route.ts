@@ -6,10 +6,10 @@ import { supabase, resend } from '@/app/api/lib/client';
 
 export async function GET(request: Request) {
   try {
-    const authHeader = request.headers.get('authorization');
+    const authHeader = request.headers.get('Authorization');
     const apiKey = authHeader?.replace('Bearer ', '');
 
-    if (!apiKey || apiKey !== process.env.CHANGELOG_API_KEY) {
+    if (!apiKey || apiKey !== process.env.EMAIL_API_KEY) {
       return NextResponse.json(
         { error: 'Unauthorized. Valid API key required.' },
         { status: 401 }
