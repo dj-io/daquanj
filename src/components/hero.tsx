@@ -31,7 +31,7 @@ import { SocialLinks } from './social-links'
 export function HeroSection () {
 	// const [os, setOS] = useState('macOS')
 	const [selectedMode, setSelectedMode] = useState<ChatMode>(CHAT_MODES[0])
-	const [selectedModel, setSelectedModel] = useState<ModelItem>(MODEL_GROUPS[0].submenu[2])
+	const [selectedModel, setSelectedModel] = useState<ModelItem>(MODEL_GROUPS[0].submenu[0])
 	const [open, setOpen] = useState(false)
 	const [copyIndex, setCopyIndex] = useState<number | null>(null)
 
@@ -384,7 +384,7 @@ export function HeroSection () {
 			</div>
 
 			{/* Divider */}
-			<div className="w-full px-6 sm:px-0 mt-6">
+			<div className="w-full px-6 sm:px-0">
 				<hr className="border-t border-border max-w-sm sm:max-w-lg lg:max-w-3xl mx-auto" />
 			</div>
 

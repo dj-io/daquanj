@@ -54,7 +54,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
         color: '#ffffff',
         opacity: '0.9',
       }}>
-        My name is Gleam — I&apos;m the founder and CEO of Grit.
+        My name is Da&apos;Quan — I&apos;m the founder and CEO of Grit.
       </p>
     </div>
 
@@ -152,7 +152,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
         margin: '0 0 24px 0',
         color: '#ffffff',
       }}>
-        Gleam
+        Da&apos;Quan
       </p>
       <p style={{
         fontSize: '12px',

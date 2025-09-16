@@ -36,7 +36,7 @@ export async function POST(request: Request) {
 
     // Send the confirmation email using Resend [https://resend.com/]
     const { data, error } = await resend.emails.send({
-      from: `Stratum <${process.env.FROM_EMAIL!}>`,
+      from: `Grit Team <${process.env.FROM_EMAIL!}>`,
       to: [email],
       subject: 'Grit waitlist signup confirmation!',
       react: React.createElement(ConfirmationEmail, { token })

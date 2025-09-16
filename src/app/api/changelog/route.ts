@@ -41,7 +41,7 @@ export async function GET(request: Request) {
 
     // Build a batch payload from the confirmed entries
     const emailBatch = data.map((entry) => ({
-      from: `Stratum <${process.env.FROM_EMAIL!}>`,
+      from: `Grit Team <${process.env.FROM_EMAIL!}>`,
       to: [entry.email],
       subject: "You're absolutely right!",
       // Here we create the React element for the email template and pass in the recipient's email

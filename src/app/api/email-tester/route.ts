@@ -11,7 +11,7 @@
 
 // //     test welcome email template and email delivery
 // //     const { data, error } = await resend.emails.send({
-// //       from: `Gleam From Grit <${process.env.WELCOME_EMAIL!}>`,
+// //       from: `Da'Quan From Grit <${process.env.WELCOME_EMAIL!}>`,
 // //       to: [resend_email],
 // //       subject: 'Welcome to Grit!',
 // //       react:  React.createElement(WelcomeEmail, { email: resend_email })
@@ -19,7 +19,7 @@
 
 // //     test confirmation email template and email delivery
 // //     const { data, error } = await resend.emails.send({
-// //         from: `Stratum <${process.env.FROM_EMAIL!}>`,
+// //         from: `Grit Team <${process.env.FROM_EMAIL!}>`,
 // //         to: [resend_email],
 // //         subject: 'Confirm your Grit waitlist signup!',
 // //         react: React.createElement(ConfirmationEmail, { token })

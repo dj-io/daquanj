@@ -32,7 +32,7 @@ export async function PATCH(request: Request) {
   // Email is now confirmed, attempt to send welcome email
   try {
     const { data, error } = await resend.emails.send({
-      from: `Gleam From Grit <${process.env.WELCOME_EMAIL!}>`,
+      from: `Da'Quan From Grit <${process.env.WELCOME_EMAIL!}>`,
       to: [dbData[0].email],
       subject: 'Welcome to Grit!',
       react: React.createElement(WelcomeEmail, { email: dbData[0].email })
