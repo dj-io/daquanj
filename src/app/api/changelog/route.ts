@@ -43,7 +43,7 @@ export async function GET(request: Request) {
     const emailBatch = data.map((entry) => ({
       from: `Grit Team <${process.env.FROM_EMAIL!}>`,
       to: [entry.email],
-      subject: "You're absolutely right!",
+      subject: "What's new in Grit!",
       // Here we create the React element for the email template and pass in the recipient's email
       react: React.createElement(ChangelogEmail, { email: entry.email }),
       tags: [

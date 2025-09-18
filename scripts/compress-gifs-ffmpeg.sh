@@ -3,7 +3,7 @@
 set -euo pipefail
 shopt -s nullglob
 
-TARGET_DIR="${1:-./public/changelog/0.1.0}"
+TARGET_DIR="${1:-./public/changelog/0.1.11}"
 TARGET_WIDTH="${TARGET_WIDTH:-600}"
 TARGET_FPS="${TARGET_FPS:-12}"
 MAX_COLORS="${MAX_COLORS:-128}"

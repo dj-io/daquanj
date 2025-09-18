@@ -29,7 +29,7 @@
 //       const { data, error } = await resend.emails.send({
 //       from: `Grit Team <${process.env.FROM_EMAIL!}>`,
 //       to: [resend_email],
-//       subject: 'You\'re absolutely right!',
+//       subject: 'What\'s new in Grit!',
 //       react:  React.createElement(ChangelogEmail, { email: resend_email })
 //     });
 

@@ -54,7 +54,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
         color: '#ffffff',
         opacity: '0.9',
       }}>
-        My name is Da&apos;Quan — I&apos;m the founder and CEO of Grit.
+        My name is Da&apos;Quan — I&apos;m the developer behind Grit.
       </p>
     </div>
 
@@ -66,7 +66,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
         color: '#9CA3AF',
         margin: '0 0 16px 0',
       }}>
-        Thank you for joining the waitlist. We&apos;re excited to have you on board!
+        Thank you for joining the waitlist. I&apos;m excited to have you on board!
       </p>
 
       <p style={{

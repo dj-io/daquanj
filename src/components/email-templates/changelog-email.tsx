@@ -27,8 +27,8 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
   email,
 }) => (
     <div style={{
-      backgroundColor: '#000000',
-      color: '#ffffff',
+      backgroundColor: '#ffffff',
+      color: '#000000',
       padding: '40px 24px',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
       maxWidth: '600px',
@@ -39,8 +39,8 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
     <div style={{
       width: '32px',
       height: '32px',
-      backgroundColor: '#000000',
-      border: '1px solid #383838',
+      backgroundColor: '#ffffff',
+      border: '1px solid #e5e5e5',
       borderRadius: '6px',
       display: 'flex',
       alignItems: 'center',
@@ -48,7 +48,7 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
       marginBottom: '32px',
     }}>
       <span style={{
-        color: '#ffffff',
+        color: '#000000',
         fontSize: '18px',
         fontWeight: 'bold',
       }}>
@@ -63,10 +63,10 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
         fontSize: '32px',
         fontWeight: 'bold',
         margin: '0 0 12px 0',
-        color: '#ffffff',
+        color: '#000000',
         lineHeight: '1.4',
       }}>
-        🎉 You&apos;re in, <br />The Grit Beta is here!
+        🆕 What&apos;s new, <br /> Context, context, context!
       </h1>
     </div>
 
@@ -75,26 +75,26 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
             <p style={{
                 fontSize: '14px',
                 lineHeight: '1.5',
-                color: '#A1A1AA',
+                color: '#6b7280',
                 margin: '0 0 16px 0',
             }}>
-                A simple, powerful tool built to help you work faster. Grit lets you use any AI Model you want to find answers, resources, or the next spark of inspiration—all in one unified notespace.
+                This update is all about making Grit work exactly how you want it to. From resizable sidebars to visual improvements and powerful new ways to add context to your AI chats.
             </p>
-            <p style={{
+            {/* <p style={{
                 fontSize: '14px',
                 lineHeight: '1.5',
-                color: '#A1A1AA',
+                color: '#000000',
                 margin: '0 0 16px 0',
             }}>
-                Everything in Grit is stored on your device, so your ideas and AI chats are private 🔏, fast 🏎️, and your own.
-            </p>
+                I&apos;ve added drag-and-drop image support, emoji pickers for callouts, @ mentions for context, and search everywhere—plus better visual hierarchy in light mode. Everything you need to work faster and stay organized.
+            </p> */}
             <div style={{ marginBottom: '32px' }}>
                 <p style={{
                     fontSize: '14px',
                     margin: '0 0 4px 0',
-                    color: '#ffffff',
+                    color: '#000000',
                 }}>
-                    Write, collaborate, and edit without breaking your flow.
+                    Your workspace, your way—now with more control and context.
                 </p>
             </div>
       <div style={{ marginBottom: '0' }}>
@@ -103,17 +103,17 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
                 <tr>
                 <td>
                     <a
-                        href="https://grit-desktop-releases.s3.us-east-2.amazonaws.com/Grit-0.1.10-universal.dmg"
+                        href="https://grit-desktop-releases.s3.us-east-2.amazonaws.com/Grit-0.1.11-universal.dmg"
                         style={{
                             display: 'inline-block',
-                            backgroundColor: '#27272A',
-                            color: '#ffffff',
+                            backgroundColor: '#f3f4f6',
+                            color: '#000000',
                             padding: '8px 12px',
                             borderRadius: '6px',
                             textDecoration: 'none',
                             fontSize: '12px',
                             fontWeight: '500',
-                            border: '1px solid #383838',
+                            border: '1px solid #d1d5db',
                             marginRight: '8px',
                         }}
                     >
@@ -124,17 +124,17 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
                 </td>
                 <td>
                     <a
-                    href="https://grit-desktop-releases.s3.us-east-2.amazonaws.com/Grit-0.1.10-arm64.dmg"
+                    href="https://grit-desktop-releases.s3.us-east-2.amazonaws.com/Grit-0.1.11-arm64.dmg"
                     style={{
                         display: 'inline-block',
-                        backgroundColor: '#27272A',
-                        color: '#ffffff',
+                        backgroundColor: '#f3f4f6',
+                        color: '#000000',
                         padding: '8px 12px',
                         borderRadius: '6px',
                         textDecoration: 'none',
                         fontSize: '12px',
                         fontWeight: '500',
-                        border: '1px solid #383838',
+                        border: '1px solid #d1d5db',
                     }}
                     >
                     Download Now
@@ -147,11 +147,11 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
         </div>
         <p style={{
             fontSize: '12px',
-            color: '#A1A1AA',
+            color: '#000000',
             margin: '8px 0 0 0',
             textAlign: 'center',
         }}>
-            Requires version 11 or later
+            Requires macOS version 11 or later
         </p>
       </div>
     </div>
@@ -167,11 +167,11 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
           style={{
             fontSize: '16px',
             fontWeight: '500',
-            color: '#ffffff',
+            color: '#000000',
             margin: '0 0 2px 0',
             textAlign: 'center',
         }}>
-          A look at what&apos;s inside the Beta
+          A look at what&apos;s inside v0.1.11
       </p>
     </div>
 
@@ -187,31 +187,31 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
         <h3 style={{
           fontSize: '14px',
           fontWeight: '600',
-          color: '#ffffff',
+          color: '#000000',
           margin: '0 0 6px 0',
         }}>
-          Notespaces
+          Resizable Sidebars
         </h3>
         <p style={{
           fontSize: '12px',
           lineHeight: '1.4',
-          color: '#A1A1AA',
+          color: '#000000',
           margin: '0 12px 0 0',
         }}>
-          Just like workspaces, notespaces make it easy to capture thoughts across different parts of your life—so nothing gets lost or mixed together. You&apos;ll set up your first notespace when you open Grit, nothing works without one.
+          Resizable sidebars let you adjust the width of the sidebar to your liking—so you can work exactly how you want to.
         </p>
       </div>
       <div style={{ flex: '1' }}>
         <img
-          src={`${baseUrl}/changelog/0.1.0/notespaces.gif`}
-          alt='Notespaces'
+          src={`${baseUrl}/changelog/0.1.11/resize.gif`}
+          alt='Resizable Sidebars'
           style={{
             width: '100%',
             maxWidth: '100%',
             height: 'auto',
             borderRadius: '6px',
             display: 'block',
-            border: '1px solid #383838',
+            border: '1px solid #d1d5db',
           }}
         />
       </div>
@@ -220,7 +220,7 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
     {/* Divider */}
     <div style={{
       height: '1px',
-      backgroundColor: '#27272A',
+      backgroundColor: '#e5e7eb',
       margin: '32px 0',
     }}></div>
 
@@ -234,15 +234,15 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
     }}>
       <div style={{ flex: '1' }}>
         <img
-          src={`${baseUrl}/changelog/0.1.0/pages-folders.gif`}
-          alt='Pages & Folders'
+          src={`${baseUrl}/changelog/0.1.11/emoji-callouts.gif`}
+          alt='Emoji Pickers for Callouts'
           style={{
             width: '100%',
             maxWidth: '100%',
             height: 'auto',
             borderRadius: '6px',
             display: 'block',
-            border: '1px solid #383838',
+            border: '1px solid #d1d5db',
           }}
         />
       </div>
@@ -250,18 +250,18 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
         <h3 style={{
           fontSize: '14px',
           fontWeight: '600',
-          color: '#ffffff',
+          color: '#000000',
           margin: '0 0 6px 0',
         }}>
-          Pages & Folders
+          Emoji Pickers for Callouts
         </h3>
         <p style={{
           fontSize: '12px',
           lineHeight: '1.4',
-          color: '#A1A1AA',
+          color: '#000000',
           margin: '0',
         }}>
-          Grit uses a familiar folder-and-file system, so you can organize notes your way from day one. Quickly capture ideas as pinned pages, then sort and structure them whenever you want.
+          Add emojis to your callouts to make them more engaging and visual
         </p>
       </div>
     </div>
@@ -269,7 +269,7 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
     {/* Divider */}
     <div style={{
       height: '1px',
-      backgroundColor: '#27272A',
+      backgroundColor: '#e5e7eb',
       margin: '32px 0',
     }}></div>
 
@@ -285,31 +285,31 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
         <h3 style={{
           fontSize: '14px',
           fontWeight: '600',
-          color: '#ffffff',
+          color: '#000000',
           margin: '0 0 6px 0',
         }}>
-          Icons, Emojis or None
+          @ Mentions for Context
         </h3>
         <p style={{
           fontSize: '12px',
           lineHeight: '1.4',
-          color: '#A1A1AA',
+          color: '#000000',
           margin: '0',
         }}>
-          Add an emoji or icon to any folder or page for quick visual cues—or go with no icon at all. With the inline icon picker, you can adapt your notespace to match your style, wherever you see an emoji or icon, just click to change it.
+          Add pages, uploads or previous chats as context - Select the @ button and search for items to include.
         </p>
       </div>
       <div style={{ flex: '1' }}>
         <img
-          src={`${baseUrl}/changelog/0.1.0/icons-emojis-none.gif`}
-          alt='Icons, Emojis or None'
+          src={`${baseUrl}/changelog/0.1.11/mentions.gif`}
+          alt='@ Mentions for Context'
           style={{
             width: '100%',
             maxWidth: '100%',
             height: 'auto',
             borderRadius: '6px',
             display: 'block',
-            border: '1px solid #383838',
+            border: '1px solid #d1d5db',
           }}
         />
       </div>
@@ -318,7 +318,7 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
     {/* Divider */}
     <div style={{
       height: '1px',
-      backgroundColor: '#27272A',
+      backgroundColor: '#e5e7eb',
       margin: '32px 0',
     }}></div>
 
@@ -332,15 +332,15 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
     }}>
       <div style={{ flex: '1' }}>
         <img
-          src={`${baseUrl}/changelog/0.1.0/editor.gif`}
-          alt='Editor'
+          src={`${baseUrl}/changelog/0.1.11/cmdk.gif`}
+          alt='Command Menu'
           style={{
             width: '100%',
             maxWidth: '100%',
             height: 'auto',
             borderRadius: '6px',
             display: 'block',
-            border: '1px solid #383838',
+            border: '1px solid #d1d5db',
           }}
         />
       </div>
@@ -348,18 +348,18 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
         <h3 style={{
           fontSize: '14px',
           fontWeight: '600',
-          color: '#ffffff',
+          color: '#000000',
           margin: '0 0 6px 0',
         }}>
-          Editor
+          Command Menu
         </h3>
         <p style={{
           fontSize: '12px',
           lineHeight: '1.4',
-          color: '#A1A1AA',
+          color: '#000000',
           margin: '0',
         }}>
-          Grit&apos;s editor combines block-based structure with markdown and rich text—type in markdown, highlight to format, and use the slash command to add or change any block. Every note and section is easily draggable, so organizing and editing is always flexible.
+          Search to find anything in your workspace—pages, folders, or previous chats. Type <span style={{ color: '#ffffff' }}>⌘K</span> to open the command menu.
         </p>
       </div>
     </div>
@@ -367,7 +367,7 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
     {/* Divider */}
     <div style={{
       height: '1px',
-      backgroundColor: '#27272A',
+      backgroundColor: '#e5e7eb',
       margin: '32px 0',
     }}></div>
 
@@ -383,45 +383,45 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
         <h3 style={{
           fontSize: '14px',
           fontWeight: '600',
-          color: '#ffffff',
+          color: '#000000',
           margin: '0 0 6px 0',
         }}>
-          Always on Top
+          Search in chat history & Model Selector
         </h3>
         <p style={{
           fontSize: '12px',
           lineHeight: '1.4',
-          color: '#A1A1AA',
+          color: '#000000',
           margin: '0 12px 0 0',
         }}>
-          Always on Top lets you pin any page on top of your workflow—keep to-dos, reference material, or key notes visible while working in other apps. Simple, but having my task list &quot;always on top&quot; unlocked more consistent productivity over longer stretches, which is why it made the first version.
+          Use the dropdowns to search in chat history and select a model to use.
         </p>
       </div>
       <div style={{ flex: '1' }}>
         <img
-          src={`${baseUrl}/changelog/0.1.0/floating-notes.gif`}
-          alt='Always on Top'
+          src={`${baseUrl}/changelog/0.1.11/search-in-chats.gif`}
+          alt='Search in chat history & Model Selector'
           style={{
             width: '100%',
             maxWidth: '100%',
             height: 'auto',
             borderRadius: '6px',
             display: 'block',
-            border: '1px solid #383838',
+            border: '1px solid #d1d5db',
           }}
         />
       </div>
     </div>
 
     {/* Divider */}
-    <div style={{
+    {/* <div style={{
       height: '1px',
-      backgroundColor: '#27272A',
+      backgroundColor: '#e5e7eb',
       margin: '32px 0',
-    }}></div>
+    }}></div> */}
 
     {/* Feature 6 - Image Left, Text Right */}
-    <div style={{
+    {/* <div style={{
       display: 'flex',
       alignItems: 'flex-start',
       gap: '24px',
@@ -438,7 +438,7 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
             height: 'auto',
             borderRadius: '6px',
             display: 'block',
-            border: '1px solid #383838',
+            border: '1px solid #d1d5db',
           }}
         />
       </div>
@@ -446,45 +446,32 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
         <h3 style={{
           fontSize: '14px',
           fontWeight: '600',
-          color: '#ffffff',
+          color: '#000000',
           margin: '0 0 6px 0',
         }}>
-          Assistant/Agent
+          Visual Improvements
         </h3>
         <p style={{
           fontSize: '12px',
           lineHeight: '1.4',
-          color: '#A1A1AA',
+          color: '#000000',
           margin: '0 0 8px 0',
         }}>
-          Ask questions, research, or generate ideas—switch between AI models and modes as you work, with context automatically pulled from your open pages.
+          Visual improvements to the UI to make it more consistent and easier to use.
         </p>
-        <p style={{
-          fontSize: '12px',
-          lineHeight: '1.4',
-          color: '#A1A1AA',
-          fontWeight: '500',
-          margin: '0',
-        }}>
-          <em style={{ color: '#ffffff' }}>Search the web:</em> All AI models in Grit can search the web on your behalf using natural language—just include phrases like &quot;search the web&quot; or &quot;current news&quot; in your prompt to pull in live information.
-        </p>
+
       </div>
-    </div>
+    </div> */}
 
-    {/* Divider */}
-    <div style={{
-      height: '1px',
-      backgroundColor: '#27272A',
-      margin: '32px 0',
-    }}></div>
 
+    {/* Closing Remarks */}
     <p style={{
       fontSize: '14px',
       lineHeight: '1.5',
-      color: '#A1A1AA',
+      color: '#6b7280',
       margin: '0 0 32px 0',
     }}>
-      The roadmap ahead is full, but I&apos;m open to all feedback—no such thing as too small. Reply to this email with your thoughts or join the Discord for ongoing discussion.
+      This update brings us one step closer to having a workspace that bends to your workflow and not the other way around.
     </p>
 
     {/* Call to Action Section */}
@@ -492,31 +479,48 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
       <p style={{
         fontSize: '14px',
         lineHeight: '1.5',
-        color: '#A1A1AA',
+        color: '#6b7280',
         margin: '0 0 16px 0',
       }}>
-        Check out the more from the team on <a href="https://stratumlabs.substack.com" style={{ color: '#ffffff' }} target="_blank">Substack</a> if you want more info on the roadmap ahead.
+        These aren&apos;t flashy additions, but they&apos;re the kind of improvements that compound into a much better experience over time.
+      </p>
+
+      {/* Divider */}
+       <div style={{
+            height: '1px',
+            backgroundColor: '#e5e7eb',
+            margin: '32px 0',
+        }}></div>
+
+      {/* CTA Section */}
+      <p style={{
+        fontSize: '14px',
+        lineHeight: '1.5',
+        color: '#6b7280',
+        margin: '0 0 16px 0',
+      }}>
+        The roadmap ahead is full, but I&apos;m open to all feedback—no such thing as too small. Reply to this email with your thoughts or join the Discord for ongoing discussion.
       </p>
 
       <p style={{
         fontSize: '14px',
         margin: '0 0 4px 0',
-        color: '#A1A1AA',
+        color: '#6b7280',
       }}>
-        Excited for you to try Grit,
+        Excited for you to try what&apos;s new,
       </p>
       <p style={{
         fontSize: '14px',
         margin: '0 0 24px 0',
-        color: '#ffffff',
+        color: '#000000',
       }}>
-        ✨ Gleam
+        Gleam 💫
       </p>
     </div>
 
     {/* Questions Section with Background */}
     <div style={{
-      backgroundColor: 'oklch(0.1781 0.002 286.19)',
+      backgroundColor: '#f9fafb',
       borderRadius: '8px',
       padding: '20px',
       margin: '32px 0',
@@ -529,7 +533,7 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
       <p style={{
         fontSize: '16px',
         fontWeight: '500',
-        color: '#ffffff',
+        color: '#000000',
         margin: '0 0 12px 0',
         textAlign: 'center',
       }}>
@@ -540,14 +544,14 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
         target="_blank"
         style={{
           display: 'inline-block',
-          backgroundColor: '#27272A',
-          color: '#ffffff',
+          backgroundColor: '#f3f4f6',
+          color: '#000000',
           padding: '10px 16px',
           borderRadius: '6px',
           textDecoration: 'none',
           fontSize: '12px',
           fontWeight: '500',
-          border: '1px solid #383838',
+          border: '1px solid #d1d5db',
           textAlign: 'center',
         }}
       >
@@ -569,14 +573,14 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
 
     {/* Footer */}
     <div style={{
-      borderTop: '1px solid #27272A',
+      borderTop: '1px solid #e5e7eb',
       paddingTop: '32px',
-      color: '#6B7280',
+      color: '#9ca3af',
       textAlign: 'center',
     }}>
       <p style={{
         fontSize: '12px',
-        color: '#4B5563',
+        color: '#6b7280',
         margin: '0',
       }}>
         This email was sent to {email}
