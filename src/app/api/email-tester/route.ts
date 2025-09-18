@@ -7,6 +7,7 @@
 
 // export async function GET() {
 // const resend_email = 'delivered@resend.dev'
+// // const gmail_email = 'daquanj11@gmail.com'
 // // const token = '1234567890'
 
 // //     test welcome email template and email delivery

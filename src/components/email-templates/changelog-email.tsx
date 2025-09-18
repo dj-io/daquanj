@@ -94,7 +94,7 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
                     margin: '0 0 4px 0',
                     color: '#000000',
                 }}>
-                    Your workspace, your way—now with more control and context.
+                    Your workspace, your way—now with more control.
                 </p>
             </div>
       <div style={{ marginBottom: '0' }}>
@@ -157,11 +157,8 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
     </div>
 
     <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'column',
       margin: '32px 0',
+      textAlign: 'center',
     }}>
         <p
           style={{
@@ -176,46 +173,42 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
     </div>
 
     {/* Feature 1 - Text Left, Image Right */}
-    <div style={{
-      display: 'flex',
-      alignItems: 'flex-start',
-      gap: '24px',
-      marginBottom: '32px',
-      textAlign: 'left',
-    }}>
-      <div style={{ flex: '1' }}>
-        <h3 style={{
-          fontSize: '14px',
-          fontWeight: '600',
-          color: '#000000',
-          margin: '0 0 6px 0',
-        }}>
-          Resizable Sidebars
-        </h3>
-        <p style={{
-          fontSize: '12px',
-          lineHeight: '1.4',
-          color: '#000000',
-          margin: '0 12px 0 0',
-        }}>
-          Resizable sidebars let you adjust the width of the sidebar to your liking—so you can work exactly how you want to.
-        </p>
-      </div>
-      <div style={{ flex: '1' }}>
-        <img
-          src={`${baseUrl}/changelog/0.1.11/resize.gif`}
-          alt='Resizable Sidebars'
-          style={{
-            width: '100%',
-            maxWidth: '100%',
-            height: 'auto',
-            borderRadius: '6px',
-            display: 'block',
-            border: '1px solid #d1d5db',
-          }}
-        />
-      </div>
-    </div>
+    <table cellPadding="0" cellSpacing="0" style={{ width: '100%', marginBottom: '32px' }}>
+      <tr>
+        <td style={{ width: '50%', verticalAlign: 'top', paddingRight: '12px' }}>
+          <h3 style={{
+            fontSize: '14px',
+            fontWeight: '600',
+            color: '#000000',
+            margin: '0 0 6px 0',
+          }}>
+            Resizable Sidebars
+          </h3>
+          <p style={{
+            fontSize: '12px',
+            lineHeight: '1.4',
+            color: '#000000',
+            margin: '0',
+          }}>
+            Resizable sidebars let you adjust the width of the sidebar to your liking—so you can work exactly how you want to.
+          </p>
+        </td>
+        <td style={{ width: '50%', verticalAlign: 'top', paddingLeft: '12px' }}>
+          <img
+            src={`${baseUrl}/changelog/0.1.11/resize.gif`}
+            alt='Resizable Sidebars'
+            style={{
+              width: '100%',
+              maxWidth: '100%',
+              height: 'auto',
+              borderRadius: '6px',
+              display: 'block',
+              border: '1px solid #d1d5db',
+            }}
+          />
+        </td>
+      </tr>
+    </table>
 
     {/* Divider */}
     <div style={{
@@ -225,46 +218,42 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
     }}></div>
 
     {/* Feature 2 - Image Left, Text Right */}
-    <div style={{
-      display: 'flex',
-      alignItems: 'flex-start',
-      gap: '24px',
-      marginBottom: '32px',
-      textAlign: 'left',
-    }}>
-      <div style={{ flex: '1' }}>
-        <img
-          src={`${baseUrl}/changelog/0.1.11/emoji-callouts.gif`}
-          alt='Emoji Pickers for Callouts'
-          style={{
-            width: '100%',
-            maxWidth: '100%',
-            height: 'auto',
-            borderRadius: '6px',
-            display: 'block',
-            border: '1px solid #d1d5db',
-          }}
-        />
-      </div>
-      <div style={{ flex: '1', marginLeft: '12px' }}>
-        <h3 style={{
-          fontSize: '14px',
-          fontWeight: '600',
-          color: '#000000',
-          margin: '0 0 6px 0',
-        }}>
-          Emoji Pickers for Callouts
-        </h3>
-        <p style={{
-          fontSize: '12px',
-          lineHeight: '1.4',
-          color: '#000000',
-          margin: '0',
-        }}>
-          Add emojis to your callouts to make them more engaging and visual
-        </p>
-      </div>
-    </div>
+    <table cellPadding="0" cellSpacing="0" style={{ width: '100%', marginBottom: '32px' }}>
+      <tr>
+        <td style={{ width: '50%', verticalAlign: 'top', paddingRight: '12px' }}>
+          <img
+            src={`${baseUrl}/changelog/0.1.11/emoji-callouts.gif`}
+            alt='Emoji Pickers for Callouts'
+            style={{
+              width: '100%',
+              maxWidth: '100%',
+              height: 'auto',
+              borderRadius: '6px',
+              display: 'block',
+              border: '1px solid #d1d5db',
+            }}
+          />
+        </td>
+        <td style={{ width: '50%', verticalAlign: 'top', paddingLeft: '12px' }}>
+          <h3 style={{
+            fontSize: '14px',
+            fontWeight: '600',
+            color: '#000000',
+            margin: '0 0 6px 0',
+          }}>
+            Emoji Pickers for Callouts
+          </h3>
+          <p style={{
+            fontSize: '12px',
+            lineHeight: '1.4',
+            color: '#000000',
+            margin: '0',
+          }}>
+            Add emojis to your callouts to make them more engaging and visual
+          </p>
+        </td>
+      </tr>
+    </table>
 
     {/* Divider */}
     <div style={{
@@ -274,46 +263,42 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
     }}></div>
 
     {/* Feature 3 - Text Left, Image Right */}
-    <div style={{
-      display: 'flex',
-      alignItems: 'flex-start',
-      gap: '24px',
-      marginBottom: '32px',
-      textAlign: 'left',
-    }}>
-      <div style={{ flex: '1' }}>
-        <h3 style={{
-          fontSize: '14px',
-          fontWeight: '600',
-          color: '#000000',
-          margin: '0 0 6px 0',
-        }}>
-          @ Mentions for Context
-        </h3>
-        <p style={{
-          fontSize: '12px',
-          lineHeight: '1.4',
-          color: '#000000',
-          margin: '0',
-        }}>
-          Add pages, uploads or previous chats as context - Select the @ button and search for items to include.
-        </p>
-      </div>
-      <div style={{ flex: '1' }}>
-        <img
-          src={`${baseUrl}/changelog/0.1.11/mentions.gif`}
-          alt='@ Mentions for Context'
-          style={{
-            width: '100%',
-            maxWidth: '100%',
-            height: 'auto',
-            borderRadius: '6px',
-            display: 'block',
-            border: '1px solid #d1d5db',
-          }}
-        />
-      </div>
-    </div>
+    <table cellPadding="0" cellSpacing="0" style={{ width: '100%', marginBottom: '32px' }}>
+      <tr>
+        <td style={{ width: '50%', verticalAlign: 'top', paddingRight: '12px' }}>
+          <h3 style={{
+            fontSize: '14px',
+            fontWeight: '600',
+            color: '#000000',
+            margin: '0 0 6px 0',
+          }}>
+            @ Mentions for Context
+          </h3>
+          <p style={{
+            fontSize: '12px',
+            lineHeight: '1.4',
+            color: '#000000',
+            margin: '0',
+          }}>
+            Add pages, uploads or previous chats as context - Select the @ button and search for items to include.
+          </p>
+        </td>
+        <td style={{ width: '50%', verticalAlign: 'top', paddingLeft: '12px' }}>
+          <img
+            src={`${baseUrl}/changelog/0.1.11/mentions.gif`}
+            alt='@ Mentions for Context'
+            style={{
+              width: '100%',
+              maxWidth: '100%',
+              height: 'auto',
+              borderRadius: '6px',
+              display: 'block',
+              border: '1px solid #d1d5db',
+            }}
+          />
+        </td>
+      </tr>
+    </table>
 
     {/* Divider */}
     <div style={{
@@ -323,46 +308,42 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
     }}></div>
 
     {/* Feature 4 - Image Left, Text Right */}
-    <div style={{
-      display: 'flex',
-      alignItems: 'flex-start',
-      gap: '24px',
-      marginBottom: '32px',
-      textAlign: 'left',
-    }}>
-      <div style={{ flex: '1' }}>
-        <img
-          src={`${baseUrl}/changelog/0.1.11/cmdk.gif`}
-          alt='Command Menu'
-          style={{
-            width: '100%',
-            maxWidth: '100%',
-            height: 'auto',
-            borderRadius: '6px',
-            display: 'block',
-            border: '1px solid #d1d5db',
-          }}
-        />
-      </div>
-      <div style={{ flex: '1', marginLeft: '12px' }}>
-        <h3 style={{
-          fontSize: '14px',
-          fontWeight: '600',
-          color: '#000000',
-          margin: '0 0 6px 0',
-        }}>
-          Command Menu
-        </h3>
-        <p style={{
-          fontSize: '12px',
-          lineHeight: '1.4',
-          color: '#000000',
-          margin: '0',
-        }}>
-          Search to find anything in your workspace—pages, folders, or previous chats. Type <span style={{ color: '#ffffff' }}>⌘K</span> to open the command menu.
-        </p>
-      </div>
-    </div>
+    <table cellPadding="0" cellSpacing="0" style={{ width: '100%', marginBottom: '32px' }}>
+      <tr>
+        <td style={{ width: '50%', verticalAlign: 'top', paddingRight: '12px' }}>
+          <img
+            src={`${baseUrl}/changelog/0.1.11/cmdk.gif`}
+            alt='Command Menu'
+            style={{
+              width: '100%',
+              maxWidth: '100%',
+              height: 'auto',
+              borderRadius: '6px',
+              display: 'block',
+              border: '1px solid #d1d5db',
+            }}
+          />
+        </td>
+        <td style={{ width: '50%', verticalAlign: 'top', paddingLeft: '12px' }}>
+          <h3 style={{
+            fontSize: '14px',
+            fontWeight: '600',
+            color: '#000000',
+            margin: '0 0 6px 0',
+          }}>
+            Command Menu
+          </h3>
+          <p style={{
+            fontSize: '12px',
+            lineHeight: '1.4',
+            color: '#000000',
+            margin: '0',
+          }}>
+            Search to find anything in your workspace—pages, folders, or previous chats. Type <span style={{ color: '#000000' }}>⌘K</span> to open the command menu.
+          </p>
+        </td>
+      </tr>
+    </table>
 
     {/* Divider */}
     <div style={{
@@ -372,46 +353,42 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
     }}></div>
 
     {/* Feature 5 - Text Left, Image Right */}
-    <div style={{
-      display: 'flex',
-      alignItems: 'flex-start',
-      gap: '24px',
-      marginBottom: '32px',
-      textAlign: 'left',
-    }}>
-      <div style={{ flex: '1' }}>
-        <h3 style={{
-          fontSize: '14px',
-          fontWeight: '600',
-          color: '#000000',
-          margin: '0 0 6px 0',
-        }}>
-          Search in chat history & Model Selector
-        </h3>
-        <p style={{
-          fontSize: '12px',
-          lineHeight: '1.4',
-          color: '#000000',
-          margin: '0 12px 0 0',
-        }}>
-          Use the dropdowns to search in chat history and select a model to use.
-        </p>
-      </div>
-      <div style={{ flex: '1' }}>
-        <img
-          src={`${baseUrl}/changelog/0.1.11/search-in-chats.gif`}
-          alt='Search in chat history & Model Selector'
-          style={{
-            width: '100%',
-            maxWidth: '100%',
-            height: 'auto',
-            borderRadius: '6px',
-            display: 'block',
-            border: '1px solid #d1d5db',
-          }}
-        />
-      </div>
-    </div>
+    <table cellPadding="0" cellSpacing="0" style={{ width: '100%', marginBottom: '32px' }}>
+      <tr>
+        <td style={{ width: '50%', verticalAlign: 'top', paddingRight: '12px' }}>
+          <h3 style={{
+            fontSize: '14px',
+            fontWeight: '600',
+            color: '#000000',
+            margin: '0 0 6px 0',
+          }}>
+            Search in chat history & Model Selector
+          </h3>
+          <p style={{
+            fontSize: '12px',
+            lineHeight: '1.4',
+            color: '#000000',
+            margin: '0',
+          }}>
+            Use the dropdowns to search in chat history and select a model to use.
+          </p>
+        </td>
+        <td style={{ width: '50%', verticalAlign: 'top', paddingLeft: '12px' }}>
+          <img
+            src={`${baseUrl}/changelog/0.1.11/searches-in-chat.gif`}
+            alt='Search in chat history & Model Selector'
+            style={{
+              width: '100%',
+              maxWidth: '100%',
+              height: 'auto',
+              borderRadius: '6px',
+              display: 'block',
+              border: '1px solid #d1d5db',
+            }}
+          />
+        </td>
+      </tr>
+    </table>
 
     {/* Divider */}
     {/* <div style={{
@@ -525,10 +502,6 @@ export const ChangelogEmail: React.FC<Readonly<ChangelogEmailProps>> = ({
       padding: '20px',
       margin: '32px 0',
       textAlign: 'center',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
     }}>
       <p style={{
         fontSize: '16px',
