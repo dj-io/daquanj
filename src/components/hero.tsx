@@ -154,7 +154,7 @@ export function HeroSection () {
 				</div>
 			</div>
 
-			<section className="w-full relative z-10">
+			<section className="w-full relative z-10 overflow-hidden md:overflow-auto">
 				<div className="mx-auto max-w-5xl px-4 py-10 md:py-20 sm:px-6 lg:px-8 space-y-12">
 
 					{/* Hero content */}

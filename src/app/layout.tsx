@@ -70,7 +70,7 @@ export default function RootLayout({
           >
             <div className="min-h-screen flex flex-col">
               <Header />
-              <main className="flex-1 flex items-center justify-center">
+              <main className="flex-1 flex items-center justify-center overflow-hidden md:overflow-auto">
                 {children}
               </main>
             </div>
