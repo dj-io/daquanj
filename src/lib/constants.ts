@@ -50,7 +50,7 @@ export const MODEL_GROUPS: ModelGroup[] = [
 	export const COPY: Copy[] = [
 	{
 		heading: 'The AI Note Editor',
-		body: `Take notes, create docs, and build your knowledge base in one simple workspace with AI that knows your work and works everywhere you do.`,
+		body: `Take Notes, Create Docs, and Build your Knowledge Base in a simple Workspace with AI that knows your work and works everywhere you do.`,
 	},
 	{
 		heading: 'Your Knowledge + AI',

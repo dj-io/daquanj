@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Grit - The AI Note Editor",
-    description: "Grit is the AI note editor that helps you write and accomplish tasks faster and more efficiently.",
+    description: "Take notes, Create Docs, and Build your Knowledge Base in one simple, powerful workspace. With AI everywhere work happens, that knows your knowledge base.",
     url: siteUrl,
     siteName: "Grit",
     images: [
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Grit - The AI Note Editor",
-    description: "Grit is the AI note editor that helps you write and accomplish tasks faster and more efficiently.",
+    description: "Take notes, Create Docs, and Build your Knowledge Base in one simple, powerful workspace. With AI everywhere work happens, that knows your knowledge base.",
     images: [`${siteUrl}/images/ask-grit.png`],
     creator: "@gritxai",
   },
