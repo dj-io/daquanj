@@ -134,7 +134,7 @@ export function HeroSection () {
 			{/* Desktop app backdrop - fixed to viewport */}
 			<div
 				aria-hidden
-				className='pointer-events-none fixed inset-0 z-0  md:block'
+				className='pointer-events-none fixed inset-0 z-0'
 			>
 				{/* Color glows (subtle, behind the frame) */}
 				{/* <div className='absolute inset-0 -z-10'> */}
@@ -155,7 +155,7 @@ export function HeroSection () {
 			</div>
 
 			<section className="w-full relative z-10 overflow-hidden md:overflow-auto">
-				<div className="mx-auto max-w-5xl px-4 py-6 md:py-20 sm:px-6 lg:px-8 space-y-12">
+				<div className="mx-auto max-w-5xl px-4 py-10 md:py-20 sm:px-6 lg:px-8 space-y-12">
 
 					{/* Hero content */}
 					<div className="space-y-8">
@@ -309,7 +309,7 @@ export function HeroSection () {
 
 
 			{/* Footer section with social links */}
-			<footer className="hidden md:block md:mt-8 relative z-20">
+			<footer className="md:mt-8 relative z-20">
 				<div className="mx-auto max-w-4xl px-4 py-8 text-center space-y-4">
 					{/* Copyright */}
 					<p className="text-xs text-muted-foreground/60 transition-colors duration-300">
@@ -325,7 +325,7 @@ export function HeroSection () {
 		{/* Bottom Gaussian blur overlay (fades page bottom) */}
 		<div
 			aria-hidden
-			className="pointer-events-none fixed left-0 right-0 h-30 z-20 backdrop-blur-2xl bg-background/40 hidden md:block"
+			className="pointer-events-none fixed left-0 right-0 h-30 z-20 backdrop-blur-2xl bg-background/40"
 			style={{
 				bottom: '-2px',
 				WebkitMaskImage:
