@@ -174,4 +174,27 @@
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
   }
+
+  /* Neutralize browser autofill blue/yellow tint for inputs */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-text-fill-color: var(--foreground) !important;
+    color: var(--foreground) !important;
+    caret-color: var(--foreground) !important;
+    -webkit-box-shadow: 0 0 0 1000px var(--chat) inset !important;
+    box-shadow: 0 0 0 1000px var(--chat) inset !important;
+    transition: background-color 999999s ease-in-out 0s !important;
+    border-radius: inherit;
+  }
+
+  input:autofill,
+  textarea:autofill,
+  select:autofill {
+    background-color: var(--chat) !important;
+    -webkit-box-shadow: 0 0 0 1000px var(--chat) inset !important;
+    box-shadow: 0 0 0 1000px var(--chat) inset !important;
+  }
 }

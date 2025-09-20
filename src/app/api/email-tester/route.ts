@@ -1,7 +1,9 @@
 // import React from 'react';
 // import { NextResponse } from 'next/server';
 // // import { ConfirmationEmail } from '@/components/email-templates/confirmation-email';
-// import { ChangelogEmail } from '@/components/email-templates/changelog-email';
+// // import { ChangelogEmail } from '@/components/email-templates/changelog-email';
+// // import { WelcomeEmail } from '@/components/email-templates/welcome-email';
+// import { LaunchEmail } from '@/components/email-templates/launch-email';
 
 // import { resend } from '@/app/api/lib/client';
 
@@ -30,8 +32,8 @@
 //       const { data, error } = await resend.emails.send({
 //       from: `Grit Team <${process.env.FROM_EMAIL!}>`,
 //       to: [resend_email],
-//       subject: 'What\'s new in Grit!',
-//       react:  React.createElement(ChangelogEmail, { email: resend_email })
+//       subject: '🎉 You\'re absolutely right!',
+//       react:  React.createElement(LaunchEmail, { email: resend_email })
 //     });
 
 //     if (!data) {

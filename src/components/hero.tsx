@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { BorderBeam } from '@/components/magicui/border-beam'
-import { BlurFade } from '@/components/magicui/blur-fade'
+// import { BlurFade } from '@/components/magicui/blur-fade'
 import { cn } from '@/lib/utils'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -22,18 +22,19 @@ import {
 	AtSign,
 	ChevronUp,
 } from 'lucide-react'
-import { TextStream } from './ui/text-stream'
+// import { TextStream } from './ui/text-stream'
 import { ChatMode, ModelItem } from '@/lib/types'
 // import { detectOS } from '@/lib/utils'
-import { CHAT_MODES, MODEL_GROUPS, COPY, COPY_STORAGE_KEY, COPY_TTL_MS } from '@/lib/constants'
+import { CHAT_MODES, MODEL_GROUPS } from '@/lib/constants'
 import { SocialLinks } from './social-links'
+import DesktopAppFrame from '@/app/svg/BrowserFrame' // TODO: Rename file to DesktopAppFrame.tsx
+import { HeroCentered } from './hero-centered'
 
 export function HeroSection () {
 	// const [os, setOS] = useState('macOS')
 	const [selectedMode, setSelectedMode] = useState<ChatMode>(CHAT_MODES[0])
 	const [selectedModel, setSelectedModel] = useState<ModelItem>(MODEL_GROUPS[0].submenu[0])
 	const [open, setOpen] = useState(false)
-	const [copyIndex, setCopyIndex] = useState<number | null>(null)
 
 	const router = useRouter()
 	const inputRef = useRef<HTMLInputElement | null>(null)
@@ -42,41 +43,6 @@ export function HeroSection () {
 	// 	setOS(detectOS())
 	// }, [])
 
-	// Copy selection logic - persist choice for 24h
-	useEffect(() => {
-		// Check for existing choice
-		const stored = localStorage.getItem(COPY_STORAGE_KEY)
-		if (stored) {
-			try {
-				const { index, ts } = JSON.parse(stored)
-				const isValid = COPY[index] && Date.now() - ts < COPY_TTL_MS
-				if (isValid) {
-					setCopyIndex(index)
-					// Track existing variant view
-					captureEvent('copy_variant_viewed', {
-						variant: index === 0 ? 'A' : 'B',
-						copy_heading: COPY[index].heading,
-						is_returning_user: true
-					})
-					return
-				}
-			} catch {}
-		}
-
-		// Pick new random choice
-		const idx = Math.floor(Math.random() * COPY.length)
-		setCopyIndex(idx)
-		localStorage.setItem(COPY_STORAGE_KEY, JSON.stringify({ index: idx, ts: Date.now() }))
-
-		// Track new variant assignment
-		captureEvent('copy_variant_assigned', {
-			variant: idx === 0 ? 'A' : 'B',
-			copy_heading: COPY[idx].heading,
-			is_new_user: true
-		})
-	}, [])
-
-	const selectedCopy = COPY[copyIndex ?? 0]
 
 	// const version = 'v0.1.9'
 	// const installInfo = os === 'macOS'
@@ -116,10 +82,7 @@ export function HeroSection () {
 				resetForm()
 				const timeElapsed = Date.now() - performance.timeOrigin
 				captureEvent('waitlist_form_submitted', {
-					form_completion_time: timeElapsed,
-					copy_variant: copyIndex === 0 ? 'A' : 'B',
-					copy_heading: selectedCopy.heading,
-					conversion_funnel: 'hero_copy_to_signup'
+				form_completion_time: timeElapsed
 				})
 				router.push(`/confirm?action=waitlist_joined&email=${encodeURIComponent(submittedEmail)}`)
 			} catch (error) {
@@ -139,12 +102,8 @@ export function HeroSection () {
 		await formik.validateForm()
 		formik.setTouched({ email: true })
 		if (!formik.errors.email) {
-			// Enhanced tracking with copy variant
 			captureEvent('join_waitlist_clicked', {
-				mode: selectedMode.title,
-				copy_variant: copyIndex === 0 ? 'A' : 'B',
-				copy_heading: selectedCopy.heading,
-				copy_body_preview: selectedCopy.body.slice(0, 50) + '...'
+				mode: selectedMode.title
 			})
 			await formik.submitForm()
 		}
@@ -171,54 +130,38 @@ export function HeroSection () {
 	const placeholder = `Enter your email to ${selectedMode.placeholder} ${selectedModel.title}...`
 
 	return (
-		<section className="w-full">
-			<div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8 space-y-12">
-				{/* Chat conversation */}
-				<div className="space-y-8">
-					{/* User message bubble */}
-					<div className="flex justify-end">
-						<BlurFade delay={0.1} blur="6px" duration={0.6}>
-							<div className="bg-chat text-white px-4 py-2.5 rounded-2xl border border-border rounded-br-md max-w-xs">
-								<p className="text-sm font-medium">what is grit?</p>
-							</div>
-						</BlurFade>
-					</div>
+		<>
+			{/* Desktop app backdrop - fixed to viewport */}
+			<div
+				aria-hidden
+				className='pointer-events-none fixed inset-0 z-0'
+			>
+				{/* Color glows (subtle, behind the frame) */}
+				{/* <div className='absolute inset-0 -z-10'> */}
 
-					{/* AI response container */}
-					<div className="text-left space-y-6">
-						<h1 className={cn(
-							'text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight',
-							'[&>span]:text-foreground'
-						)}>
-							{copyIndex !== null ? (
-								<TextStream text={selectedCopy.heading} delay={500} speed={90} />
-							) : (
-								<span className="relative block w-full" aria-hidden>
-									<span
-										className="opacity-0 text-transparent pointer-events-none select-none whitespace-pre-wrap"
-										style={{ lineHeight: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', whiteSpace: 'pre-wrap' }}
-									>
-										{selectedCopy.heading}
-									</span>
-								</span>
-							)}
-						</h1>
-						<div className="prose prose-lg  text-foreground/90 ml-2">
-							{copyIndex !== null ? (
-								<TextStream text={selectedCopy.body} delay={1250} speed={30} />
-							) : (
-								<span className="relative block w-full" aria-hidden>
-									<span
-										className="opacity-0 text-transparent pointer-events-none select-none whitespace-pre-wrap"
-										style={{ lineHeight: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', whiteSpace: 'pre-wrap' }}
-									>
-										{selectedCopy.body}
-									</span>
-								</span>
-							)}
-						</div>
+					{/* Bright Orange (#F64E00) - top left */}
+					{/* <div className='absolute left-[15%] top-[25%] h-[25vh] w-[45vw] rounded-xs blur-3xl bg-[radial-gradient(ellipse_70%_80%_at_40%_50%,oklch(0.6538 0.214474 37.9064/0.22)_0%,transparent_65%)] dark:bg-[radial-gradient(ellipse_70%_80%_at_40%_50%,oklch(0.68_0.18_35/0.15)_0%,transparent_70%)]' /> */}
+					{/* Brown accent - bottom right */}
+					{/* <div className='absolute right-[15%] bottom-[15%] h-[25vh] w-[40vw] rounded-xs blur-3xl bg-[radial-gradient(ellipse_65%_50%_at_70%_50%,oklch(0.68_0.18_35/0.14)_0%,transparent_50%)] dark:bg-[radial-gradient(ellipse_65%_50%_at_70%_50%,oklch(0.2132 0.0135 93.98)_0%,transparent_55%)]' /> */}
+
+				{/* </div> */}
+
+				{/* Desktop frame above glows */}
+				<div className='flex h-full items-center justify-center relative z-[1] -translate-y-[calc(25vh-50px)] md:translate-y-0'>
+					<div className='w-[min(900px,95vw)] opacity-55 text-foreground/30 dark:text-white/30 [mask-image:linear-gradient(to_bottom,black_0%,black_20%,transparent_100%)]'>
+						<DesktopAppFrame className='w-full h-auto' />
 					</div>
 				</div>
+			</div>
+
+			<section className="w-full relative z-10">
+				<div className="mx-auto max-w-5xl px-4 py-10 md:py-20 sm:px-6 lg:px-8 space-y-12">
+
+					{/* Hero content */}
+					<div className="space-y-8">
+						<HeroCentered />
+					</div>
+
 
 				{/* Chat-style input */}
 				<div>
@@ -227,7 +170,7 @@ export function HeroSection () {
 							e.preventDefault()
 							handleSend()
 						}}
-						className='w-full max-w-3xl mx-auto'
+						className='w-full max-w-2xl md:max-w-3xl mx-auto'
 					>
 						<div
 							className={cn(
@@ -246,27 +189,28 @@ export function HeroSection () {
 									<AtSign className='h-4 w-4 text-muted-foreground' />
 								</Button>
 
-								<input
-									ref={inputRef}
-									id='email'
-									name='email'
-									type='email'
-									spellCheck={false}
-									placeholder={placeholder}
-									value={formik.values.email}
-									onChange={(e) => {
-										formik.setFieldValue('email', e.target.value)
-									}}
-									onBlur={formik.handleBlur}
-									onFocus={() => {
-										captureEvent('join_waitlist_focused', { mode: selectedMode.title })
-									}}
-									onKeyDown={handleKeyDown}
-									className={cn(
-										'block w-full bg-transparent text-foreground placeholder:text-muted-foreground/70',
-										'px-0 py-2 text-sm leading-6 focus:outline-none',
-										'flex-1'
-									)}
+							<input
+								ref={inputRef}
+								id='email'
+								name='email'
+								type='email'
+								spellCheck={false}
+								placeholder={placeholder}
+								value={formik.values.email}
+								onChange={(e) => {
+									formik.setFieldValue('email', e.target.value)
+								}}
+								onBlur={formik.handleBlur}
+								onFocus={() => {
+									captureEvent('join_waitlist_focused', { mode: selectedMode.title })
+								}}
+								onKeyDown={handleKeyDown}
+								className={cn(
+									'block w-full bg-transparent text-foreground placeholder:text-muted-foreground/70',
+									'[appearance:textfield] autofill:bg-transparent focus:bg-transparent',
+									'px-0 py-2 text-sm leading-6 focus:outline-none',
+									'flex-1'
+								)}
 								/>
 							</div>
 
@@ -302,7 +246,7 @@ export function HeroSection () {
 											side='top'
 											align='start'
 											alignOffset={-50}
-											className='w-[150px] bg-chat'
+											className='w-[165px] bg-chat'
 										>
 											{MODEL_GROUPS.map((modelGroup) => (
 												<div key={modelGroup.title}>
@@ -360,36 +304,12 @@ export function HeroSection () {
 						)}
 					</form>
 				</div>
-				{/* </BlurFade> */}
 
-				{/* Privacy / terms
-				<div className="text-center -mt-8">
-					<p className="text-xs text-muted-foreground transition-colors duration-300">
-						By joining the early access list, you agree to our{' '}
-						<Link
-							href='/privacy'
-							className="underline underline-offset-2 hover:text-foreground transition-colors duration-300"
-						>
-							Privacy Policy
-						</Link>
-						{' '}and{' '}
-						<Link
-							href='/terms'
-							className="underline underline-offset-2 hover:text-foreground transition-colors duration-300"
-						>
-							Terms of Use
-						</Link>
-					</p>
-				</div> */}
 			</div>
 
-			{/* Divider */}
-			<div className="w-full px-6 sm:px-0">
-				<hr className="border-t border-border max-w-sm sm:max-w-lg lg:max-w-3xl mx-auto" />
-			</div>
 
 			{/* Footer section with social links */}
-			<footer className="mt-8">
+			<footer className="md:mt-8 relative z-20">
 				<div className="mx-auto max-w-4xl px-4 py-8 text-center space-y-4">
 					{/* Copyright */}
 					<p className="text-xs text-muted-foreground/60 transition-colors duration-300">
@@ -401,5 +321,19 @@ export function HeroSection () {
 				</div>
 			</footer>
 		</section>
+
+		{/* Bottom Gaussian blur overlay (fades page bottom) */}
+		<div
+			aria-hidden
+			className="pointer-events-none fixed left-0 right-0 h-30 z-20 backdrop-blur-2xl bg-background/40"
+			style={{
+				bottom: '-2px',
+				WebkitMaskImage:
+					'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.92) 24%, rgba(0,0,0,0.7) 48%, rgba(0,0,0,0.35) 72%, rgba(0,0,0,0.08) 90%, rgba(0,0,0,0) 100%)',
+				maskImage:
+					'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.92) 24%, rgba(0,0,0,0.7) 48%, rgba(0,0,0,0.35) 72%, rgba(0,0,0,0.08) 90%, rgba(0,0,0,0) 100%)',
+			}}
+		/>
+		</>
 	)
 }

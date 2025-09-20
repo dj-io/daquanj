@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 
 export function Header() {
 	return (
-		<nav className="fixed inset-x-0 top-0 z-50 bg-transparent">
+		<nav className="fixed inset-x-0 top-2 z-50 bg-transparent">
 			<div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
 				{/* Logo and Brand */}
 				<Link href="/" className="flex items-center gap-2">
@@ -29,7 +29,7 @@ export function Header() {
 					"bg-clip-text text-transparent",
 					"transition-colors duration-300"
 				)}>
-					Write Faster
+					Your Knowledge + AI
 				</p>
 			</div>
 		</nav>

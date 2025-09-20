@@ -8,8 +8,8 @@ export const ConfirmationEmail: React.FC<Readonly<ConfirmationEmailProps>> = ({
   token,
 }) => (
   <div style={{
-    backgroundColor: '#000000',
-    color: '#ffffff',
+    backgroundColor: '#ffffff',
+    color: '#000000',
     padding: '48px 24px',
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
     maxWidth: '600px',
@@ -20,8 +20,8 @@ export const ConfirmationEmail: React.FC<Readonly<ConfirmationEmailProps>> = ({
     <div style={{
       width: '48px',
       height: '48px',
-      backgroundColor: '#000000',
-      border: '1px solid #383838',
+      backgroundColor: '#ffffff',
+      border: '1px solid #e5e5e5',
       borderRadius: '8px',
       display: 'flex',
       alignItems: 'center',
@@ -29,7 +29,7 @@ export const ConfirmationEmail: React.FC<Readonly<ConfirmationEmailProps>> = ({
       marginBottom: '62px',
     }}>
       <span style={{
-        color: '#ffffff',
+        color: '#000000',
         fontSize: '24px',
         fontWeight: 'bold',
       }}>
@@ -42,7 +42,7 @@ export const ConfirmationEmail: React.FC<Readonly<ConfirmationEmailProps>> = ({
       fontSize: '24px',
       fontWeight: 'bold',
       margin: '0 0 16px 0',
-      color: '#ffffff',
+      color: '#000000',
       lineHeight: '1.3',
     }}>
       Confirm your account
@@ -51,7 +51,7 @@ export const ConfirmationEmail: React.FC<Readonly<ConfirmationEmailProps>> = ({
     <p style={{
       fontSize: '16px',
       lineHeight: '1.6',
-      color: '#9CA3AF',
+      color: '#6b7280',
       margin: '0 0 42px 0',
     }}>
       Thank you for joining the waitlist for Grit. To confirm your account, please click the button below.
@@ -63,14 +63,14 @@ export const ConfirmationEmail: React.FC<Readonly<ConfirmationEmailProps>> = ({
         href={`${process.env.CONFIRMATION_LINK_BASE_URL}${token}`}
         style={{
           display: 'inline-block',
-          backgroundColor: '#0C0A09',
-          color: '#ffffff',
+          backgroundColor: '#f3f4f6',
+          color: '#000000',
           padding: '8px 16px',
           borderRadius: '8px',
           textDecoration: 'none',
           fontSize: '14px',
           fontWeight: '500',
-          border: '1px solid #383838',
+          border: '1px solid #d1d5db',
         }}
       >
         Confirm Account
@@ -79,14 +79,14 @@ export const ConfirmationEmail: React.FC<Readonly<ConfirmationEmailProps>> = ({
 
     {/* Footer */}
     <div style={{
-      borderTop: '1px solid #27272A',
+      borderTop: '1px solid #e5e7eb',
       paddingTop: '62px',
-      color: '#6B7280',
+      color: '#9ca3af',
     }}>
       <a
         href='https://stratumlabs.ai'
         style={{
-          color: '#6B7280',
+          color: '#9ca3af',
           textDecoration: 'none',
           margin: '0 0 4px 0',
           display: 'block',

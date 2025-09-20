@@ -244,14 +244,14 @@ export default function ConfirmContent() {
       <p className="text-[#9CA3AF] text-base mt-8 max-w-lg px-4">
         If you have any issue confirming your account please contact,{' '}
         <a
-          href="mailto:hq@stratumlabs.ai"
+          href="mailto:hello@gritai.app"
           onClick={() => captureEvent('support_email_clicked')}
           className={cn(
             'text-[#bfc3c9] hover:text-[#383838]',
             'transition-colors duration-200'
           )}
         >
-          hq@stratumlabs.ai
+          hello@gritai.app
         </a>
         .
       </p>
