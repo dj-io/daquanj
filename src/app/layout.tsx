@@ -5,14 +5,15 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/header";
 import { PostHogProvider } from "@/components/posthog-provider";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+  || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Grit - The AI Note Editor",
-  description: "Grit is the AI note editor that helps you write and accomplish tasks faster and more efficiently.",
+  description: "Take notes, Create Docs, and Build your Knowledge Base with a privacy-focused AI Copilot.",
   authors: [{ name: "Stratum Labs", url: "https://stratumlabs.ai" }],
-  keywords: ["Grit", "AI", "Note", "Editor", "AI Note taking", "AI Notes","AI Meeting Notes", "AI Writing Assistant", "AI Writing", "Text Generation", "Productivity", "Note-taking", "Note-taking app", "Write with AI"],
+  keywords: ["Grit", "AI", "Note", "Editor", "AI Note taking", "AI Notes","AI Meeting Notes", "AI Writing Assistant", "AI Writing", "Text Generation", "Productivity", "Note-taking", "Note-taking app", "Write with AI", "Knowledge Base", "AI Copilot", "AI Workspace", "AI Co-worker"],
   applicationName: "Grit",
   generator: "Next.js",
   robots: "index, follow",
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Grit - The AI Note Editor",
-    description: "Take notes, Create Docs, and Build your Knowledge Base in one simple, powerful workspace. With AI everywhere work happens, that knows your knowledge base.",
+    description: "Take notes, Create Docs, and Build your Knowledge Base with a privacy-focused AI Copilot.",
     url: siteUrl,
     siteName: "Grit",
     images: [
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Grit - The AI Note Editor",
-    description: "Take notes, Create Docs, and Build your Knowledge Base in one simple, powerful workspace. With AI everywhere work happens, that knows your knowledge base.",
+    description: "Take notes, Create Docs, and Build your Knowledge Base with a privacy-focused AI Copilot.",
     images: [`${siteUrl}/images/ask-grit.png`],
     creator: "@gritxai",
   },
