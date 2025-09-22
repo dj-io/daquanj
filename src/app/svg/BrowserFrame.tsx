@@ -179,32 +179,6 @@ export default function DesktopAppFrame (props: SVGProps<SVGSVGElement>) {
 			<path d='M42 207 l5 4 -5 4 z' fill='currentColor' fillOpacity='0.12' />
 			<rect x='52' y='206' width='98' height='6' rx='2' fill='currentColor' fillOpacity='0.06' />
 
-			{/* Center bottom chat composer (action shapes) */}
-			<rect
-				x='300'
-				y='720'
-				width='640'
-				height='72'
-				rx='18'
-				fill='currentColor'
-				fillOpacity='0.12'
-				stroke='currentColor'
-				strokeWidth='0.6'
-				strokeOpacity='0.35'
-			/>
-			{/* @ icon */}
-			<circle cx='324' cy='744' r='14' fill='currentColor' fillOpacity='0.3' />
-			{/* placeholder text line */}
-			<rect x='350' y='738' width='380' height='12' rx='6' fill='currentColor' fillOpacity='0.12' />
-			{/* mode pill */}
-			<rect x='318' y='760' width='120' height='26' rx='13' fill='currentColor' fillOpacity='0.1' stroke='currentColor' strokeWidth='0.4' strokeOpacity='0.3' />
-			<circle cx='336' cy='773' r='6' fill='currentColor' fillOpacity='0.35' />
-			<rect x='346' y='766' width='42' height='10' rx='5' fill='currentColor' fillOpacity='0.14' />
-			<circle cx='394' cy='773' r='7' fill='currentColor' fillOpacity='0.3' />
-			<path d='M410 769 l6 6 -6 6' stroke='currentColor' strokeOpacity='0.5' strokeWidth='1' fill='none' />
-			{/* right side action icons */}
-			<rect x='900' y='752' width='20' height='14' rx='2' fill='currentColor' fillOpacity='0.35' />
-			<circle cx='930' cy='758' r='12' fill='currentColor' fillOpacity='0.4' />
 		</svg>
 	)
 }

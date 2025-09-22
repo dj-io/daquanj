@@ -29,7 +29,7 @@ export function Header() {
 					"bg-clip-text text-transparent",
 					"transition-colors duration-300"
 				)}>
-					Your Knowledge + AI
+					The AI Note Editor
 				</p>
 			</div>
 		</nav>

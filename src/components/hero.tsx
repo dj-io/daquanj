@@ -127,7 +127,7 @@ export function HeroSection () {
 	const showError = (formik.submitCount > 0 && formik.errors.email) ||
 		(formik.touched.email && formik.values.email.length > 0 && formik.errors.email)
 
-	const placeholder = `Enter your email to ${selectedMode.placeholder} ${selectedModel.title}...`
+	const placeholder = `your@email.com`
 
 	return (
 		<>
@@ -140,9 +140,9 @@ export function HeroSection () {
 				{/* <div className='absolute inset-0 -z-10'> */}
 
 					{/* Bright Orange (#F64E00) - top left */}
-					{/* <div className='absolute left-[15%] top-[25%] h-[25vh] w-[45vw] rounded-xs blur-3xl bg-[radial-gradient(ellipse_70%_80%_at_40%_50%,oklch(0.6538 0.214474 37.9064/0.22)_0%,transparent_65%)] dark:bg-[radial-gradient(ellipse_70%_80%_at_40%_50%,oklch(0.68_0.18_35/0.15)_0%,transparent_70%)]' /> */}
+					{/* <div className='absolute left-[15%] top-[25%] h-[25vh] w-[45vw] rounded-xs blur-3xl bg-[radial-gradient(ellipse_70%_80%_at_40%_50%,oklch(0.5091 0.1457 31.83)_0%,transparent_65%)] dark:bg-[radial-gradient(ellipse_70%_80%_at_40%_50%,oklch(0.68_0.18_35/0.15)_0%,transparent_70%)]' /> */}
 					{/* Brown accent - bottom right */}
-					{/* <div className='absolute right-[15%] bottom-[15%] h-[25vh] w-[40vw] rounded-xs blur-3xl bg-[radial-gradient(ellipse_65%_50%_at_70%_50%,oklch(0.68_0.18_35/0.14)_0%,transparent_50%)] dark:bg-[radial-gradient(ellipse_65%_50%_at_70%_50%,oklch(0.2132 0.0135 93.98)_0%,transparent_55%)]' /> */}
+					{/* <div className='absolute right-[15%] bottom-[15%] h-[25vh] w-[40vw] rounded-xs blur-3xl bg-[radial-gradient(ellipse_65%_50%_at_70%_50%,oklch(0.4644 0.0073 43.25)_0%,transparent_50%)] dark:bg-[radial-gradient(ellipse_65%_50%_at_70%_50%,oklch(0.2132 0.0135 93.98/0.15)_0%,transparent_55%)]' /> */}
 
 				{/* </div> */}
 
@@ -284,7 +284,7 @@ export function HeroSection () {
 										formik.isSubmitting && 'opacity-50 cursor-not-allowed'
 									)}
 								>
-									{formik.isSubmitting ? 'Requesting...' : 'Get Early Access'}
+									{formik.isSubmitting ? 'Joining...' : 'Join Waitlist'}
 									{/* <Send className='h-4 w-4' /> */}
 									<BorderBeam
 										size={55}
