@@ -5,7 +5,7 @@ import { COPY } from '@/lib/constants'
 import { useEffect, useState } from 'react'
 
 export function HeroCentered () {
-	const words = ['Write', 'Learn', 'Issue', 'Track', 'Finish']
+	const words = ['Write', 'Learn', 'Spec', 'Issue', 'Track', 'Finish']
 	const [currentWordIndex, setCurrentWordIndex] = useState(0)
 	const [isAnimating, setIsAnimating] = useState(false)
 
@@ -16,7 +16,7 @@ export function HeroCentered () {
 				setCurrentWordIndex((prev) => (prev + 1) % words.length)
 				setIsAnimating(false)
 			}, 250) // Half of transition duration
-		}, 5000) // Change word every 2 seconds
+		}, 3500) // Change word every 3.5 seconds
 
 		return () => clearInterval(interval)
 	}, [words.length])
