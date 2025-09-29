@@ -279,7 +279,7 @@ export function HeroSection () {
 											side='bottom'
 											align='start'
 											alignOffset={-50}
-											className='w-[175px] bg-chat'
+											className='w-[160px] bg-chat'
 										>
 											{MODEL_GROUPS.map((modelGroup) => (
 												<div key={modelGroup.title}>
@@ -295,7 +295,7 @@ export function HeroSection () {
 														>
 															<modelItem.icon className='h-4 w-4 text-muted-foreground' />
 															<span>{modelItem.model}</span>
-															<span className='ml-auto text-xs text-muted-foreground'>{modelItem.shortcut}</span>
+															{/* <span className='ml-auto text-xs text-muted-foreground'>{modelItem.shortcut}</span> */}
 														</DropdownMenuItem>
 													))}
 													{modelGroup.separate && <DropdownMenuSeparator />}

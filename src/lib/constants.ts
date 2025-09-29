@@ -39,8 +39,8 @@ export const MODEL_GROUPS: ModelGroup[] = [
 				shortcut: '⌘A',
 			},
 			{
-				title: 'Claude Opus 4.1',
-				model: 'Claude Opus 4.1',
+				title: 'Claude Sonnet 4.5',
+				model: 'Claude Sonnet 4.5',
 				icon: ClaudeAI,
 				shortcut: '⌘G',
 			},
