@@ -26,7 +26,7 @@ export function HeroCentered () {
 			<div className="mx-auto flex px-4 py-3 md:px-8">
 				{/* Tagline */}
 				<p className={cn(
-					"text-4xl md:text-7xl font-medium md:font-semibold",
+					"text-5xl md:text-7xl font-medium md:font-semibold",
 					"transition-colors duration-300",
 					"flex flex-col md:flex-row items-center md:flex-nowrap",
 				)}>
@@ -44,7 +44,7 @@ export function HeroCentered () {
 							{words[currentWordIndex]}
 						</span>
 					</span>
-					<span className="md:mt-0 md:ml-2">Anything Faster</span>
+					<span className="md:mt-0 md:ml-2 whitespace-nowrap">Anything Faster</span>
 				</p>
 			</div>
 			<h1 className="text-sm md:text-xl text-muted-foreground font-medium">{COPY?.[0]?.heading}</h1>
