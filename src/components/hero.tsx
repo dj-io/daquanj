@@ -20,12 +20,16 @@ import {
 
 import {
 	AtSign,
-	ChevronUp,
+	ChevronDown,
+	// ChevronUp,
+	// FileText,
+	// Globe,
+	// Database,
 } from 'lucide-react'
 // import { TextStream } from './ui/text-stream'
 import { ChatMode, ModelItem } from '@/lib/types'
 // import { detectOS } from '@/lib/utils'
-import { CHAT_MODES, MODEL_GROUPS } from '@/lib/constants'
+import { CHAT_MODES, COPY, MODEL_GROUPS } from '@/lib/constants'
 import { SocialLinks } from './social-links'
 import DesktopAppFrame from '@/app/svg/BrowserFrame' // TODO: Rename file to DesktopAppFrame.tsx
 import { HeroCentered } from './hero-centered'
@@ -35,6 +39,7 @@ export function HeroSection () {
 	const [selectedMode, setSelectedMode] = useState<ChatMode>(CHAT_MODES[0])
 	const [selectedModel, setSelectedModel] = useState<ModelItem>(MODEL_GROUPS[0].submenu[0])
 	const [open, setOpen] = useState(false)
+	// const [contextOpen, setContextOpen] = useState(false)
 
 	const router = useRouter()
 	const inputRef = useRef<HTMLInputElement | null>(null)
@@ -179,15 +184,43 @@ export function HeroSection () {
 						>
 							{/* Textarea with @ button inline */}
 							<div className='w-full px-3 py-3 flex items-start gap-2'>
-								<Button
-									type='button'
-									variant='outline'
-									size='sm'
-									className='rounded-full px-2.5 h-8 mt-1 shrink-0'
-									onClick={() => captureEvent('chat_at_clicked')}
-								>
-									<AtSign className='h-4 w-4 text-muted-foreground' />
-								</Button>
+								{/* <DropdownMenu open={contextOpen} onOpenChange={setContextOpen}> */}
+									{/* <DropdownMenuTrigger asChild> */}
+										<Button
+											type='button'
+											variant='outline'
+											size='sm'
+											className='rounded-full px-2.5 h-8 mt-1 shrink-0'
+											title='Enter your email to use context'
+										>
+											<AtSign className='h-4 w-4 text-muted-foreground' />
+											{/* <ChevronUp className='h-3 w-3 text-muted-foreground' /> */}
+										</Button>
+									{/* </DropdownMenuTrigger>
+									<DropdownMenuContent
+										side='left'
+										align='center'
+										alignOffset={9}
+										className='w-[160px] bg-chat mb-12'
+									>
+										{CONTEXT_ITEMS.map((contextItem) => (
+											<DropdownMenuItem
+												key={contextItem.value}
+												onClick={() => {
+													setContextOpen(false)
+													captureEvent('context_selected', { context: contextItem.value })
+												}}
+												className='cursor-pointer'
+											>
+												<contextItem.icon className='h-4 w-4 text-muted-foreground' />
+												<span>{contextItem.title}</span>
+												{contextItem.shortcut && (
+													<span className='ml-auto text-xs text-muted-foreground'>{contextItem.shortcut}</span>
+												)}
+											</DropdownMenuItem>
+										))}
+									</DropdownMenuContent>
+								</DropdownMenu> */}
 
 							<input
 								ref={inputRef}
@@ -224,7 +257,7 @@ export function HeroSection () {
 										size='sm'
 										className='h-7 w-auto rounded-l-sm bg-chat border-0 hover:bg-background cursor-pointer'
 										onClick={handleModeClick}
-										title='Click to cycle modes'
+										title='Enter your email to use modes'
 									>
 										<selectedMode.icon className='h-4 w-4' />
 										<span className='text-sm font-medium'>{selectedMode?.title}</span>
@@ -236,17 +269,17 @@ export function HeroSection () {
 												variant='ghost'
 												size='sm'
 												className='h-7 w-auto rounded-r-sm rounded-l-none bg-transparent border-0 hover:bg-transparent active:bg-transparent cursor-pointer'
-												title='Select model • ⌘.'
+												title='Enter your email to use selected model'
 											>
 												<selectedModel.icon className='h-4 w-4' />
-												<ChevronUp className='h-3 w-3' />
+												<ChevronDown className='h-3 w-3' />
 											</Button>
 										</DropdownMenuTrigger>
 										<DropdownMenuContent
-											side='top'
+											side='bottom'
 											align='start'
 											alignOffset={-50}
-											className='w-[165px] bg-chat'
+											className='w-[175px] bg-chat'
 										>
 											{MODEL_GROUPS.map((modelGroup) => (
 												<div key={modelGroup.title}>
@@ -295,6 +328,10 @@ export function HeroSection () {
 								</Button>
 							</div>
 						</div>
+						<div className='flex justify-center'>
+							<span className="mt-2 text-xs md:text-sm text-muted-foreground/60 transition-colors duration-300 text-center">{COPY?.[0]?.body}</span>
+						</div>
+
 
 						{/* Error */}
 						{showError && (
@@ -304,7 +341,6 @@ export function HeroSection () {
 						)}
 					</form>
 				</div>
-
 			</div>
 
 

@@ -29,3 +29,11 @@ export interface Copy {
 	body: string
 	subline?: string
 }
+
+export interface ContextItem {
+	title: string
+	description: string
+	icon: LucideIcon
+	value: string
+	shortcut?: string
+}
