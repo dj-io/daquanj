@@ -74,7 +74,11 @@ export const CONTEXT_ITEMS: ContextItem[] = [
 
 	export const COPY: Copy[] = [
 	{
-		heading: 'What if agents were capable of automating far more knowledge work, beyond just code?',
+		heading: 'What if agents were capable of automating all knowledge work, beyond just code?',
+		body: 'Become orders of magnitude more effective than anyone working alone.',
+	},
+	{
+		heading: 'Automate knowledge work, beyond code.',
 		body: 'Become orders of magnitude more effective than anyone working alone.',
 	},
 	{

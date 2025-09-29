@@ -329,7 +329,7 @@ export function HeroSection () {
 							</div>
 						</div>
 						<div className='flex justify-center'>
-							<span className="mt-2 text-xs md:text-sm text-muted-foreground/60 transition-colors duration-300 text-center">{COPY?.[0]?.body}</span>
+							<span className="hidden md:block mt-2 text-xs md:text-sm text-muted-foreground/60 transition-colors duration-300 text-center">{COPY?.[0]?.body}</span>
 						</div>
 
 
