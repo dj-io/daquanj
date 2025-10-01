@@ -2,6 +2,8 @@ import { Brain, InfinityIcon, MessageCircle, FileText, Globe, FolderClosed } fro
 import { ChatMode, Copy, ModelGroup, ContextItem } from "./types";
 import OpenAI from "@/app/svg/OpenAI";
 import ClaudeAI from "@/app/svg/Claude";
+import Grok from "@/app/svg/Grok";
+import Google from "@/app/svg/Google";
 
 export const CHAT_MODES: ChatMode[] = [
 	{
@@ -44,6 +46,18 @@ export const MODEL_GROUPS: ModelGroup[] = [
 				icon: ClaudeAI,
 				shortcut: '⌘G',
 			},
+			{
+				title: 'Gemini 2.5 pro',
+				model: 'Gemini 2.5 pro',
+				icon: Google,
+				shortcut: '⌘G',
+			},
+			{
+				title: 'Grok 4',
+				model: 'Grok 4',
+				icon: Grok,
+				shortcut: '⌘G',
+			},
 		],
 	},
 ]
@@ -74,7 +88,11 @@ export const CONTEXT_ITEMS: ContextItem[] = [
 
 	export const COPY: Copy[] = [
 	{
-		heading: 'What if agents were capable of automating knowledge work beyond just code?',
+		heading: 'What if agents were capable of automating knowledge work beyond code?',
+		body: 'Become orders of magnitude more effective than anyone working alone.',
+	},
+	{
+		heading: 'The AI Workspace that lets you automate knowledge work beyond code.',
 		body: 'Become orders of magnitude more effective than anyone working alone.',
 	},
 	{

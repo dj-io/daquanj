@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import React from 'react';
 import { supabase, resend } from '@/app/api/lib/client';
 import { ChangelogEmail } from '@/components/email-templates/changelog-email';
-// import { LaunchEmail } from '@/components/email-templates/launch-email';
+// import { InviteEmail } from '@/components/email-templates/invite-email';
 
 export async function GET(request: Request) {
   try {

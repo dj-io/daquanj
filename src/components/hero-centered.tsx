@@ -48,7 +48,7 @@ export function HeroCentered () {
 				</p>
 			</div>
 			<h1 className="text-sm md:text-xl text-muted-foreground font-medium">{COPY?.[0]?.heading}</h1>
-			{/* <h1 className="block md:hidden text-md text-muted-foreground font-medium">{COPY?.[1]?.heading}</h1> */}
+			{/* <h1 className="text-sm md:text-xl text-muted-foreground font-medium">{COPY?.[1]?.heading}</h1> */}
 		</div>
 	)
 }

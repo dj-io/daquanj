@@ -29,7 +29,7 @@ import {
 // import { TextStream } from './ui/text-stream'
 import { ChatMode, ModelItem } from '@/lib/types'
 // import { detectOS } from '@/lib/utils'
-import { CHAT_MODES, COPY, MODEL_GROUPS } from '@/lib/constants'
+import { CHAT_MODES, MODEL_GROUPS } from '@/lib/constants'
 import { SocialLinks } from './social-links'
 import DesktopAppFrame from '@/app/svg/BrowserFrame' // TODO: Rename file to DesktopAppFrame.tsx
 import { HeroCentered } from './hero-centered'
@@ -328,9 +328,9 @@ export function HeroSection () {
 								</Button>
 							</div>
 						</div>
-						<div className='flex justify-center'>
+						{/* <div className='flex justify-center'>
 							<span className="hidden md:block mt-2 text-xs md:text-sm text-muted-foreground/60 transition-colors duration-300 text-center">{COPY?.[0]?.body}</span>
-						</div>
+						</div> */}
 
 
 						{/* Error */}
