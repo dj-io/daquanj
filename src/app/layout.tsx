@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     siteName: "Grit",
     images: [
       {
-        url: `${siteUrl}/images/ask-grit.png`,
+        url: `${siteUrl}/images/wlr-anything.png`,
         width: 1200,
         height: 630,
         alt: "Grit - The AI Workspace",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Grit - The AI Workspace",
     description: "Work Faster.",
-    images: [`${siteUrl}/images/ask-grit.png`],
+    images: [`${siteUrl}/images/wlr-anything.png`],
     creator: "@gritxai",
   },
   alternates: {

@@ -5,7 +5,8 @@ import { COPY } from '@/lib/constants'
 import { useEffect, useState } from 'react'
 
 export function HeroCentered () {
-	const words = ['Write', 'Learn', 'Spec', 'Issue', 'Track', 'Finish']
+	const words = ['Write', 'Learn', 'Think', 'Ideate', 'Finish']
+	// const wordsV2 = ['Write', 'Learn', 'Spec', 'Issue', 'Track', 'Finish']
 	const [currentWordIndex, setCurrentWordIndex] = useState(0)
 	const [isAnimating, setIsAnimating] = useState(false)
 
@@ -30,7 +31,7 @@ export function HeroCentered () {
 					"transition-colors duration-300",
 					"flex flex-col md:flex-row items-center md:flex-nowrap",
 				)}>
-					<span className="relative inline-block w-[8rem] md:w-[12rem] text-center overflow-hidden">
+					<span className="relative inline-block w-[8rem] md:w-[12.5rem] text-center overflow-hidden">
 						<span
 							className={cn(
 								"text-center",
@@ -47,8 +48,8 @@ export function HeroCentered () {
 					<span className="md:mt-0 md:ml-2 whitespace-nowrap">Anything Faster</span>
 				</p>
 			</div>
-			<h1 className="text-sm md:text-xl text-muted-foreground font-medium">{COPY?.[0]?.heading}</h1>
-			{/* <h1 className="text-sm md:text-xl text-muted-foreground font-medium">{COPY?.[1]?.heading}</h1> */}
+			<h1 className="text-sm md:text-xl text-muted-foreground font-medium">{COPY?.[0]?.heading} <span className="inline md:hidden">{COPY?.[0]?.body}</span></h1>
+			<h1 className="text-sm md:text-xl hidden md:block text-muted-foreground font-medium">{COPY?.[0]?.body}</h1>
 		</div>
 	)
 }

@@ -30,7 +30,7 @@ export const InviteEmail: React.FC<Readonly<InviteEmailProps>> = ({
 			overflow: 'hidden',
 		}}>
 			<img
-				src={`${baseUrl}/images/ask-grit.png`}
+				src={`${baseUrl}/images/wlr-anything.png`}
 				alt='Ask Grit'
 				style={{
 					width: '100%',

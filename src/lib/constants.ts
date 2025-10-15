@@ -88,6 +88,10 @@ export const CONTEXT_ITEMS: ContextItem[] = [
 
 	export const COPY: Copy[] = [
 	{
+		heading: 'A minimal, context aware workspace for all of your writing, learning, and research.',
+		body: 'Go from prompt to conclusion faster than ever.',
+	},
+	{
 		heading: 'What if agents were capable of automating knowledge work beyond code?',
 		body: 'Become orders of magnitude more effective than anyone working alone.',
 	},
