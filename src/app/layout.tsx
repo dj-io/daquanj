@@ -10,10 +10,10 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Grit - The AI Workspace",
-  description: "Work Faster.",
+  title: "Grit: The best way to research with AI",
+  description: "Write, learn, research anything faster.",
   authors: [{ name: "Stratum Labs", url: "https://stratumlabs.ai" }],
-  keywords: ["Grit", "AI", "Note", "Editor", "Workspace", "AI Coworker", "AI Note taking", "AI Notes","AI Meeting Notes", "AI Writing Assistant", "AI Writing", "Text Generation", "Productivity", "Note-taking", "Note-taking app", "Write with AI", "Knowledge Base", "AI Copilot", "AI Workspace", "AI Co-worker"],
+  keywords: ["Grit", "AI", "Research", "Write", "Learn", "Keep Thinking", "Anthropic", "OpenAI", "Google", "xAI", "Gemini", "Prompt to Conclusion", "Write with AI", "Learn with AI", "Research with AI", "AI Workspace", "AI Co-worker", "AI Research", "AI Writing", "AI Learning", "NotebookLM"],
   applicationName: "Grit",
   generator: "Next.js",
   robots: "index, follow",
@@ -21,8 +21,8 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
   },
   openGraph: {
-    title: "Grit - The AI Workspace",
-    description: "Work Faster.",
+    title: "Grit: The best way to research with AI",
+    description: "Write, learn, research anything faster.",
     url: siteUrl,
     siteName: "Grit",
     images: [
@@ -30,15 +30,15 @@ export const metadata: Metadata = {
         url: `${siteUrl}/images/wlr-anything.png`,
         width: 1200,
         height: 630,
-        alt: "Grit - The AI Workspace",
+        alt: "Grit: The best way to research with AI",
       },
     ],
     type: 'website',
   },
   twitter: {
     card: "summary_large_image",
-    title: "Grit - The AI Workspace",
-    description: "Work Faster.",
+    title: "Grit: The best way to research with AI",
+    description: "Write, learn, research anything faster.",
     images: [`${siteUrl}/images/wlr-anything.png`],
     creator: "@gritxai",
   },
