@@ -7,6 +7,12 @@ import Google from "@/app/svg/Google";
 
 export const CHAT_MODES: ChatMode[] = [
 	{
+		title: 'Research',
+		placeholder: 'research with',
+		icon: Brain,
+		shortcut: '⌘R',
+	},
+	{
 		title: 'Agent',
 		placeholder: 'get assistance from',
 		icon: InfinityIcon,
@@ -18,12 +24,6 @@ export const CHAT_MODES: ChatMode[] = [
 		placeholder: 'ask',
 		icon: MessageCircle,
 		shortcut: '⌘Q',
-	},
-	{
-		title: 'Research',
-		placeholder: 'research with',
-		icon: Brain,
-		shortcut: '⌘R',
 	},
 ]
 
