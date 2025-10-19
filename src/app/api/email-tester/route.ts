@@ -31,9 +31,9 @@
 //     //   test changelog email template and email delivery
 //       const { data, error } = await resend.emails.send({
 //       from: `Grit Team <${process.env.FROM_EMAIL!}>`,
-//       to: [gmail_email],
+//       to: [resend_email],
 //       subject: 'You\'re in! Grit is ready when you are.',
-//       react:  React.createElement(InviteEmail, { email: gmail_email })
+//       react:  React.createElement(InviteEmail, { email: resend_email })
 //     });
 
 //     if (!data) {

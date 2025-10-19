@@ -13,7 +13,7 @@ export const InviteEmail: React.FC<Readonly<InviteEmailProps>> = ({
 	email,
 }) => (
 	<div style={{
-		backgroundColor: '#000000',
+		backgroundColor: '#0A0A0A',
 		color: '#ffffff',
 		fontFamily: '"SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif',
 		maxWidth: '600px',
@@ -40,16 +40,16 @@ export const InviteEmail: React.FC<Readonly<InviteEmailProps>> = ({
 					objectPosition: 'center top',
 				}}
 			/>
-			{/* Gaussian Blur Overlay - burns image into background */}
-			<div style={{
-				position: 'absolute',
-				left: '0',
-				right: '0',
-				bottom: '0',
-				height: '45%',
-				background: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.85) 35%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.4) 65%, rgba(0,0,0,0.15) 80%, rgba(0,0,0,0) 100%)',
-				pointerEvents: 'none',
-			}} />
+		{/* Gaussian Blur Overlay - burns image into background */}
+		<div style={{
+			position: 'absolute',
+			left: '0',
+			right: '0',
+			bottom: '0',
+			height: '45%',
+			background: 'linear-gradient(to top, rgba(10,10,10,1) 0%, rgba(10,10,10,0.95) 20%, rgba(10,10,10,0.85) 35%, rgba(10,10,10,0.65) 50%, rgba(10,10,10,0.4) 65%, rgba(10,10,10,0.15) 80%, rgba(10,10,10,0) 100%)',
+			pointerEvents: 'none',
+		}} />
 		</div>
 
 		{/* Content section with padding */}
@@ -77,7 +77,7 @@ export const InviteEmail: React.FC<Readonly<InviteEmailProps>> = ({
 			textAlign: 'center',
 			margin: '0 0 20px 0',
 		}}>
-		 A friend wants you to join the Grit beta. Welcome to the vibe working era!
+		 A friend wants you to join the Grit beta. Welcome to the knowledge era!
 		</p>
 
 		{/* Product Description */}
@@ -88,7 +88,7 @@ export const InviteEmail: React.FC<Readonly<InviteEmailProps>> = ({
 			textAlign: 'center',
 			margin: '0 0 28px 0',
 		}}>
-			Grit lets you automate your work and chat with your knowledge using cutting-edge models from OpenAI, Anthropic, Gemini, and xAI. Write, plan, and research anything faster—all in one unified workspace.
+			Grit puts cutting-edge models from OpenAI, Anthropic, Gemini, and xAI together with your writing, learning, and research. You can chat with your knowledge, upload sources, and get a thinking partner grounded in your work, in one unified workspace.
 		</p>
 
 		{/* Download Buttons */}
@@ -149,7 +149,7 @@ export const InviteEmail: React.FC<Readonly<InviteEmailProps>> = ({
 			textAlign: 'center',
 			margin: '0 0 36px 0',
 		}}>
-			Download Grit to help usher in the vibe working era!
+			Download Grit to start going from prompt to conclusion faster than ever.
 		</p> */}
 
 		{/* Closing */}
@@ -163,7 +163,7 @@ export const InviteEmail: React.FC<Readonly<InviteEmailProps>> = ({
 				color: '#A1A1AA',
 				margin: '0 0 8px 0',
 			}}>
-				To the future of work,
+				To the future of understanding,
 			</p>
 			<p style={{
 				fontSize: '14px',

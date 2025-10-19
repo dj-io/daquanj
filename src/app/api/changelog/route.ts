@@ -2,8 +2,8 @@
 import { NextResponse } from 'next/server';
 import React from 'react';
 import { supabase, resend } from '@/app/api/lib/client';
-import { ChangelogEmail } from '@/components/email-templates/changelog-email';
-// import { InviteEmail } from '@/components/email-templates/invite-email';
+// import { ChangelogEmail } from '@/components/email-templates/changelog-email';
+import { InviteEmail } from '@/components/email-templates/invite-email';
 
 export async function GET(request: Request) {
   try {
@@ -44,9 +44,9 @@ export async function GET(request: Request) {
     const emailBatch = data.map((entry) => ({
       from: `Grit Team <${process.env.FROM_EMAIL!}>`,
       to: [entry.email],
-      subject: "What's new in Grit!",
+      subject: "You're in! Grit is ready when you are.",
       // Here we create the React element for the email template and pass in the recipient's email
-      react: React.createElement(ChangelogEmail, { email: entry.email }),
+      react: React.createElement(InviteEmail, { email: entry.email }),
       tags: [
         { name: 'campaign', value: process.env.CAMPAIGN_VERSION! },
         { name: 'audience', value: 'waitlist' }
