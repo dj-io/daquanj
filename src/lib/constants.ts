@@ -7,17 +7,17 @@ import Google from "@/app/svg/Google";
 
 export const CHAT_MODES: ChatMode[] = [
 	{
-		title: 'Research',
-		placeholder: 'research with',
-		icon: Brain,
-		shortcut: '⌘R',
-	},
-	{
 		title: 'Agent',
 		placeholder: 'get assistance from',
 		icon: InfinityIcon,
 		shortcut: '⌘A',
 		separate: true,
+	},
+	{
+		title: 'Research',
+		placeholder: 'research with',
+		icon: Brain,
+		shortcut: '⌘R',
 	},
 	{
 		title: 'Ask',
@@ -35,8 +35,8 @@ export const MODEL_GROUPS: ModelGroup[] = [
 		shortcut: '⌘M',
 		submenu: [
 			{
-				title: 'GPT 5',
-				model: 'GPT 5',
+				title: 'GPT 5.1',
+				model: 'GPT 5.1',
 				icon: OpenAI,
 				shortcut: '⌘A',
 			},
@@ -88,57 +88,20 @@ export const CONTEXT_ITEMS: ContextItem[] = [
 
 	export const COPY: Copy[] = [
 	{
-		heading: 'A minimal, context aware workspace for all of your writing, learning, and research.',
-		body: 'Go from prompt to conclusion faster than ever.',
+		heading: 'Go from prompt to conclusion faster with AI grounded in your data.',
+		body: 'Surface insights across PDFs, audio, images, spreadsheets, and your notes in seconds. Your sources. Your workspace. Your research, advancing at the speed of AI.',
 	},
 	{
-		heading: 'What if agents were capable of automating knowledge work beyond code?',
-		body: 'Become orders of magnitude more effective than anyone working alone.',
+		heading: 'A minimal, context aware workspace for all of your writing, learning, and research.',
+		body: 'Go from prompt to conclusion faster than ever.',
 	},
 	{
 		heading: 'The AI Workspace that lets you automate knowledge work beyond code.',
 		body: 'Become orders of magnitude more effective than anyone working alone.',
 	},
 	{
-		heading: 'Automate knowledge work, beyond code.',
-		body: 'Become orders of magnitude more effective than anyone working alone.',
-	},
-	{
 		heading: 'Become orders of magnitude more effective than anyone working alone.',
 		body: `Grit lets you automate knowledge work beyond code, all from one unified workspace`,
-	},
-	{
-		heading: 'What if the most powerful coding agents were built for operational work and could help us write, update spreadsheets, conduct deep research and complex business workflows.',
-		body: `Imagine automating knowledge work beyond code, all from one unified workspace`,
-	},
-	{
-		heading: 'Imagine a tool that leveraged AI agents this way to 10x your productivity?',
-		body: `What if you could automate knowledge work beyond code, across all your tools. Updating spreadsheets, conducting deep research, copywriting, and other operational taks. From one platform.`,
-	},
-	{
-		heading: 'Your Knowledge + AI',
-		body: `Take notes, create docs, and build your knowledge base with a privacy-focused AI Copilot.`,
-	},
-	{
-		heading: 'The AI Note Editor',
-		body: `Take notes, create docs, and build your knowledge base with agents that know your work, and work everywhere you do.`,
-	},
-	{
-		heading: 'The AI Note Editor',
-		body: `Create tasks, manage projects, and use databases with agents that know your work, and work everywhere you do.`,
-	},
-	{
-		heading: 'The AI Note Editor',
-		body: `Send emails, manage your calendar, and connect to your tools with agents that know your work, and work everywhere you do.`,
-	},
-	{
-		heading: 'From prompt to team',
-		body: `The best way to work with AI agents, everywhere that work happens.`,
-	},
-	{
-		heading: 'Your Knowledge + AI',
-		body: `Grit is an AI Note Editor that integrates the latest frontier models so you can write, edit and explore ideas with AI all in one place. A simple, yet powerful tool built to help you work faster.
-`,
 	},
 	{
 		heading: 'The AI Workspace',

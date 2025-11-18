@@ -61,7 +61,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="font-[family-name:var(--font-family-base)] antialiased">
+      <body className="font-[family-name:var(--font-family-base)] antialiased bg-background">
         <PostHogProvider>
           <ThemeProvider
             attribute="class"
@@ -69,7 +69,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="min-h-screen flex flex-col">
+            <div className="min-h-screen flex flex-col bg-background">
               <Header />
               <main className="flex-1 flex items-center justify-center overflow-hidden md:overflow-auto">
                 {children}

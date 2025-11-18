@@ -28,6 +28,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-grit: var(--grit);
+  --color-apollo: var(--apollo);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -50,7 +52,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: #F7F7F5;
   --background-secondary: oklch(0.967 0.001 286.375);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
@@ -76,6 +78,8 @@
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
   --chat:  oklch(1 0 0);
+  --grit: oklch(0.2221 0.0455 29.86);
+  --apollo: oklch(0.6522 0.2134 37.87);
   --chat-foreground: oklch(0.9602 0 129.63);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
@@ -109,6 +113,8 @@
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
+  --grit: oklch(0.3992 0.0982 45.46);
+  --apollo: oklch(0.6522 0.2134 37.87);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.552 0.016 285.938);
   --chart-1: oklch(0.488 0.243 264.376);
@@ -141,7 +147,10 @@
   /* Primary font for content */
   html {
     font-family: var(--font-family-base);
-    font-size: 15px;
+    font-size: 13px;
+    @media (min-width: 640px) {
+      font-size: 15px;
+    }
   }
 
   html, body {
