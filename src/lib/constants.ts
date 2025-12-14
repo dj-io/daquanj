@@ -1,128 +1,57 @@
-import { Brain, InfinityIcon, MessageCircle, FileText, Globe, FolderClosed } from "lucide-react";
-import { ChatMode, Copy, ModelGroup, ContextItem } from "./types";
-import OpenAI from "@/app/svg/OpenAI";
-import ClaudeAI from "@/app/svg/Claude";
-import Grok from "@/app/svg/Grok";
-import Google from "@/app/svg/Google";
+import { Copy } from "./types";
 
-export const CHAT_MODES: ChatMode[] = [
+
+export const COPY: Copy[] = [
 	{
-		title: 'Agent',
-		placeholder: 'get assistance from',
-		icon: InfinityIcon,
-		shortcut: '⌘A',
-		separate: true,
-	},
-	{
-		title: 'Research',
-		placeholder: 'research with',
-		icon: Brain,
-		shortcut: '⌘R',
-	},
-	{
-		title: 'Ask',
-		placeholder: 'ask',
-		icon: MessageCircle,
-		shortcut: '⌘Q',
+		heading: 'Full Stack Engineer with forward deployed experience turning customer specs into shippable software. ',
+		body: 'Now focused on applied AI, building better ways to solve practical problems.',
 	},
 ]
-
-export const MODEL_GROUPS: ModelGroup[] = [
-	{
-		title: 'Grit Models',
-		url: '',
-		icon: Brain,
-		shortcut: '⌘M',
-		submenu: [
-			{
-				title: 'GPT 5.1',
-				model: 'GPT 5.1',
-				icon: OpenAI,
-				shortcut: '⌘A',
-			},
-			{
-				title: 'Claude Sonnet 4.5',
-				model: 'Claude Sonnet 4.5',
-				icon: ClaudeAI,
-				shortcut: '⌘G',
-			},
-			{
-				title: 'Gemini 2.5 pro',
-				model: 'Gemini 2.5 pro',
-				icon: Google,
-				shortcut: '⌘G',
-			},
-			{
-				title: 'Grok 4',
-				model: 'Grok 4',
-				icon: Grok,
-				shortcut: '⌘G',
-			},
-		],
-	},
-]
-
-export const CONTEXT_ITEMS: ContextItem[] = [
-	{
-		title: 'Pages',
-		description: 'Search through your personal pages',
-		icon: FileText,
-		value: 'pages',
-		shortcut: '⌘P',
-	},
-	{
-		title: 'Web',
-		description: 'Search the web for current information',
-		icon: Globe,
-		value: 'web',
-		shortcut: '⌘R',
-	},
-	{
-		title: 'Files',
-		description: 'Access your team\'s files',
-		icon: FolderClosed,
-		value: 'files',
-		shortcut: '⌘F',
-	},
-]
-
-	export const COPY: Copy[] = [
-	{
-		heading: 'Go from prompt to conclusion faster with AI grounded in your data.',
-		body: 'Surface insights across PDFs, audio, images, spreadsheets, and your notes in seconds. Your sources. Your workspace. Your research, advancing at the speed of AI.',
-	},
-	{
-		heading: 'A minimal, context aware workspace for all of your writing, learning, and research.',
-		body: 'Go from prompt to conclusion faster than ever.',
-	},
-	{
-		heading: 'The AI Workspace that lets you automate knowledge work beyond code.',
-		body: 'Become orders of magnitude more effective than anyone working alone.',
-	},
-	{
-		heading: 'Become orders of magnitude more effective than anyone working alone.',
-		body: `Grit lets you automate knowledge work beyond code, all from one unified workspace`,
-	},
-	{
-		heading: 'The AI Workspace',
-		body: `A simple, yet powerful tool built to help you work faster.`,
-	},
-]
-
-// Copy selection constants
-export const COPY_STORAGE_KEY = 'grit.copy.choice'
-export const COPY_TTL_MS = 86_400_000 // 24 hours
 
 // Social links
 export const SOCIAL_LINKS = [
 	{
-		name: 'X',
-		url: 'https://x.com/gritxai',
-		handle: '@gritxai'
+		name: 'LinkedIn',
+		url: 'https://www.linkedin.com/in/daquanj/',
+		handle: 'IN/DAQUANJ'
+	},
+	{
+		name: 'GitHub',
+		url: 'https://github.com/dj-io',
+		handle: '@DJ-IO'
 	},
 	{
 		name: 'Substack',
 		url: 'https://stratumlabs.substack.com',
-		handle: 'stratumlabs.substack.com'
-	}
+		handle: 'BLOG'
+	},
+	{
+		name: 'X',
+		url: 'https://x.com/@djxlabs',
+		handle: '@DJXLABS'
+	},
+]
+
+// Project links
+export const PROJECT_LINKS = [
+	{
+		name: 'Grit',
+		url: 'https://gritai.app',
+		handle: 'GRIT'
+	},
+	{
+		name: 'FreightFi',
+		url: 'https://freightfi.app',
+		handle: 'FREIGHTFI'
+	},
+	{
+		name: '@prose-motions/core',
+		url: 'https://www.npmjs.com/package/@prose-motions/core',
+		handle: '@PROSE-MOTIONS/CORE'
+	},
+	// {
+	// 	name: 'Stratum Labs',
+	// 	url: 'https://stratumlabs.ai',
+	// 	handle: 'STRATUM LABS'
+	// },
 ]

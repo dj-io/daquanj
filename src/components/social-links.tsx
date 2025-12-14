@@ -3,20 +3,15 @@
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { captureEvent } from '@/lib/posthog'
-import { SOCIAL_LINKS } from '@/lib/constants'
-import XformerlyTwitter from '@/app/svg/X'
-import Substack from '@/app/svg/Substack'
+import { PROJECT_LINKS, SOCIAL_LINKS } from '@/lib/constants'
 
 interface SocialLinksProps {
 	className?: string
+	LINKS: typeof PROJECT_LINKS | typeof SOCIAL_LINKS
+	iconMap: Record<string, React.ComponentType<{ className?: string }>>
 }
 
-const iconMap = {
-	'X': XformerlyTwitter,
-	'Substack': Substack
-}
-
-export function SocialLinks({ className }: SocialLinksProps) {
+export function SocialLinks({ className, LINKS, iconMap }: SocialLinksProps) {
 	const handleSocialClick = (platform: string, url: string) => {
 		captureEvent('social_link_clicked', {
 			platform,
@@ -27,8 +22,8 @@ export function SocialLinks({ className }: SocialLinksProps) {
 
 	return (
 		<div className={cn('flex justify-center gap-6', className)}>
-			{SOCIAL_LINKS.map((link) => {
-				const IconComponent = iconMap[link.name as keyof typeof iconMap]
+			{LINKS.map((link) => {
+				const IconComponent = iconMap?.[link.name as keyof typeof iconMap]
 				return (
 					<Link
 						key={link.name}
@@ -37,13 +32,13 @@ export function SocialLinks({ className }: SocialLinksProps) {
 						rel="noopener noreferrer"
 						onClick={() => handleSocialClick(link.name, link.url)}
 						className={cn(
-							'flex items-center gap-2 text-sm',
-							'text-[#9CA3AF] dark:text-[#9CA3AF]',
+							'flex items-center gap-2',
+							'text-grit dark:text-[#9CA3AF]',
 							'hover:text-foreground dark:hover:text-white',
-							'transition-colors duration-300'
+							'transition-colors duration-300',
 						)}
 					>
-						{IconComponent && <IconComponent className="w-4 h-4" />}
+						{IconComponent && <IconComponent className="w-3 h-3 md:w-4 md:h-4" />}
 						<span>{link.handle}</span>
 					</Link>
 				)

@@ -1,36 +1,46 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { cn } from '@/lib/utils'
+import { useTheme } from "next-themes"
+import { Button } from "./ui/button"
+import { ContactDialog } from "./contact-dialog"
+import { captureEvent } from '@/lib/posthog'
 
 export function Header() {
-	return (
-		<nav className="fixed inset-x-0 top-2 z-50 bg-transparent">
-			<div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
-				{/* Logo and Brand */}
-				<Link href="/" className="flex items-center gap-2">
-					<Image
-						src='/images/grit-icon-macOS-Dark-1x.png'
-						alt='Grit logo'
-						width={60}
-						height={60}
-						className='w-6 h-6 sm:w-8 sm:h-8 object-cover transition-colors'
-						priority
-					/>
-					<span className="text-base sm:text-xl lg:text-2xl text-foreground font-semibold tracking-tight">Grit</span>
-				</Link>
+	const { setTheme, resolvedTheme } = useTheme()
 
-				{/* Tagline */}
-				<p className={cn(
-					"text-sm sm:text-lg lg:text-2xl text-muted-foreground font-medium lg:font-semibold",
-					"bg-gradient-to-r from-foreground via-foreground/80 to-foreground/60",
-					"dark:from-white dark:via-[#bfc3c9] dark:to-[#6b7280]",
-					"bg-clip-text text-transparent",
-					"transition-colors duration-300"
-				)}>
-					Think, Capture, Understand.
-				</p>
+	const toggleTheme = () => {
+		const newTheme = resolvedTheme === 'dark' ? 'light' : 'dark'
+		setTheme(newTheme)
+		captureEvent("toggle_theme", {
+			from: resolvedTheme,
+			to: newTheme
+		})
+	}
+
+	return (
+		<nav className="flex flex-col items-center fixed left-4 top-2 z-50 bg-transparent">
+			<div className="flex flex-row items-center gap-2">
+				<div className='w-3 h-3 object-cover transition-colors bg-apollo rounded-xs'/>
+				<ContactDialog>
+					<Button
+						variant="ghost"
+						size="icon"
+						className="flex items-center justify-between"
+					>
+						<span className="text-sm text-grit font-semibold tracking-tight">CONTACT</span>
+					</Button>
+				</ContactDialog>
+			</div>
+			<div className="flex flex-row items-center gap-2 -mt-2">
+				<div className='w-3 h-3 object-cover transition-colors bg-black dark:bg-white rounded-xs'/>
+				<Button
+					variant="ghost"
+					size="icon"
+					className="flex items-center justify-between"
+					onClick={toggleTheme}
+				>
+					<span className="text-sm text-grit font-semibold tracking-tight">THEME</span>
+				</Button>
 			</div>
 		</nav>
 	)

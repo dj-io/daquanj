@@ -48,11 +48,12 @@
   --font-family-base: var(--font-family-base);
   --font-sans: var(--font-family-base);
   --font-display: "SF Pro Display", var(--font-sans);
+  --font-crimson: var(--font-crimson);
 }
 
 :root {
   --radius: 0.625rem;
-  --background: #F7F7F5;
+  --background: oklch(0.9472 0.0093 106.58);
   --background-secondary: oklch(0.967 0.001 286.375);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
@@ -92,6 +93,7 @@
   --cursor: oklch(0.552 0.016 285.938);
   --font-primary: oklch(0.141 0.005 285.823);
   --font-family-base: "SF Pro Text", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-crimson: "Crimson Text", serif;
 }
 
 .dark {
@@ -139,7 +141,7 @@
 
 @layer base {
   html, body, #root {
-    background-color: var(--sidebar) !important;
+    background-color: var(--background);
     margin: 0;
     padding: 0;
   }
