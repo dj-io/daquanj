@@ -38,7 +38,7 @@ export function HeroSection () {
 				<div className="mx-auto max-w-4xl px-4 py-8 text-center space-y-4">
 					{/* Copyright */}
 					<p className="text-xs text-muted-foreground/60 transition-colors duration-300">
-					&copy; {new Date().getFullYear()} Daquan Johnson · {new Date().getFullYear() - 2020} years of experience
+					Da'Quan Johnson · {new Date().getFullYear() - 2020} YOE &copy; {new Date().getFullYear()}
 					</p>
 
 					{/* Social Links */}

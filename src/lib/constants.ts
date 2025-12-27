@@ -1,4 +1,5 @@
 import { Copy } from "./types";
+import { BadgeCheckIcon, CheckCircleIcon } from "lucide-react";
 
 
 export const COPY: Copy[] = [
@@ -37,21 +38,49 @@ export const PROJECT_LINKS = [
 	{
 		name: 'Grit',
 		url: 'https://gritai.app',
-		handle: 'GRIT'
+		handle: 'GRIT',
+		info: {
+            about: "The Research Workspace",
+			timelineIcon: CheckCircleIcon,
+			timeline: "Active",
+            role: "Founder",
+            contributions: "0→1 product strategy, customer discovery, fundraising, and full product delivery."
+        }
 	},
 	{
 		name: 'FreightFi',
 		url: 'https://freightfi.app',
-		handle: 'FREIGHTFI'
+		handle: 'FREIGHTFI',
+		info: {
+            about: "The AI Audit Tool for Fleets, 3PLs, and brokers.",
+			timelineIcon: CheckCircleIcon,
+            timeline: "Active",
+            role: "AI Consultant",
+			contributions: "Translated founder's vision into an AI-first product roadmap, securing pilot deals & VC interest. Ongoing support for product delivery.",
+        }
 	},
 	{
 		name: '@prose-motions/core',
 		url: 'https://www.npmjs.com/package/@prose-motions/core',
-		handle: '@PROSE-MOTIONS/CORE'
+		handle: '@PROSE-MOTIONS/CORE',
+		info: {
+            about: "Vim keybindings extension for ProseMirror",
+			timelineIcon: CheckCircleIcon,
+			timeline: "Active",
+            role: "Maintainer",
+            contributions: "Created drop-in Vim motions library for ProseMirror, addressing 2-year community request. Ongoing maintenance and support."
+        }
 	},
 	// {
 	// 	name: 'Stratum Labs',
 	// 	url: 'https://stratumlabs.ai',
-	// 	handle: 'STRATUM LABS'
+	// 	handle: 'STRATUM LABS',
+	// 	info: {
+	//         about: "AI Consulting Agency",
+	//         timelineIcon: CheckCircleIcon,
+	//         timeline: "Active",
+	//         role: "Founder",
+	//         contributions: "Customer discovery, product strategy, and full product delivery."
+	//     }
 	// },
 ]

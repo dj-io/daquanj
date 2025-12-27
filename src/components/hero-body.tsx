@@ -17,7 +17,12 @@ export function HeroBody() {
 
 	return (
 		<div className='z-10 flex flex-col gap-10 items-center text-center justify-center mt-18 sm:mt-12'>
-			<SocialLinks className="text-sm md:text-md" LINKS={PROJECT_LINKS} iconMap={SOCIAL_ICON_MAP} />
+			<SocialLinks
+				className='text-sm md:text-md'
+				LINKS={PROJECT_LINKS}
+				iconMap={SOCIAL_ICON_MAP}
+				popover
+			/>
 		</div>
 	)
 }
