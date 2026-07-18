@@ -4,9 +4,12 @@ import { useTheme } from "next-themes"
 import { Button } from "./ui/button"
 import { ContactDialog } from "./contact-dialog"
 import { captureEvent } from '@/lib/posthog'
+import { INTRO_FADE_DELAY, INTRO_FADE_DURATION } from '@/lib/constants'
+import { motion, useReducedMotion } from 'motion/react'
 
 export function Header() {
 	const { setTheme, resolvedTheme } = useTheme()
+	const shouldReduceMotion = useReducedMotion()
 
 	const toggleTheme = () => {
 		const newTheme = resolvedTheme === 'dark' ? 'light' : 'dark'
@@ -18,7 +21,15 @@ export function Header() {
 	}
 
 	return (
-		<nav className="flex flex-col items-center fixed left-4 top-2 z-50 bg-transparent">
+		<motion.nav
+			initial={shouldReduceMotion ? false : { opacity: 0 }}
+			animate={{ opacity: 1 }}
+			transition={{
+				duration: INTRO_FADE_DURATION,
+				delay: shouldReduceMotion ? 0 : INTRO_FADE_DELAY,
+			}}
+			className="flex flex-col items-center fixed left-4 top-2 z-50 bg-transparent"
+		>
 			<div className="flex flex-row items-center gap-2">
 				<div className='w-3 h-3 object-cover transition-colors bg-apollo rounded-xs'/>
 				<ContactDialog>
@@ -42,6 +53,6 @@ export function Header() {
 					<span className="text-sm text-grit font-semibold tracking-tight">THEME</span>
 				</Button>
 			</div>
-		</nav>
+		</motion.nav>
 	)
 }

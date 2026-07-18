@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/header";
 import { PostHogProvider } from "@/components/posthog-provider";
+import { CursorTrail } from "@/components/cursor-trail";
+import { IntroProvider } from "@/components/intro-provider";
 import { Crimson_Text } from "next/font/google";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
@@ -81,10 +83,13 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <div className=" flex flex-col bg-background">
-              <Header />
-              <main className="flex-1 flex items-center justify-center overflow-hidden md:overflow-auto bg-background">
-                {children}
-              </main>
+              <IntroProvider>
+                <Header />
+                <CursorTrail />
+                <main className="flex-1 flex items-center justify-center overflow-hidden md:overflow-auto bg-background">
+                  {children}
+                </main>
+              </IntroProvider>
             </div>
           </ThemeProvider>
         </PostHogProvider>

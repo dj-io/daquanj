@@ -5,4 +5,4 @@ export interface Copy {
 	subline?: string
 }
 
-
+export type ProjectTimeline = 'Active' | 'Completed' | 'Sidelined'

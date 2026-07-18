@@ -1,6 +1,10 @@
 'use client'
 
-import { SOCIAL_LINKS } from '@/lib/constants'
+import {
+	INTRO_FADE_DELAY,
+	INTRO_FADE_DURATION,
+	SOCIAL_LINKS,
+} from '@/lib/constants'
 import { SocialLinks } from './social-links'
 import { HeroTitle } from './hero-title'
 import { HeroBody } from './hero-body'
@@ -9,6 +13,9 @@ import XformerlyTwitter from '@/app/svg/X'
 import GitHub from '@/app/svg/GitHub'
 import Substack from '@/app/svg/Substack'
 import LinkedIn from '@/app/svg/LinkedIn'
+import { motion, useReducedMotion } from 'motion/react'
+import { useEffect, useState } from 'react'
+import { useIntro } from './intro-provider'
 
 const SOCIAL_ICON_MAP = {
 	'X': XformerlyTwitter,
@@ -19,6 +26,24 @@ const SOCIAL_ICON_MAP = {
 }
 
 export function HeroSection () {
+	const shouldReduceMotion = useReducedMotion()
+	const { completeIntro } = useIntro()
+	const [introComplete, setIntroComplete] = useState(false)
+
+	useEffect(() => {
+		if (shouldReduceMotion) {
+			setIntroComplete(true)
+			completeIntro()
+			return
+		}
+
+		const introTimer = window.setTimeout(() => {
+			setIntroComplete(true)
+		}, 500)
+
+		return () => window.clearTimeout(introTimer)
+	}, [completeIntro, shouldReduceMotion])
+
 	return (
 		<>
 			<section className="w-full relative z-10 overflow-hidden md:overflow-auto">
@@ -26,15 +51,23 @@ export function HeroSection () {
 
 					{/* Hero content */}
 					<div className="flex flex-col items-center text-center justify-center">
-						<HeroTitle />
-						<HeroBody />
+						<HeroTitle introComplete={introComplete} />
+						<HeroBody introComplete={introComplete} />
 					</div>
 
 			</div>
 
 
 			{/* Footer section with social links */}
-			<footer className="fixed bottom-4 left-0 right-0 z-20">
+			<motion.footer
+				initial={shouldReduceMotion ? false : { opacity: 0 }}
+				animate={{ opacity: 1 }}
+				transition={{
+					duration: INTRO_FADE_DURATION,
+					delay: shouldReduceMotion ? 0 : INTRO_FADE_DELAY,
+				}}
+				className="fixed bottom-4 left-0 right-0 z-20"
+			>
 				<div className="mx-auto max-w-4xl px-4 py-8 text-center space-y-4">
 					{/* Copyright */}
 					<p className="text-xs text-muted-foreground/60 transition-colors duration-300">
@@ -44,12 +77,18 @@ export function HeroSection () {
 					{/* Social Links */}
 					<SocialLinks className="text-sm" LINKS={SOCIAL_LINKS} iconMap={SOCIAL_ICON_MAP} />
 				</div>
-			</footer>
+			</motion.footer>
 		</section>
 
 		{/* Bottom Gaussian blur overlay (fades page bottom) */}
-		<div
+		<motion.div
 			aria-hidden
+			initial={shouldReduceMotion ? false : { opacity: 0 }}
+			animate={{ opacity: 1 }}
+			transition={{
+				duration: INTRO_FADE_DURATION,
+				delay: shouldReduceMotion ? 0 : INTRO_FADE_DELAY,
+			}}
 			className="pointer-events-none fixed left-0 right-0 h-30 z-20 backdrop-blur-2xl bg-background/40"
 			style={{
 				bottom: '-2px',

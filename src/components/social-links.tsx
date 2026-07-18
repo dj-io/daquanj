@@ -76,20 +76,24 @@ export function SocialLinks({
 								<div className='space-y-2'>
 									<div className='flex items-center gap-1'>
 										<div className='min-w-0 flex-1'>
-											<div className='text-sm font-semibold truncate'>
-												{link.name}
+											<div className='flex min-w-0 items-center gap-2'>
+												<div className='truncate text-sm font-semibold'>
+													{link.name}
+												</div>
+												{info.timeline === 'Active' && (
+													<Badge
+														variant='default'
+														className='text-xs'
+													>
+														<info.timelineIcon className='w-3 h-3' />
+														<span>Active</span>
+													</Badge>
+												)}
 											</div>
 											<div className='text-xs text-muted-foreground'>
 												{info.about}
 											</div>
 										</div>
-										<Badge
-											variant='default'
-											className='text-xs'
-										>
-											<info.timelineIcon className='w-3 h-3 inline mr-1' />
-											<span>{info.timeline}</span>
-										</Badge>
 									</div>
 									<div className='text-xs'>
 										<span className='font-medium'>Role:</span>{' '}

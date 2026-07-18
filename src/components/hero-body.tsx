@@ -1,10 +1,11 @@
 'use client'
 
-import { PROJECT_LINKS } from '@/lib/constants'
+import { INTRO_FADE_DURATION, PROJECT_LINKS } from '@/lib/constants'
 import { SocialLinks } from './social-links'
 import XformerlyTwitter from '@/app/svg/X'
 import NPM from '@/app/svg/Npm'
 import Image from 'next/image'
+import { motion, useReducedMotion } from 'motion/react'
 
 const SOCIAL_ICON_MAP = {
 	'Stratum Labs': XformerlyTwitter,
@@ -13,16 +14,31 @@ const SOCIAL_ICON_MAP = {
 	'@prose-motions/core': NPM,
 }
 
-export function HeroBody() {
+interface HeroBodyProps {
+	introComplete: boolean
+}
+
+export function HeroBody({ introComplete }: HeroBodyProps) {
+	const shouldReduceMotion = useReducedMotion()
+	const showContent = introComplete || shouldReduceMotion
 
 	return (
-		<div className='z-10 flex flex-col gap-10 items-center text-center justify-center mt-18 sm:mt-12'>
+		<motion.div
+			initial={false}
+			animate={showContent ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+			transition={{
+				duration: INTRO_FADE_DURATION,
+				delay: shouldReduceMotion ? 0 : 0.4,
+				ease: 'easeOut',
+			}}
+			className='z-10 flex flex-col gap-10 items-center text-center justify-center mt-18 sm:mt-12'
+		>
 			<SocialLinks
 				className='text-sm md:text-md'
 				LINKS={PROJECT_LINKS}
 				iconMap={SOCIAL_ICON_MAP}
 				popover
 			/>
-		</div>
+		</motion.div>
 	)
 }

@@ -1,6 +1,8 @@
-import { Copy } from "./types";
-import { BadgeCheckIcon, CheckCircleIcon } from "lucide-react";
+import { Copy, ProjectTimeline } from './types'
+import { CheckCircleIcon } from 'lucide-react'
 
+export const INTRO_FADE_DURATION = 0.45
+export const INTRO_FADE_DELAY = 1.7
 
 export const COPY: Copy[] = [
 	{
@@ -28,8 +30,8 @@ export const SOCIAL_LINKS = [
 	},
 	{
 		name: 'X',
-		url: 'https://x.com/@djxlabs',
-		handle: '@DJXLABS'
+		url: 'https://x.com/@d16nx',
+		handle: '@D16NX'
 	},
 ]
 
@@ -40,9 +42,9 @@ export const PROJECT_LINKS = [
 		url: 'https://gritai.app',
 		handle: 'GRIT',
 		info: {
-            about: "The Research Workspace",
+            about: "The Agent Workspace For Researchers",
 			timelineIcon: CheckCircleIcon,
-			timeline: "Active",
+			timeline: 'Active' satisfies ProjectTimeline,
             role: "Founder",
             contributions: "0→1 product strategy, customer discovery, fundraising, and full product delivery."
         }
@@ -52,11 +54,11 @@ export const PROJECT_LINKS = [
 		url: 'https://freightfi.app',
 		handle: 'FREIGHTFI',
 		info: {
-            about: "The AI Audit Tool for Fleets, 3PLs, and brokers.",
+            about: "AI Freight Reconciliation for Billing Teams & Brokers",
 			timelineIcon: CheckCircleIcon,
-            timeline: "Active",
+            timeline: 'Completed' satisfies ProjectTimeline,
             role: "AI Consultant",
-			contributions: "Translated founder's vision into an AI-first product roadmap, securing pilot deals & VC interest. Ongoing support for product delivery.",
+			contributions: "Translated founder's vision into an AI-first product roadmap, securing pilot deals & VC interest. Completed 6 weeks of product delivery support.",
         }
 	},
 	{
@@ -66,7 +68,7 @@ export const PROJECT_LINKS = [
 		info: {
             about: "Vim keybindings extension for ProseMirror",
 			timelineIcon: CheckCircleIcon,
-			timeline: "Active",
+			timeline: 'Sidelined' satisfies ProjectTimeline,
             role: "Maintainer",
             contributions: "Created drop-in Vim motions library for ProseMirror, addressing 2-year community request. Ongoing maintenance and support."
         }
