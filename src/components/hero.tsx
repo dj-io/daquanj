@@ -13,6 +13,7 @@ import XformerlyTwitter from '@/app/svg/X'
 import GitHub from '@/app/svg/GitHub'
 import Substack from '@/app/svg/Substack'
 import LinkedIn from '@/app/svg/LinkedIn'
+import { cn } from '@/lib/utils'
 import { motion, useReducedMotion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { useIntro } from './intro-provider'
@@ -27,7 +28,7 @@ const SOCIAL_ICON_MAP = {
 
 export function HeroSection () {
 	const shouldReduceMotion = useReducedMotion()
-	const { completeIntro } = useIntro()
+	const { completeIntro, isIntroComplete } = useIntro()
 	const [introComplete, setIntroComplete] = useState(false)
 
 	useEffect(() => {
@@ -46,7 +47,14 @@ export function HeroSection () {
 
 	return (
 		<>
-			<section className="w-full relative z-10 overflow-hidden md:overflow-auto">
+			<section
+				className={cn(
+					'w-full relative z-10',
+					isIntroComplete
+						? 'overflow-hidden md:overflow-auto'
+						: 'overflow-visible',
+				)}
+			>
 				<div className="mx-auto max-w-5xl px-4 py-10 md:py-20 sm:px-6 lg:px-8 space-y-12">
 
 					{/* Hero content */}
