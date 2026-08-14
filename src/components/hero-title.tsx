@@ -29,7 +29,7 @@ export function HeroTitle ({ introComplete }: HeroTitleProps) {
 				className={
 					showContent
 						? 'relative h-24 w-24'
-						: 'fixed left-1/2 top-1/2 z-50 h-[min(72vw,440px)] w-[min(72vw,440px)] -translate-x-1/2 -translate-y-1/2'
+						: 'fixed inset-0 z-50 m-auto h-[min(72vw,70svh,440px)] w-[min(72vw,70svh,440px)]'
 				}
 			>
 				<Image
@@ -37,7 +37,8 @@ export function HeroTitle ({ introComplete }: HeroTitleProps) {
 					alt="DaquanJ"
 					fill
 					priority
-					className="object-cover rounded-full"
+					sizes="(max-width: 768px) 72vw, 440px"
+					className="rounded-full object-cover"
 				/>
 			</motion.div>
 			<motion.h1

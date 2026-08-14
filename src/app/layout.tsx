@@ -86,7 +86,7 @@ export default function RootLayout({
               <IntroProvider>
                 <Header />
                 <CursorTrail />
-                <main className="flex-1 flex items-center justify-center overflow-hidden md:overflow-auto bg-background">
+                <main className="flex-1 flex items-center justify-center overflow-x-clip md:overflow-auto bg-background">
                   {children}
                 </main>
               </IntroProvider>
