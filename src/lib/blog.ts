@@ -93,10 +93,22 @@ function readingStats(content: string) {
 	}
 }
 
+function normalizeDate(value: unknown, slug: string) {
+	if (value instanceof Date && !Number.isNaN(value.getTime())) {
+		return value.toISOString().slice(0, 10)
+	}
+
+	if (typeof value === 'string' && !Number.isNaN(Date.parse(value))) {
+		return value
+	}
+
+	throw new Error(`Post "${slug}" has an invalid date`)
+}
+
 function parseFrontmatter(data: Record<string, unknown>, slug: string): BlogFrontmatter {
 	const title = data.title
 	const description = data.description
-	const date = data.date
+	const date = normalizeDate(data.date, slug)
 	const topic = data.topic
 
 	if (typeof title !== 'string' || !title.trim()) {
@@ -104,9 +116,6 @@ function parseFrontmatter(data: Record<string, unknown>, slug: string): BlogFron
 	}
 	if (typeof description !== 'string' || !description.trim()) {
 		throw new Error(`Post "${slug}" is missing a description`)
-	}
-	if (typeof date !== 'string' || Number.isNaN(Date.parse(date))) {
-		throw new Error(`Post "${slug}" has an invalid date`)
 	}
 	if (typeof topic !== 'string' || !isTopicSlug(topic)) {
 		throw new Error(`Post "${slug}" has an unknown topic: ${String(topic)}`)
@@ -187,7 +196,7 @@ export function getPostsByTopic(topic: BlogTopicSlug): BlogPost[] {
 	return getAllPosts().filter((post) => post.topic === topic)
 }
 
-export function getFeaturedPost(posts = getAllPosts()): BlogPost | undefined {
+export function getFeaturedPost<T extends BlogPostMeta>(posts: T[]): T | undefined {
 	return posts.find((post) => post.featured) ?? posts[0]
 }
 
