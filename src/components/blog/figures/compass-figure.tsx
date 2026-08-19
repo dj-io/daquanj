@@ -13,14 +13,18 @@ const LEG = 44
 const REST_THETA = 15 / DEG
 const REST_OPENING = 30 / DEG
 const CLOSED_OPENING = 0.1
+const DRAW_TURN = 0.4
 const NEEDLE = { x: 52, y: 72 }
 const MARK_RADIUS = 2 * LEG * Math.sin(REST_OPENING / 2)
+const PENCIL_START = -Math.PI / 2
+const LAP = Math.PI * 2
+const DRAW_SPEED = 1.15
 const REST_PIVOT = {
 	x: NEEDLE.x - LEG * Math.sin(REST_THETA),
 	y: NEEDLE.y - LEG * Math.cos(REST_THETA),
 }
 
-type Phase = 'drop' | 'open' | 'draw' | 'settle'
+type Phase = 'drop' | 'open' | 'draw'
 
 function pivotAt(theta: number) {
 	return {
@@ -30,10 +34,12 @@ function pivotAt(theta: number) {
 }
 
 function leadMark(start: number, end: number) {
-	const delta = end - start
-	if (Math.abs(delta) < 0.03) return ''
+	let delta = end - start
+	while (delta < 0) delta += LAP
+	if (delta < 0.03) return ''
+	if (delta > LAP - 0.03) delta = LAP
 
-	const steps = Math.max(8, Math.ceil(Math.abs(delta) / 0.04))
+	const steps = Math.max(8, Math.ceil(delta / 0.04))
 	const points = range(steps + 1).map((index) => {
 		const angle = start + (delta * index) / steps
 		return [
@@ -87,30 +93,16 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 		let phase: Phase = 'drop'
 		let phaseTime = 0
 		let theta = REST_THETA
-		let thetaVel = 0
 		let opening = CLOSED_OPENING
 		let openingVel = 0
 		let y = -14
 		let yVel = 0
-		let sweep = 0
+		let drawn = 0
 		let prev = 0
 
 		pose(theta, opening, y)
 		guide.attr('opacity', 0)
 		mark.attr('d', '')
-
-		const spring = (
-			value: number,
-			velocity: number,
-			target: number,
-			stiffness: number,
-			damping: number,
-			dt: number,
-		) => {
-			const accel = stiffness * (target - value) - damping * velocity
-			const nextVel = velocity + accel * dt
-			return { value: value + nextVel * dt, velocity: nextVel }
-		}
 
 		const step = (dt: number) => {
 			phaseTime += dt
@@ -133,40 +125,29 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 			}
 
 			if (phase === 'open') {
-				const next = spring(opening, openingVel, REST_OPENING, 78, 6.8, dt)
-				opening = next.value
-				openingVel = next.velocity
-				if (phaseTime > 1.05) {
+				const accel = 78 * (REST_OPENING - opening) - 6.8 * openingVel
+				openingVel += accel * dt
+				opening += openingVel * dt
+				if (phaseTime > 0.9) {
 					opening = REST_OPENING
 					openingVel = 0
-					thetaVel = 2.55
 					phase = 'draw'
 					phaseTime = 0
 				}
 			} else if (phase === 'draw') {
-				thetaVel -= (0.58 * Math.sign(thetaVel) + 0.34 * thetaVel) * dt
-				theta += thetaVel * dt
-				const flex = spring(opening, openingVel, REST_OPENING, 22, 3.1, dt)
-				opening = flex.value + thetaVel * 0.012
-				openingVel = flex.velocity
-				sweep = Math.max(sweep, theta - REST_THETA)
-				if (thetaVel <= 0.03 || phaseTime > 2.6) {
-					thetaVel = 0
-					phase = 'settle'
-					phaseTime = 0
-				}
-			} else if (phase === 'settle') {
-				const nextTheta = spring(theta, thetaVel, REST_THETA, 9.5, 4.4, dt)
-				theta = nextTheta.value
-				thetaVel = nextTheta.velocity
-				const nextOpen = spring(opening, openingVel, REST_OPENING, 22, 4.8, dt)
-				opening = nextOpen.value
-				openingVel = nextOpen.velocity
-				guide.attr('opacity', Math.min(0.45, phaseTime * 0.7))
-			}
+				drawn += DRAW_SPEED * dt
+				const lap = drawn % LAP
+				const turning = 0.5 - 0.5 * Math.cos(lap)
+				theta = REST_THETA + DRAW_TURN * turning
+				opening = REST_OPENING + 0.025 * Math.sin(lap * 2)
 
-			if (sweep > 0.04) {
-				mark.attr('d', leadMark(REST_THETA - REST_OPENING, REST_THETA - REST_OPENING + sweep))
+				if (drawn < LAP) {
+					mark.attr('d', leadMark(PENCIL_START, PENCIL_START + drawn))
+					guide.attr('opacity', 0)
+				} else {
+					guide.attr('opacity', 0.4)
+					mark.attr('d', leadMark(PENCIL_START, PENCIL_START + lap))
+				}
 			}
 
 			pose(theta, opening, y)
@@ -182,29 +163,18 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 				const dt = Math.min(0.033, Math.max(0.008, (now - prev) / 1000))
 				prev = now
 				step(dt)
-
-				if (phase === 'settle' && phaseTime > 1.35) {
-					pose(REST_THETA, REST_OPENING, 0)
-					guide.attr('opacity', 0.45)
-					if (sweep > 0.04) {
-						mark.attr(
-							'd',
-							leadMark(REST_THETA - REST_OPENING, REST_THETA - REST_OPENING + sweep),
-						)
-					}
-					loop?.stop()
-				}
 			})
 		}
 
 		const observer = new IntersectionObserver(
 			(entries) => {
-				if (entries.some((entry) => entry.isIntersecting)) {
-					play()
-					observer.disconnect()
+				if (entries.some((entry) => entry.isIntersecting)) play()
+				else {
+					loop?.stop()
+					loop = undefined
 				}
 			},
-			{ threshold: 0.3, rootMargin: '0px 0px -8% 0px' },
+			{ threshold: 0.25 },
 		)
 		observer.observe(root)
 
@@ -218,8 +188,8 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 		<div ref={rootRef} className="flex flex-col items-start gap-2">
 			<svg
 				ref={svgRef}
-				viewBox="-16 -8 108 152"
-				className="h-auto w-40 shrink-0 overflow-visible text-foreground sm:w-48"
+				viewBox="18 12 72 92"
+				className="h-auto w-32 shrink-0 overflow-visible text-foreground sm:w-40"
 				role="img"
 				aria-label="Drawing compass"
 			>
@@ -237,9 +207,9 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 					data-part="mark"
 					fill="none"
 					stroke="currentColor"
-					strokeWidth="1.25"
+					strokeWidth="1.35"
 					strokeLinecap="round"
-					opacity="0.78"
+					opacity="0.88"
 				/>
 
 				<g
