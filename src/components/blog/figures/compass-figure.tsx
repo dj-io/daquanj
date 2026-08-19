@@ -1,7 +1,7 @@
 'use client'
 
 import { useLayoutEffect, useRef } from 'react'
-import { line, range, select, timer } from 'd3'
+import { select, timer } from 'd3'
 import { asBoolean, asString } from '@/lib/blog-figures'
 
 type CompassFigureProps = {
@@ -14,31 +14,9 @@ const REST_SPIN = 15 / DEG
 const REST_OPENING = 30 / DEG
 const CLOSED_OPENING = 0.1
 const MARK_RADIUS = 2 * LEG * Math.sin(REST_OPENING / 2)
-const LAP = Math.PI * 2
-const DRAW_SPEED = 1.05
-const ORIGIN = { x: 64, y: 64 }
+const ORIGIN = { x: 48, y: 62 }
 
-type Phase = 'drop' | 'open' | 'draw'
-
-const REST_PENCIL = {
-	x: LEG * Math.sin(REST_OPENING),
-	y: LEG * (Math.cos(REST_OPENING) - 1),
-}
-const REST_PENCIL_ANGLE = Math.atan2(
-	REST_PENCIL.x * Math.sin(REST_SPIN) + REST_PENCIL.y * Math.cos(REST_SPIN),
-	REST_PENCIL.x * Math.cos(REST_SPIN) - REST_PENCIL.y * Math.sin(REST_SPIN),
-)
-
-function leadFrom(start: number, distance: number) {
-	if (distance < 0.03) return ''
-	const span = Math.min(distance, LAP)
-	const steps = Math.max(8, Math.ceil(span / 0.04))
-	const points = range(steps + 1).map((index) => {
-		const angle = start + (span * index) / steps
-		return [MARK_RADIUS * Math.cos(angle), MARK_RADIUS * Math.sin(angle)] as [number, number]
-	})
-	return line()(points) ?? ''
-}
+type Phase = 'drop' | 'open'
 
 export function CompassFigure({ spec }: CompassFigureProps) {
 	const rootRef = useRef<HTMLDivElement>(null)
@@ -57,34 +35,30 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 		const world = node.select('[data-part="world"]')
 		const spin = node.select('[data-part="spin"]')
 		const pencil = node.select('[data-part="pencil"]')
-		const mark = node.select('[data-part="mark"]')
 		const guide = node.select('[data-part="guide"]')
 
-		const pose = (spinAngle: number, opening: number, y = 0) => {
+		const pose = (opening: number, y = 0) => {
 			world.attr('transform', `translate(${ORIGIN.x} ${ORIGIN.y + y})`)
-			spin.attr('transform', `rotate(${spinAngle * DEG})`)
+			spin.attr('transform', `rotate(${REST_SPIN * DEG})`)
 			pencil.attr('transform', `rotate(${-opening * DEG})`)
+			guide.attr('opacity', 0.45 * Math.min(1, opening / REST_OPENING))
 		}
 
 		if (reduced) {
-			pose(REST_SPIN, REST_OPENING)
-			guide.attr('opacity', 0.45)
+			pose(REST_OPENING)
 			return
 		}
 
 		let phase: Phase = 'drop'
 		let phaseTime = 0
-		let spinAngle = REST_SPIN
 		let opening = CLOSED_OPENING
 		let openingVel = 0
 		let y = -14
 		let yVel = 0
-		let drawn = 0
 		let prev = 0
+		let loop: ReturnType<typeof timer> | undefined
 
-		pose(spinAngle, opening, y)
-		guide.attr('opacity', 0)
-		mark.attr('d', '')
+		pose(opening, y)
 
 		const step = (dt: number) => {
 			phaseTime += dt
@@ -110,35 +84,27 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 				const accel = 78 * (REST_OPENING - opening) - 6.8 * openingVel
 				openingVel += accel * dt
 				opening += openingVel * dt
-				spinAngle = REST_SPIN
 				if (phaseTime > 0.9) {
 					opening = REST_OPENING
 					openingVel = 0
-					phase = 'draw'
-					phaseTime = 0
-				}
-			} else if (phase === 'draw') {
-				opening = REST_OPENING
-				drawn += DRAW_SPEED * dt
-				spinAngle = REST_SPIN + drawn
-
-				const tipAngle = REST_PENCIL_ANGLE + drawn
-				if (drawn < LAP) {
-					mark.attr('d', leadFrom(REST_PENCIL_ANGLE, drawn))
-					guide.attr('opacity', Math.min(0.22, drawn / LAP))
-				} else {
-					guide.attr('opacity', 0.42)
-					mark.attr('d', leadFrom(tipAngle - 0.9, 0.9))
+					pose(opening, y)
+					loop?.stop()
+					return
 				}
 			}
 
-			pose(spinAngle, opening, y)
+			pose(opening, y)
 		}
-
-		let loop: ReturnType<typeof timer> | undefined
 
 		const play = () => {
 			if (loop) return
+			phase = 'drop'
+			phaseTime = 0
+			opening = CLOSED_OPENING
+			openingVel = 0
+			y = -14
+			yVel = 0
+			pose(opening, y)
 			prev = performance.now()
 			loop = timer(() => {
 				const now = performance.now()
@@ -170,8 +136,8 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 		<div ref={rootRef} className="flex flex-row items-center gap-3">
 			<svg
 				ref={svgRef}
-				viewBox="0 0 128 128"
-				className="h-auto w-32 shrink-0 overflow-visible text-foreground sm:w-36"
+				viewBox="0 0 88 96"
+				className="h-auto w-28 shrink-0 overflow-visible text-foreground sm:w-32"
 				role="img"
 				aria-label="Drawing compass"
 			>
@@ -183,14 +149,6 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 						stroke="currentColor"
 						strokeWidth="1.15"
 						opacity={animate ? 0 : 0.45}
-					/>
-					<path
-						data-part="mark"
-						fill="none"
-						stroke="currentColor"
-						strokeWidth="1.35"
-						strokeLinecap="round"
-						opacity="0.9"
 					/>
 
 					<g data-part="spin" transform={`rotate(${REST_SPIN * DEG})`}>
