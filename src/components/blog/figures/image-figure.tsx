@@ -22,13 +22,16 @@ export function ImageFigure({ spec, priority = false }: ImageFigureProps) {
 					{title}
 				</p>
 			) : null}
-			<div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-zinc-950">
+			<div
+				className="relative w-full overflow-hidden rounded-lg bg-zinc-950"
+				style={{ aspectRatio: asString(spec.aspect) ?? '16 / 10' }}
+			>
 				<Image
 					src={src}
 					alt={alt}
 					fill
 					priority={priority}
-					sizes="(min-width: 768px) 672px, 100vw"
+					sizes="(min-width: 768px) 768px, 100vw"
 					className="object-cover"
 				/>
 			</div>
