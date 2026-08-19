@@ -1,0 +1,55 @@
+{
+  "slug": "the-workspace-is-the-product",
+  "frontmatter": {
+    "title": "The workspace is the product",
+    "description": "Chat is a doorway. The work happens in a place you can return to — with sources, structure, and enough quiet to think.",
+    "date": "2026-08-12",
+    "authors": [
+      "daquan-johnson"
+    ],
+    "tag": "Research",
+    "slug": "the-workspace-is-the-product",
+    "draft": false,
+    "doi": ""
+  },
+  "canonicalUrl": "/blog/the-workspace-is-the-product/",
+  "markdown": "---\ntitle: \"The workspace is the product\"\ndescription: \"Chat is a doorway. The work happens in a place you can return to — with sources, structure, and enough quiet to think.\"\ndate: \"2026-08-12\"\nauthors: \"Da'Quan Johnson\"\ntag: \"Research\"\nslug: \"the-workspace-is-the-product\"\ncanonical: \"/blog/the-workspace-is-the-product/\"\n---\n\n> [Figure: the-workspace-is-the-product/hero — image: Chat is a doorway.]\n\n*The work happens in a place you can return to.*\n\nMost AI products still treat the conversation as the artifact. You ask, it answers, you copy something out, and the thread becomes landfill. That is fine for a lookup. It is a poor home for research.\n\nResearch is not a prompt. It is a pile of sources, a half-formed claim, three dead ends, and a sentence you keep rewriting because the idea is still moving. The interface has to hold that mess without flattening it into chat history.\n\n<Note>\nThis is the bet behind [Grit](https://gritai.app): the agent is useful, but the workspace is what you keep.\n</Note>\n\n## Chat is a doorway\n\nA good chat is a start. It gets you a sketch, a reading list, a first pass at the argument. The failure mode is staying there. Threads hide structure. They hide what you already decided. They make yesterday's thinking expensive to reopen.\n\nWhen the conversation *is* the product, the model becomes the room. That is the wrong room. The model should walk in, do a job, and leave the furniture where you left it.\n\n## What a research workspace has to hold\n\nA workspace worth returning to needs a few boring things done well:\n\n- **A place for the work itself** — the draft, the note, the claim — not only the dialogue around it.\n- **Sources that stay attached** — so you can see what a sentence is standing on.\n- **Memory that is yours** — not a hidden context window that evaporates when the tab does.\n- **An agent that can act in that place** — retrieve, rewrite, challenge — without taking ownership of it.\n\nNone of this is spectacular. That is the point. Spectacular is what you demo. Habitable is what you open on a Tuesday.\n\n## Agents need a room, not a monologue\n\nThe interesting shift in applied AI is not \"the model got smarter.\" It is that the model can now do work across tools, files, and time. That only pays off if there is a stable surface for the work to land on.\n\nOtherwise you get the pattern I keep seeing in the field: a capable agent, a sloppy container, and a person who still pastes the important bits into a doc they trust. The doc is the product. The agent is a visitor.\n\nIf you are building for researchers — or anyone doing work that takes more than one sitting — design the room first. Then let the agent into it.\n\n## The test\n\nA simple test: close the tab. Come back tomorrow. Can you find the claim, the sources, and the next question without rereading a transcript?\n\nIf the answer is no, you built a chat. If the answer is yes, you are getting closer to a workspace.\n",
+  "headings": [
+    {
+      "id": "chat-is-a-doorway",
+      "text": "Chat is a doorway",
+      "level": 2
+    },
+    {
+      "id": "what-a-research-workspace-has-to-hold",
+      "text": "What a research workspace has to hold",
+      "level": 2
+    },
+    {
+      "id": "agents-need-a-room-not-a-monologue",
+      "text": "Agents need a room, not a monologue",
+      "level": 2
+    },
+    {
+      "id": "the-test",
+      "text": "The test",
+      "level": 2
+    }
+  ],
+  "readingTimeMinutes": 2,
+  "wordCount": 477,
+  "figureIds": [
+    "the-workspace-is-the-product/hero"
+  ],
+  "figures": {
+    "the-workspace-is-the-product/hero": {
+      "kind": "image",
+      "spec": {
+        "version": 1,
+        "src": "/images/blog/blog-workspace.jpg",
+        "title": "Chat is a doorway.",
+        "alt": "Chat is a doorway."
+      }
+    }
+  }
+}

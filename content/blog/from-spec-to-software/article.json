@@ -1,0 +1,50 @@
+{
+  "slug": "from-spec-to-software",
+  "frontmatter": {
+    "title": "From spec to software",
+    "description": "Forward-deployed engineering is less about heroics and more about turning a customer's language into something they can use next week.",
+    "date": "2026-07-28",
+    "authors": [
+      "daquan-johnson"
+    ],
+    "tag": "Building",
+    "slug": "from-spec-to-software",
+    "draft": false,
+    "doi": ""
+  },
+  "canonicalUrl": "/blog/from-spec-to-software/",
+  "markdown": "---\ntitle: \"From spec to software\"\ndescription: \"Forward-deployed engineering is less about heroics and more about turning a customer's language into something they can use next week.\"\ndate: \"2026-07-28\"\nauthors: \"Da'Quan Johnson\"\ntag: \"Building\"\nslug: \"from-spec-to-software\"\ncanonical: \"/blog/from-spec-to-software/\"\n---\n\n> [Figure: from-spec-to-software/hero — image: Translate before you invent.]\n\n*Turn a customer's language into something they can use next week.*\n\nThe job I learned in the field was not \"write the clever part.\" It was sit with a customer long enough that their spec stops being a wishlist and starts being a sequence of decisions.\n\nForward-deployed work looks glamorous in a job post. In the room it is quieter. You listen. You throw away half the diagram. You ship a thin slice that makes the next conversation more honest.\n\n## Translate before you invent\n\nMost teams do not need a new architecture on day one. They need someone who can hear \"we reconcile freight bills by hand\" and return with the smallest system that makes that sentence obsolete.\n\nThat translation is the work. The software is the proof.\n\nWhen I helped stand up [FreightFi](https://freightfi.app), the useful skill was not knowing every model. It was taking a founder's vision, a billing team's actual week, and a six-week clock, and refusing to confuse those three things.\n\n## Ship the decision, not the deck\n\nA spec is a stack of undecided tradeoffs wearing the costume of a plan. Your job is to force the tradeoffs into the open:\n\n- What happens if we only do the happy path?\n- Which error is expensive, and which is just ugly?\n- What would we be ashamed to demo in two weeks?\n\nThen you build the version that answers those questions in software, not in slides. Customers can argue with a slide forever. They cannot argue with a workflow they just used.\n\n## Leave the system smaller than you found the problem\n\nThe temptation, especially now, is to sprinkle an agent on every step. Sometimes that is right. Often it is a way to avoid naming the workflow.\n\nApplied AI is still software. It still has edges, permissions, and a person who will be blamed when it is wrong. The courtesy is to make the system narrower than the problem — a tool that does one painful job well — and to be present while it meets the real data.\n\nIf you can do that, the next spec is easier. Not because you got faster at coding. Because everyone finally agrees what the work is.\n",
+  "headings": [
+    {
+      "id": "translate-before-you-invent",
+      "text": "Translate before you invent",
+      "level": 2
+    },
+    {
+      "id": "ship-the-decision-not-the-deck",
+      "text": "Ship the decision, not the deck",
+      "level": 2
+    },
+    {
+      "id": "leave-the-system-smaller-than-you-found-the-problem",
+      "text": "Leave the system smaller than you found the problem",
+      "level": 2
+    }
+  ],
+  "readingTimeMinutes": 2,
+  "wordCount": 379,
+  "figureIds": [
+    "from-spec-to-software/hero"
+  ],
+  "figures": {
+    "from-spec-to-software/hero": {
+      "kind": "image",
+      "spec": {
+        "version": 1,
+        "src": "/images/blog/blog-spec.jpg",
+        "title": "Translate before you invent.",
+        "alt": "Translate before you invent."
+      }
+    }
+  }
+}

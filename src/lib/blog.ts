@@ -2,17 +2,20 @@ import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
 import {
-	adaptFigurePlaceholders,
 	coverImageFromFigures,
 	extractFigurePlaceholders,
 	parseFiguresFile,
 	validateFigurePlaceholders,
-	type BlogFigures,
 } from './blog-figures'
 import {
+	BLOG_AUTHORS,
 	BLOG_TOPICS,
+	getAuthor,
 	parseDate,
-	type BlogFrontmatter,
+	topicFromTag,
+	type ArticleDocument,
+	type ArticleFrontmatter,
+	type BlogAuthorId,
 	type BlogHeading,
 	type BlogPost,
 	type BlogPostMeta,
@@ -21,18 +24,23 @@ import {
 
 export {
 	BLOG_AUTHOR,
+	BLOG_AUTHORS,
 	BLOG_TOPICS,
 	formatDate,
 	formatDateLong,
+	getAuthor,
 	parseDate,
-	type BlogFrontmatter,
+	topicFromTag,
+	type ArticleDocument,
+	type ArticleFrontmatter,
+	type BlogAuthorId,
 	type BlogHeading,
 	type BlogPost,
 	type BlogPostMeta,
 	type BlogTopicSlug,
 } from './blog-meta'
 
-export { adaptFigurePlaceholders } from './blog-figures'
+export { adaptArticleMarkdown, adaptCalloutPlaceholders, adaptFigurePlaceholders } from './blog-figures'
 
 const BLOG_DIR = path.join(process.cwd(), 'content/blog')
 const WORDS_PER_MINUTE = 220
@@ -81,75 +89,151 @@ function normalizeDate(value: unknown, slug: string) {
 	}
 
 	if (typeof value === 'string' && !Number.isNaN(Date.parse(value))) {
-		return value
+		return value.slice(0, 10)
 	}
 
 	throw new Error(`Post "${slug}" has an invalid date`)
 }
 
-function parseFrontmatter(data: Record<string, unknown>, slug: string): BlogFrontmatter {
-	const title = data.title
-	const description = data.description
-	const date = normalizeDate(data.date, slug)
-	const topic = data.topic
+function asString(value: unknown, field: string, slug: string) {
+	if (typeof value !== 'string' || !value.trim()) {
+		throw new Error(`Post "${slug}" is missing ${field}`)
+	}
+	return value.trim()
+}
 
-	if (typeof title !== 'string' || !title.trim()) {
-		throw new Error(`Post "${slug}" is missing a title`)
-	}
-	if (typeof description !== 'string' || !description.trim()) {
-		throw new Error(`Post "${slug}" is missing a description`)
-	}
-	if (typeof topic !== 'string' || !isTopicSlug(topic)) {
-		throw new Error(`Post "${slug}" has an unknown topic: ${String(topic)}`)
+function normalizeAuthorId(value: string) {
+	const trimmed = value.trim()
+	if (trimmed in BLOG_AUTHORS) return trimmed as BlogAuthorId
+
+	const match = Object.values(BLOG_AUTHORS).find(
+		(author) => author.id === trimmed || author.name === trimmed,
+	)
+	return match?.id ?? trimmed
+}
+
+function parseFrontmatter(data: Record<string, unknown>, slug: string): ArticleFrontmatter {
+	const authors = (
+		Array.isArray(data.authors)
+			? data.authors.filter((author): author is string => typeof author === 'string' && author.trim() !== '')
+			: typeof data.authors === 'string'
+				? [data.authors]
+				: ['daquan-johnson']
+	).map(normalizeAuthorId)
+
+	if (authors.length === 0) {
+		throw new Error(`Post "${slug}" is missing authors`)
 	}
 
 	return {
-		title: title.trim(),
-		description: description.trim(),
-		date,
-		topic,
-		featured: Boolean(data.featured),
+		title: asString(data.title, 'title', slug),
+		description: asString(data.description, 'description', slug),
+		date: normalizeDate(data.date, slug),
+		authors,
+		tag: asString(data.tag, 'tag', slug),
+		slug: typeof data.slug === 'string' && data.slug.trim() ? data.slug.trim() : slug,
 		draft: Boolean(data.draft),
+		doi: typeof data.doi === 'string' ? data.doi : '',
 	}
 }
 
-function loadFigures(slug: string): BlogFigures {
-	const file = path.join(BLOG_DIR, `${slug}.json`)
-	if (!fs.existsSync(file)) return {}
-
-	const data = JSON.parse(fs.readFileSync(file, 'utf8')) as unknown
-	return parseFiguresFile(slug, data)
+function yamlString(value: string) {
+	return JSON.stringify(value)
 }
 
-function readPostFile(filename: string): BlogPost {
-	const slug = filename.replace(/\.mdx$/, '')
-	const raw = fs.readFileSync(path.join(BLOG_DIR, filename), 'utf8')
-	const { data, content } = matter(raw)
-	const frontmatter = parseFrontmatter(data, slug)
-	const figures = loadFigures(slug)
+function buildMarkdown(frontmatter: ArticleFrontmatter, body: string, canonicalUrl: string) {
+	const authorNames = frontmatter.authors.map((id) => getAuthor(id).name).join(', ')
+
+	return [
+		'---',
+		`title: ${yamlString(frontmatter.title)}`,
+		`description: ${yamlString(frontmatter.description)}`,
+		`date: ${yamlString(frontmatter.date)}`,
+		`authors: ${yamlString(authorNames)}`,
+		`tag: ${yamlString(frontmatter.tag)}`,
+		`slug: ${yamlString(frontmatter.slug)}`,
+		`canonical: ${yamlString(canonicalUrl)}`,
+		'---',
+		'',
+		body.trim(),
+		'',
+	].join('\n')
+}
+
+function readArticleFile(slug: string): BlogPost {
+	const file = path.join(BLOG_DIR, slug, 'article.json')
+	const raw = JSON.parse(fs.readFileSync(file, 'utf8')) as Record<string, unknown>
+	const documentSlug = typeof raw.slug === 'string' && raw.slug.trim() ? raw.slug.trim() : slug
+	if (documentSlug !== slug) {
+		throw new Error(`Post "${slug}" slug does not match folder name`)
+	}
+
+	const frontmatter = parseFrontmatter(
+		(raw.frontmatter && typeof raw.frontmatter === 'object'
+			? raw.frontmatter
+			: {}) as Record<string, unknown>,
+		slug,
+	)
+	const markdownSource = typeof raw.markdown === 'string' ? raw.markdown : ''
+	if (!markdownSource.trim()) {
+		throw new Error(`Post "${slug}" is missing markdown`)
+	}
+
+	const { content } = matter(markdownSource)
+	const figures = parseFiguresFile(slug, raw)
 	const placeholders = extractFigurePlaceholders(content)
 	validateFigurePlaceholders(slug, placeholders, figures)
 	const figureIds = placeholders.map((placeholder) => placeholder.id)
 	const { wordCount, readingTime } = readingStats(content)
+	const canonicalUrl = `${blogOrigin()}/blog/${slug}/`
+	const markdown = buildMarkdown(frontmatter, content, canonicalUrl)
+	const headings = extractHeadings(content)
+	const topic = topicFromTag(frontmatter.tag)
+
+	const document: ArticleDocument = {
+		slug,
+		frontmatter: {
+			...frontmatter,
+			slug,
+		},
+		canonicalUrl,
+		markdown,
+		headings,
+		readingTimeMinutes: readingTime,
+		wordCount,
+		figureIds,
+		figures,
+	}
 
 	return {
 		slug,
-		...frontmatter,
-		featured: frontmatter.featured ?? false,
-		draft: frontmatter.draft ?? false,
+		title: frontmatter.title,
+		description: frontmatter.description,
+		date: frontmatter.date,
+		topic,
+		authors: frontmatter.authors,
+		tag: frontmatter.tag,
+		doi: frontmatter.doi,
 		image: coverImageFromFigures(figureIds, figures),
+		draft: frontmatter.draft,
 		readingTime,
 		wordCount,
-		headings: extractHeadings(content),
+		headings,
 		figureIds,
-		figures,
 		content,
+		markdown,
+		figures,
+		document,
 	}
 }
 
-function listPostFiles() {
+function listPostSlugs() {
 	if (!fs.existsSync(BLOG_DIR)) return []
-	return fs.readdirSync(BLOG_DIR).filter((file) => file.endsWith('.mdx'))
+	return fs
+		.readdirSync(BLOG_DIR, { withFileTypes: true })
+		.filter((entry) => entry.isDirectory())
+		.map((entry) => entry.name)
+		.filter((slug) => fs.existsSync(path.join(BLOG_DIR, slug, 'article.json')))
 }
 
 function isPublished(post: BlogPostMeta) {
@@ -169,17 +253,15 @@ export function blogOrigin() {
 }
 
 export function getAllPosts(): BlogPost[] {
-	return listPostFiles()
-		.map(readPostFile)
+	return listPostSlugs()
+		.map(readArticleFile)
 		.filter(isPublished)
 		.sort(comparePosts)
 }
 
 export function getPostBySlug(slug: string): BlogPost | null {
-	const filename = `${slug}.mdx`
-	if (!listPostFiles().includes(filename)) return null
-
-	const post = readPostFile(filename)
+	if (!listPostSlugs().includes(slug)) return null
+	const post = readArticleFile(slug)
 	return isPublished(post) ? post : null
 }
 
@@ -217,44 +299,10 @@ export function getTopics() {
 	}))
 }
 
-export function serializeArticle(post: BlogPost) {
-	const origin = blogOrigin()
-
-	return {
-		slug: post.slug,
-		frontmatter: {
-			title: post.title,
-			description: post.description,
-			date: post.date,
-			topic: post.topic,
-			slug: post.slug,
-			featured: post.featured,
-			draft: post.draft,
-		},
-		canonicalUrl: `${origin}/blog/${post.slug}/`,
-		markdown: post.content,
-		headings: post.headings,
-		readingTimeMinutes: post.readingTime,
-		wordCount: post.wordCount,
-		figureIds: post.figureIds,
-		figures: post.figures,
-	}
+export function serializeArticle(post: BlogPost): ArticleDocument {
+	return post.document
 }
 
 export function serializeArticleMarkdown(post: BlogPost) {
-	const yaml = [
-		'---',
-		`title: ${JSON.stringify(post.title)}`,
-		`description: ${JSON.stringify(post.description)}`,
-		`date: ${JSON.stringify(post.date)}`,
-		`topic: ${JSON.stringify(post.topic)}`,
-		`slug: ${JSON.stringify(post.slug)}`,
-		`canonical: ${JSON.stringify(`${blogOrigin()}/blog/${post.slug}/`)}`,
-		'---',
-		'',
-		post.content.trim(),
-		'',
-	].join('\n')
-
-	return yaml
+	return post.markdown
 }

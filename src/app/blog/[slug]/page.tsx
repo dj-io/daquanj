@@ -9,7 +9,7 @@ import { ArticleToc } from '@/components/blog/article-toc'
 import { createMdxComponents } from '@/components/blog/mdx-components'
 import {
 	BLOG_TOPICS,
-	adaptFigurePlaceholders,
+	adaptArticleMarkdown,
 	getAdjacentPosts,
 	getAllPosts,
 	getPostBySlug,
@@ -69,7 +69,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
 				<div className="blog-prose mt-2">
 					<MDXRemote
-						source={adaptFigurePlaceholders(post.content)}
+						source={adaptArticleMarkdown(post.content)}
 						components={createMdxComponents(post.figures, {
 							priorityFigureId: post.figureIds[0],
 						})}

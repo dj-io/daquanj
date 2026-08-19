@@ -3,7 +3,7 @@ export const FIGURE_KINDS = ['image', 'chart', 'table', 'algorithm', 'stat-grid'
 export type FigureKind = (typeof FIGURE_KINDS)[number]
 
 export type FigureRecord = {
-	kind: FigureKind
+	kind: string
 	spec: Record<string, unknown>
 }
 
@@ -19,7 +19,7 @@ const FIGURE_LINE =
 	/^>\s*\[Figure:\s*(\S+)\s+[—–-]\s+([a-z0-9-]+):\s+([^\]]+)\]\s*$/
 const ITALIC_CAPTION = /^\*(.+)\*$/
 
-function isFigureKind(value: string): value is FigureKind {
+export function isRenderableFigureKind(value: string): value is FigureKind {
 	return (FIGURE_KINDS as readonly string[]).includes(value)
 }
 
@@ -65,6 +65,23 @@ export function adaptFigurePlaceholders(markdown: string) {
 	return output.join('\n')
 }
 
+const CALLOUT_TITLE = /^>\s*\*\*(.+)\*\*\s*$/
+
+export function adaptCalloutPlaceholders(markdown: string) {
+	return markdown
+		.split('\n')
+		.map((line) => {
+			const title = CALLOUT_TITLE.exec(line)
+			if (!title) return line
+			return `<Callout title=${JSON.stringify(title[1])} />`
+		})
+		.join('\n')
+}
+
+export function adaptArticleMarkdown(markdown: string) {
+	return adaptFigurePlaceholders(adaptCalloutPlaceholders(markdown))
+}
+
 export function coverImageFromFigures(figureIds: string[], figures: BlogFigures) {
 	const ordered = [
 		...figureIds,
@@ -100,10 +117,8 @@ export function parseFiguresFile(slug: string, data: unknown): BlogFigures {
 		}
 
 		const { kind, spec } = value as { kind?: unknown; spec?: unknown }
-		if (typeof kind !== 'string' || !isFigureKind(kind)) {
-			throw new Error(
-				`Post "${slug}" figure "${id}" has unsupported kind ${JSON.stringify(kind)}`,
-			)
+		if (typeof kind !== 'string' || !kind.trim()) {
+			throw new Error(`Post "${slug}" figure "${id}" is missing a kind`)
 		}
 		if (!spec || typeof spec !== 'object' || Array.isArray(spec)) {
 			throw new Error(`Post "${slug}" figure "${id}" is missing a spec object`)

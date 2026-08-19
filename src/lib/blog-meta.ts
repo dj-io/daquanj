@@ -20,12 +20,46 @@ export const BLOG_TOPICS = {
 
 export type BlogTopicSlug = keyof typeof BLOG_TOPICS
 
-export const BLOG_AUTHOR = "Da'Quan Johnson"
+export const BLOG_AUTHORS = {
+	'daquan-johnson': {
+		id: 'daquan-johnson',
+		name: "Da'Quan Johnson",
+		url: 'https://x.com/d16nx',
+		initial: 'D',
+	},
+} as const
+
+export type BlogAuthorId = keyof typeof BLOG_AUTHORS
+
+export const BLOG_AUTHOR = BLOG_AUTHORS['daquan-johnson'].name
 
 export type BlogHeading = {
 	id: string
 	text: string
 	level: 2 | 3
+}
+
+export type ArticleFrontmatter = {
+	title: string
+	description: string
+	date: string
+	authors: string[]
+	tag: string
+	slug: string
+	draft: boolean
+	doi: string
+}
+
+export type ArticleDocument = {
+	slug: string
+	frontmatter: ArticleFrontmatter
+	canonicalUrl: string
+	markdown: string
+	headings: BlogHeading[]
+	readingTimeMinutes: number
+	wordCount: number
+	figureIds: string[]
+	figures: BlogFigures
 }
 
 export type BlogPostMeta = {
@@ -34,8 +68,10 @@ export type BlogPostMeta = {
 	description: string
 	date: string
 	topic: BlogTopicSlug
+	authors: string[]
+	tag: string
+	doi: string
 	image?: string
-	featured: boolean
 	draft: boolean
 	readingTime: number
 	wordCount: number
@@ -45,16 +81,9 @@ export type BlogPostMeta = {
 
 export type BlogPost = BlogPostMeta & {
 	content: string
+	markdown: string
 	figures: BlogFigures
-}
-
-export type BlogFrontmatter = {
-	title: string
-	description: string
-	date: string
-	topic: BlogTopicSlug
-	featured?: boolean
-	draft?: boolean
+	document: ArticleDocument
 }
 
 export function parseDate(date: string) {
@@ -76,4 +105,21 @@ export function formatDateLong(date: string) {
 		day: 'numeric',
 		year: 'numeric',
 	}).format(parseDate(date))
+}
+
+export function topicFromTag(tag: string): BlogTopicSlug {
+	const topic = Object.values(BLOG_TOPICS).find((item) => item.label === tag)
+	if (!topic) {
+		throw new Error(`Unknown article tag: ${tag}`)
+	}
+	return topic.slug
+}
+
+export function getAuthor(id: string) {
+	return BLOG_AUTHORS[id as BlogAuthorId] ?? {
+		id,
+		name: id,
+		url: undefined,
+		initial: id.slice(0, 1).toUpperCase(),
+	}
 }
