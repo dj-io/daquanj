@@ -1,7 +1,7 @@
 'use client'
 
 import { useLayoutEffect, useRef } from 'react'
-import { path as d3Path, select, timer } from 'd3'
+import { line, range, select, timer } from 'd3'
 import { asBoolean, asString } from '@/lib/blog-figures'
 
 type CompassFigureProps = {
@@ -12,12 +12,15 @@ const DEG = 180 / Math.PI
 const LEG = 44
 const REST_THETA = 15 / DEG
 const REST_OPENING = 30 / DEG
-const NEEDLE = { x: 47.4, y: 60.5 }
+const CLOSED_OPENING = 0.1
+const NEEDLE = { x: 52, y: 72 }
 const MARK_RADIUS = 2 * LEG * Math.sin(REST_OPENING / 2)
 const REST_PIVOT = {
 	x: NEEDLE.x - LEG * Math.sin(REST_THETA),
 	y: NEEDLE.y - LEG * Math.cos(REST_THETA),
 }
+
+type Phase = 'drop' | 'open' | 'draw' | 'settle'
 
 function pivotAt(theta: number) {
 	return {
@@ -28,15 +31,18 @@ function pivotAt(theta: number) {
 
 function leadMark(start: number, end: number) {
 	const delta = end - start
-	if (delta < 0.02) return ''
+	if (Math.abs(delta) < 0.03) return ''
 
-	const mark = d3Path()
-	mark.moveTo(
-		NEEDLE.x + MARK_RADIUS * Math.sin(start),
-		NEEDLE.y + MARK_RADIUS * Math.cos(start),
-	)
-	mark.arc(NEEDLE.x, NEEDLE.y, MARK_RADIUS, start + Math.PI / 2, end + Math.PI / 2, false)
-	return mark.toString()
+	const steps = Math.max(8, Math.ceil(Math.abs(delta) / 0.04))
+	const points = range(steps + 1).map((index) => {
+		const angle = start + (delta * index) / steps
+		return [
+			NEEDLE.x + MARK_RADIUS * Math.sin(angle),
+			NEEDLE.y + MARK_RADIUS * Math.cos(angle),
+		] as [number, number]
+	})
+
+	return line()(points) ?? ''
 }
 
 export function CompassFigure({ spec }: CompassFigureProps) {
@@ -78,75 +84,88 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 			return
 		}
 
+		let phase: Phase = 'drop'
+		let phaseTime = 0
 		let theta = REST_THETA
 		let thetaVel = 0
-		let opening = 0.11
+		let opening = CLOSED_OPENING
 		let openingVel = 0
-		let y = -11
+		let y = -14
 		let yVel = 0
-		let planted = false
-		let opened = false
-		let drawing = false
-		let drawn = false
 		let sweep = 0
-		let last = 0
-		let idle = 0
+		let prev = 0
 
 		pose(theta, opening, y)
 		guide.attr('opacity', 0)
 		mark.attr('d', '')
 
+		const spring = (
+			value: number,
+			velocity: number,
+			target: number,
+			stiffness: number,
+			damping: number,
+			dt: number,
+		) => {
+			const accel = stiffness * (target - value) - damping * velocity
+			const nextVel = velocity + accel * dt
+			return { value: value + nextVel * dt, velocity: nextVel }
+		}
+
 		const step = (dt: number) => {
-			if (!planted) {
-				yVel += 420 * dt
+			phaseTime += dt
+
+			if (phase === 'drop') {
+				yVel += 520 * dt
 				y += yVel * dt
 				if (y >= 0) {
 					y = 0
-					yVel *= -0.28
-					if (Math.abs(yVel) < 18) {
+					yVel *= -0.32
+					if (Math.abs(yVel) < 22 || phaseTime > 0.55) {
+						y = 0
 						yVel = 0
-						planted = true
+						phase = 'open'
+						phaseTime = 0
 					}
 				}
 			} else {
 				y = 0
-				yVel = 0
 			}
 
-			if (!planted) {
-				opening += (0.11 - opening) * (1 - Math.exp(-dt * 12))
-			} else if (!opened) {
-				const accel = 86 * (REST_OPENING - opening) - 7.4 * openingVel
-				openingVel += accel * dt
-				opening += openingVel * dt
-				if (Math.abs(opening - REST_OPENING) < 0.018 && Math.abs(openingVel) < 0.12) {
-					opened = true
+			if (phase === 'open') {
+				const next = spring(opening, openingVel, REST_OPENING, 78, 6.8, dt)
+				opening = next.value
+				openingVel = next.velocity
+				if (phaseTime > 1.05) {
 					opening = REST_OPENING
 					openingVel = 0
-					thetaVel = 2.05
-					drawing = true
+					thetaVel = 2.55
+					phase = 'draw'
+					phaseTime = 0
 				}
-			} else if (drawing) {
-				thetaVel -= (1.55 * Math.sign(thetaVel) + 0.72 * thetaVel) * dt
+			} else if (phase === 'draw') {
+				thetaVel -= (0.58 * Math.sign(thetaVel) + 0.34 * thetaVel) * dt
 				theta += thetaVel * dt
-				openingVel += (9 * (REST_OPENING - opening) - 2.8 * openingVel + thetaVel * 0.02) * dt
-				opening += openingVel * dt
+				const flex = spring(opening, openingVel, REST_OPENING, 22, 3.1, dt)
+				opening = flex.value + thetaVel * 0.012
+				openingVel = flex.velocity
 				sweep = Math.max(sweep, theta - REST_THETA)
-				if (thetaVel <= 0.02) {
+				if (thetaVel <= 0.03 || phaseTime > 2.6) {
 					thetaVel = 0
-					drawing = false
-					drawn = true
+					phase = 'settle'
+					phaseTime = 0
 				}
-			} else {
-				thetaVel += (18 * (REST_THETA - theta) - 5.6 * thetaVel) * dt
-				theta += thetaVel * dt
-				openingVel += (28 * (REST_OPENING - opening) - 5 * openingVel) * dt
-				opening += openingVel * dt
-				idle += dt
-				guide.attr('opacity', Math.min(0.45, idle * 1.4))
+			} else if (phase === 'settle') {
+				const nextTheta = spring(theta, thetaVel, REST_THETA, 9.5, 4.4, dt)
+				theta = nextTheta.value
+				thetaVel = nextTheta.velocity
+				const nextOpen = spring(opening, openingVel, REST_OPENING, 22, 4.8, dt)
+				opening = nextOpen.value
+				openingVel = nextOpen.velocity
+				guide.attr('opacity', Math.min(0.45, phaseTime * 0.7))
 			}
 
-			if (sweep > 0.03) {
+			if (sweep > 0.04) {
 				mark.attr('d', leadMark(REST_THETA - REST_OPENING, REST_THETA - REST_OPENING + sweep))
 			}
 
@@ -157,25 +176,22 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 
 		const play = () => {
 			if (loop) return
-			loop = timer((elapsed) => {
-				const dt = Math.min(0.032, (elapsed - last) / 1000 || 0.016)
-				last = elapsed
+			prev = performance.now()
+			loop = timer(() => {
+				const now = performance.now()
+				const dt = Math.min(0.033, Math.max(0.008, (now - prev) / 1000))
+				prev = now
 				step(dt)
 
-				const resting =
-					drawn &&
-					Math.abs(theta - REST_THETA) < 0.012 &&
-					Math.abs(thetaVel) < 0.02 &&
-					Math.abs(opening - REST_OPENING) < 0.012 &&
-					idle > 0.45
-
-				if (resting) {
+				if (phase === 'settle' && phaseTime > 1.35) {
 					pose(REST_THETA, REST_OPENING, 0)
 					guide.attr('opacity', 0.45)
-					mark.attr(
-						'd',
-						leadMark(REST_THETA - REST_OPENING, REST_THETA - REST_OPENING + sweep),
-					)
+					if (sweep > 0.04) {
+						mark.attr(
+							'd',
+							leadMark(REST_THETA - REST_OPENING, REST_THETA - REST_OPENING + sweep),
+						)
+					}
 					loop?.stop()
 				}
 			})
@@ -188,7 +204,7 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 					observer.disconnect()
 				}
 			},
-			{ threshold: 0.35 },
+			{ threshold: 0.3, rootMargin: '0px 0px -8% 0px' },
 		)
 		observer.observe(root)
 
@@ -199,11 +215,11 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 	}, [animate])
 
 	return (
-		<div ref={rootRef} className="flex items-center gap-3">
+		<div ref={rootRef} className="flex flex-col items-start gap-2">
 			<svg
 				ref={svgRef}
-				viewBox="-12 -8 96 100"
-				className="h-auto w-32 shrink-0 overflow-visible text-foreground sm:w-40"
+				viewBox="-16 -8 108 152"
+				className="h-auto w-40 shrink-0 overflow-visible text-foreground sm:w-48"
 				role="img"
 				aria-label="Drawing compass"
 			>
@@ -221,9 +237,9 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 					data-part="mark"
 					fill="none"
 					stroke="currentColor"
-					strokeWidth="1.2"
+					strokeWidth="1.25"
 					strokeLinecap="round"
-					opacity="0.72"
+					opacity="0.78"
 				/>
 
 				<g
