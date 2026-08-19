@@ -114,13 +114,13 @@ Ids are `your-slug/name`. Caption can also live on `spec.caption`. Compass print
 
 | Kind | Use |
 | --- | --- |
-| `painting` | SVG studio painting (Blank Canvas hero). `animate` defaults true. |
+| `painting` | SVG studio painting (Blank Canvas hero). D3 draws and reveals the marks when the figure is on screen; idle loops stay CSS. `animate` defaults true. |
 | `compass` | Drawing-compass sign-off. D3 plants the needle and opens the hinge, then holds the rest pose. Label sits on the same line. `animate` defaults true. `label` defaults to `Proven with Grit`; `""` is icon only. |
 | `image` | Photograph. `src` under `/public`, plus `alt`. Optional `title`, `aspect`. |
-| `chart` | Recharts. `type`: `bar`, `multi-line`, or `scatter`. |
-| `table` | Sortable comparison table. |
-| `algorithm` | Numbered procedure. `**bold**` in lines is fine. |
-| `stat-grid` | A few KPIs. |
+| `chart` | Recharts inside shadcn `ChartContainer`. `type`: `bar`, `multi-line`, or `scatter`. |
+| `table` | Sortable comparison table. shadcn `Table` in a `Card`. |
+| `algorithm` | Numbered procedure in a shadcn `Card`. `**bold**` in lines is fine. |
+| `stat-grid` | A few KPIs in a shadcn `Card`. |
 
 **painting**
 

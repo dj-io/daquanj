@@ -1,6 +1,16 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from '@/components/ui/table'
 import { asBoolean, asString } from '@/lib/blog-figures'
 import { cn } from '@/lib/utils'
 
@@ -65,7 +75,9 @@ export function TableFigure({ spec }: TableFigureProps) {
 		return [...rows].sort((left, right) => {
 			const a = left.cells?.[sortKey] ?? ''
 			const b = right.cells?.[sortKey] ?? ''
-			return direction === 'asc' ? a.localeCompare(b, undefined, { numeric: true }) : b.localeCompare(a, undefined, { numeric: true })
+			return direction === 'asc'
+				? a.localeCompare(b, undefined, { numeric: true })
+				: b.localeCompare(a, undefined, { numeric: true })
 		})
 	}, [direction, rows, sortKey])
 
@@ -80,59 +92,70 @@ export function TableFigure({ spec }: TableFigureProps) {
 	}
 
 	return (
-		<div className="space-y-3">
-			{title ? <h3 className="text-base text-foreground">{title}</h3> : null}
-			<div className="overflow-x-auto rounded-lg border border-border">
-				<table className="w-full text-left text-sm">
-					<thead className="bg-muted/60">
-						<tr>
+		<Card className="gap-0 py-0 shadow-none">
+			{title ? (
+				<CardHeader className="border-b py-4">
+					<CardTitle className="text-base">{title}</CardTitle>
+				</CardHeader>
+			) : null}
+			<Table>
+				<TableHeader>
+					<TableRow className="bg-muted/60 hover:bg-muted/60">
+						{columns.map((column) => (
+							<TableHead
+								key={column.key}
+								className={cn(
+									'h-auto whitespace-normal px-4 py-3 text-[0.72rem] font-semibold uppercase tracking-wider text-muted-foreground',
+									column.align === 'right' && 'text-right',
+									column.align === 'center' && 'text-center',
+								)}
+							>
+								{sortable ? (
+									<Button
+										type="button"
+										variant="ghost"
+										size="sm"
+										onClick={() => toggleSort(column.key)}
+										className="h-auto px-0 uppercase tracking-wider text-muted-foreground hover:text-foreground"
+									>
+										{column.label}
+										<span aria-hidden className="ml-1">
+											{sortKey === column.key ? (direction === 'asc' ? '↑' : '↓') : '↕'}
+										</span>
+									</Button>
+								) : (
+									column.label
+								)}
+							</TableHead>
+						))}
+					</TableRow>
+				</TableHeader>
+				<TableBody>
+					{sortedRows.map((row, index) => (
+						<TableRow
+							key={index}
+							data-featured={row.highlight ? '' : undefined}
+							className={row.highlight ? 'hover:bg-transparent' : undefined}
+						>
 							{columns.map((column) => (
-								<th
+								<TableCell
 									key={column.key}
 									className={cn(
-										'border-b border-border px-4 py-3 text-[0.72rem] font-semibold uppercase tracking-wider text-muted-foreground',
+										'whitespace-normal px-4 py-3 text-muted-foreground',
 										column.align === 'right' && 'text-right',
 										column.align === 'center' && 'text-center',
+										column.monospace && 'font-mono tabular-nums',
+										row.highlight &&
+											'bg-[color-mix(in_oklch,var(--blog-accent)_9%,var(--card))] text-foreground shadow-[inset_3px_0_0_var(--blog-accent)]',
 									)}
 								>
-									{sortable ? (
-										<button
-											type="button"
-											onClick={() => toggleSort(column.key)}
-											className="inline-flex items-center gap-1 uppercase tracking-wider"
-										>
-											{column.label}
-											<span aria-hidden>{sortKey === column.key ? (direction === 'asc' ? '↑' : '↓') : '↕'}</span>
-										</button>
-									) : (
-										column.label
-									)}
-								</th>
+									{row.cells?.[column.key] ?? ''}
+								</TableCell>
 							))}
-						</tr>
-					</thead>
-					<tbody>
-						{sortedRows.map((row, index) => (
-							<tr key={index} data-featured={row.highlight ? '' : undefined}>
-								{columns.map((column) => (
-									<td
-										key={column.key}
-										className={cn(
-											'border-b border-border/60 px-4 py-3 text-muted-foreground last:border-b-0',
-											column.align === 'right' && 'text-right',
-											column.align === 'center' && 'text-center',
-											column.monospace && 'font-mono tabular-nums',
-											row.highlight && 'bg-[color-mix(in_oklch,var(--blog-accent)_9%,var(--card))] text-foreground shadow-[inset_3px_0_0_var(--blog-accent)]',
-										)}
-									>
-										{row.cells?.[column.key] ?? ''}
-									</td>
-								))}
-							</tr>
-						))}
-					</tbody>
-				</table>
-			</div>
-		</div>
+						</TableRow>
+					))}
+				</TableBody>
+			</Table>
+		</Card>
 	)
 }

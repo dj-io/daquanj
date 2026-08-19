@@ -1,3 +1,4 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { asNumber, asString } from '@/lib/blog-figures'
 import { cn } from '@/lib/utils'
 
@@ -18,11 +19,15 @@ export function StatGridFigure({ spec }: StatGridFigureProps) {
 	const stats = Array.isArray(spec.stats) ? (spec.stats as Stat[]) : []
 
 	return (
-		<div className="space-y-4">
-			{title ? <h3 className="text-base text-foreground">{title}</h3> : null}
-			<div
+		<Card className="gap-0 py-0 shadow-none">
+			{title ? (
+				<CardHeader className="py-4">
+					<CardTitle className="text-base font-normal">{title}</CardTitle>
+				</CardHeader>
+			) : null}
+			<CardContent
 				className={cn(
-					'grid gap-0',
+					'grid gap-0 pb-2',
 					columns >= 4 ? 'grid-cols-2 min-[40rem]:grid-cols-4' : 'grid-cols-2',
 				)}
 			>
@@ -42,7 +47,7 @@ export function StatGridFigure({ spec }: StatGridFigureProps) {
 						) : null}
 					</div>
 				))}
-			</div>
-		</div>
+			</CardContent>
+		</Card>
 	)
 }
