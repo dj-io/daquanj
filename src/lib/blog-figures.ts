@@ -1,4 +1,4 @@
-export const FIGURE_KINDS = ['hero', 'image', 'chart', 'table', 'algorithm', 'stat-grid'] as const
+export const FIGURE_KINDS = ['hero', 'canvas-hero', 'image', 'chart', 'table', 'algorithm', 'stat-grid'] as const
 
 export type FigureKind = (typeof FIGURE_KINDS)[number]
 

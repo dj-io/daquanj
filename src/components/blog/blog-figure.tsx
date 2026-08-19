@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import type { FigureRecord } from '@/lib/blog-figures'
 import { AlgorithmFigure } from '@/components/blog/figures/algorithm-figure'
+import { CanvasHeroFigure } from '@/components/blog/figures/canvas-hero-figure'
 import { ChartFigure } from '@/components/blog/figures/chart-figure'
 import { HeroFigure } from '@/components/blog/figures/hero-figure'
 import { ImageFigure } from '@/components/blog/figures/image-figure'
@@ -24,6 +25,8 @@ function FigureViz({
 	switch (record.kind) {
 		case 'hero':
 			return <HeroFigure spec={record.spec} />
+		case 'canvas-hero':
+			return <CanvasHeroFigure spec={record.spec} />
 		case 'image':
 			return <ImageFigure spec={record.spec} priority={priority} />
 		case 'chart':
