@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 
 function Note({ children }: { children: ReactNode }) {
 	return (
-		<aside className="my-8 border-l-2 border-grit/50 pl-5 text-[0.95em] leading-relaxed text-muted-foreground">
+		<aside className="my-8 border-l-[3px] border-blog-accent pl-5 text-[0.95em] leading-relaxed text-muted-foreground">
 			{children}
 		</aside>
 	)
@@ -52,7 +52,7 @@ export const mdxComponents = {
 	a: ({ href, className, ...props }) => {
 		const isInternal = href?.startsWith('/')
 		const styles = cn(
-			'underline decoration-grit/35 underline-offset-3 transition-colors hover:text-grit hover:decoration-grit',
+			'underline decoration-blog-accent/45 underline-offset-3 transition-colors hover:text-blog-accent hover:decoration-blog-accent',
 			className,
 		)
 
@@ -82,7 +82,7 @@ export const mdxComponents = {
 	blockquote: ({ className, ...props }) => (
 		<blockquote
 			className={cn(
-				'my-8 border-l-2 border-grit/40 pl-5 font-crimson text-xl italic leading-relaxed text-grit',
+				'my-8 border-l-[3px] border-blog-accent pl-5 font-crimson text-xl italic leading-relaxed text-grit',
 				className,
 			)}
 			{...props}
@@ -129,11 +129,19 @@ export const mdxComponents = {
 		</div>
 	),
 	th: ({ className, ...props }) => (
-		<th className={cn('border-b border-border py-2 pr-4 font-semibold', className)} {...props} />
+		<th
+			className={cn(
+				'border-b border-border py-2 pr-4 text-[0.72rem] font-semibold uppercase tracking-wider text-muted-foreground',
+				className,
+			)}
+			{...props}
+		/>
 	),
 	td: ({ className, ...props }) => (
 		<td className={cn('border-b border-border/60 py-2 pr-4 text-muted-foreground', className)} {...props} />
 	),
+	tr: ({ className, ...props }) => <tr className={className} {...props} />,
+	mark: ({ className, ...props }) => <mark className={className} {...props} />,
 	Note,
 	Figure: ArticleFigure,
 } satisfies MDXComponents
