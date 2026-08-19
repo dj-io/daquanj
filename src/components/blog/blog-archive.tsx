@@ -19,24 +19,25 @@ function matchesQuery(post: BlogPostMeta, query: string) {
 
 export function BlogArchive({ posts, topic }: BlogArchiveProps) {
 	const [query, setQuery] = useState('')
+	const [activeTopic, setActiveTopic] = useState<BlogTopicSlug | 'all'>(topic ?? 'all')
 	const normalizedQuery = query.trim().toLowerCase()
 
 	const visiblePosts = useMemo(() => {
 		return posts.filter((post) => {
-			if (topic && post.topic !== topic) return false
+			if (activeTopic !== 'all' && post.topic !== activeTopic) return false
 			if (normalizedQuery && !matchesQuery(post, normalizedQuery)) return false
 			return true
 		})
-	}, [normalizedQuery, posts, topic])
+	}, [activeTopic, normalizedQuery, posts])
 
-	const hasActiveFilter = Boolean(topic || normalizedQuery)
+	const hasActiveFilter = Boolean(activeTopic !== 'all' || normalizedQuery)
 
 	if (posts.length === 0 && !hasActiveFilter) return null
 
 	return (
 		<div className="mt-10">
 			<div className="mb-6 flex items-center gap-3">
-				<TopicDropdown active={topic ?? 'all'} />
+				<TopicDropdown active={activeTopic} onChange={setActiveTopic} />
 				<PostSearch
 					value={query}
 					onChange={setQuery}

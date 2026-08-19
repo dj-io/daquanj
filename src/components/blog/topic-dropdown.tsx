@@ -1,6 +1,5 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { CheckIcon, ChevronDownIcon } from 'lucide-react'
 import { BLOG_TOPICS, type BlogTopicSlug } from '@/lib/blog-meta'
 import { cn } from '@/lib/utils'
@@ -11,21 +10,22 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
+type TopicValue = BlogTopicSlug | 'all'
+
 type TopicDropdownProps = {
-	active?: BlogTopicSlug | 'all'
+	active?: TopicValue
+	onChange?: (topic: TopicValue) => void
 }
 
 const FILTERS = [
-	{ slug: 'all' as const, label: 'All', href: '/blog' },
+	{ slug: 'all' as const, label: 'All' },
 	...Object.values(BLOG_TOPICS).map((topic) => ({
 		slug: topic.slug,
 		label: topic.label,
-		href: `/blog/topic/${topic.slug}`,
 	})),
 ]
 
-export function TopicDropdown({ active = 'all' }: TopicDropdownProps) {
-	const router = useRouter()
+export function TopicDropdown({ active = 'all', onChange }: TopicDropdownProps) {
 	const current = FILTERS.find((topic) => topic.slug === active) ?? FILTERS[0]
 
 	return (
@@ -47,7 +47,7 @@ export function TopicDropdown({ active = 'all' }: TopicDropdownProps) {
 			<DropdownMenuContent
 				align="start"
 				sideOffset={8}
-				className="min-w-40 rounded-xl border-border/80 bg-popover p-1.5"
+				className="min-w-40 rounded-xl border-border/80 bg-popover p-1.5 shadow-lg"
 			>
 				{FILTERS.map((topic) => {
 					const isActive = topic.slug === active
@@ -55,7 +55,7 @@ export function TopicDropdown({ active = 'all' }: TopicDropdownProps) {
 					return (
 						<DropdownMenuItem
 							key={topic.slug}
-							onSelect={() => router.push(topic.href)}
+							onSelect={() => onChange?.(topic.slug)}
 							className="cursor-pointer justify-between rounded-lg px-3 py-2.5 text-sm"
 						>
 							<span>{topic.label}</span>
