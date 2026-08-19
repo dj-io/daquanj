@@ -56,7 +56,7 @@ export function TopicDropdown({ active = 'all' }: TopicDropdownProps) {
 						<DropdownMenuItem
 							key={topic.slug}
 							onSelect={() => router.push(topic.href)}
-							className="cursor-pointer justify-between rounded-lg px-3 py-2 text-sm"
+							className="cursor-pointer justify-between rounded-lg px-3 py-2.5 text-sm"
 						>
 							<span>{topic.label}</span>
 							{isActive && <CheckIcon className="size-3.5 text-foreground" />}
