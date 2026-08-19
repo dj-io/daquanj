@@ -42,7 +42,7 @@
       "kind": "compass",
       "spec": {
         "version": 1,
-        "animate": true,
+        "animate": false,
         "label": "Proven with Grit"
       }
     }

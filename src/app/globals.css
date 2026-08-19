@@ -344,24 +344,6 @@
     }
   }
 
-  .compass-stroke {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    animation: paint-draw 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-
-  .compass-arc {
-    stroke-dasharray: 0.22 0.78;
-    stroke-dashoffset: 0;
-    animation: compass-arc-spin 6.5s linear infinite;
-  }
-
-  @keyframes compass-arc-spin {
-    to {
-      stroke-dashoffset: -1;
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .paint-stroke,
     .paint-reveal,
@@ -373,21 +355,12 @@
     .paint-glow,
     .paint-drip,
     .paint-jitter,
-    .compass-stroke,
-    .compass-arc,
     .hero-slab {
       animation: none;
     }
 
-    .paint-stroke,
-    .compass-stroke,
-    .compass-arc {
+    .paint-stroke {
       stroke-dashoffset: 0;
-    }
-
-    .compass-arc {
-      stroke-dasharray: 1;
-      opacity: 0.45;
     }
 
     .paint-reveal {
