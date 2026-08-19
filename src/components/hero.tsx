@@ -48,16 +48,15 @@ export function HeroSection () {
 					</div>
 				</div>
 
-				<motion.div
+				<SiteFooter
+					variant="fixed"
 					initial={shouldReduceMotion ? false : { opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{
 						duration: INTRO_FADE_DURATION,
 						delay: shouldReduceMotion ? 0 : INTRO_FADE_DELAY,
 					}}
-				>
-					<SiteFooter variant="fixed" />
-				</motion.div>
+				/>
 			</section>
 
 			<motion.div
