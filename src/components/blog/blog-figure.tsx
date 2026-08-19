@@ -35,7 +35,7 @@ function FigureViz({
 		case 'image':
 			return <ImageFigure spec={record.spec} priority={priority} />
 		case 'diagram':
-			return <DiagramFigure spec={record.spec} />
+			return <DiagramFigure id={id} spec={record.spec} />
 		case 'chart':
 			return <ChartFigure spec={record.spec} />
 		case 'table':
@@ -56,13 +56,18 @@ export function BlogFigure({ id, record, caption, priority }: BlogFigureProps) {
 
 	const captionInside = record.kind === 'compass'
 	const resolvedCaption = caption ?? asString(record.spec.caption)
-	const creditCaption = record.kind === 'image' || record.kind === 'painting'
+	const creditCaption =
+		record.kind === 'image' || record.kind === 'painting' || record.kind === 'diagram'
 
 	return (
 		<figure className={cn(record.kind === 'compass' ? 'my-5' : 'my-8 space-y-3')}>
 			<div
 				data-viz={record.kind}
-				className={record.kind === 'painting' || record.kind === 'compass' ? 'overflow-visible' : undefined}
+				className={
+					record.kind === 'painting' || record.kind === 'compass' || record.kind === 'diagram'
+						? 'overflow-visible'
+						: undefined
+				}
 			>
 				<FigureViz id={id} record={record} priority={priority} />
 			</div>

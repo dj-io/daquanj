@@ -117,7 +117,7 @@ Ids are `your-slug/name`. Caption can also live on `spec.caption`. Compass print
 | `painting` | SVG studio painting (Blank Canvas hero). `animate` defaults true. |
 | `compass` | Drawing-compass sign-off. `label` defaults to `Proven with Grit`; `""` is icon only. |
 | `image` | Photograph. `src` under `/public`, plus `alt`. Optional `title`, `aspect`. |
-| `diagram` | Line drawing. `type`: `split` (two labeled scenes) or `scene` (one drawing). |
+| `diagram` | Ink-on-canvas scene. `scene`: `harness`, `ten-am`, `gap`. `animate` defaults true. |
 | `chart` | Recharts. `type`: `bar`, `multi-line`, or `scatter`. |
 | `table` | Sortable comparison table. |
 | `algorithm` | Numbered procedure. `**bold**` in lines is fine. |
@@ -147,7 +147,7 @@ Ids are `your-slug/name`. Caption can also live on `spec.caption`. Compass print
 
 **diagram**
 
-Scenes: `locked`, `canvas`, `ten-am`, `code`, `tangle`.
+Ink-on-canvas scenes in the same paint language as the Blank Canvas hero. `scene`: `harness`, `ten-am`, or `gap`. `animate` defaults true.
 
 ```md
 > [Figure: your-slug/harness — diagram: The harness, not the model.]
@@ -158,25 +158,7 @@ Scenes: `locked`, `canvas`, `ten-am`, `code`, `tangle`.
 ```json
 "your-slug/harness": {
   "kind": "diagram",
-  "spec": {
-    "version": 1,
-    "type": "split",
-    "title": "The harness, not the model",
-    "left": { "label": "Rigid product", "scene": "locked" },
-    "right": { "label": "Blank canvas", "scene": "canvas" }
-  }
-}
-```
-
-```json
-"your-slug/tuesday": {
-  "kind": "diagram",
-  "spec": {
-    "version": 1,
-    "type": "scene",
-    "title": "10am on a Tuesday morning",
-    "scene": "ten-am"
-  }
+  "spec": { "version": 1, "scene": "harness", "animate": true }
 }
 ```
 

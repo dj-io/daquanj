@@ -1,344 +1,470 @@
-import { asString } from '@/lib/blog-figures'
+import type { ReactNode } from 'react'
+import { Permanent_Marker } from 'next/font/google'
+import { asBoolean, asString } from '@/lib/blog-figures'
 import { cn } from '@/lib/utils'
+
+const scrawl = Permanent_Marker({
+	weight: '400',
+	subsets: ['latin'],
+	display: 'swap',
+})
+
+const ink = {
+	canvas: '#EFE6D2',
+	field: '#090909',
+	chalk: '#F7F1E3',
+	bone: '#E6DCC8',
+	cyan: '#3EC8FF',
+	cyanHot: '#8AEBFF',
+	red: '#E31820',
+	yellow: '#F4CF2A',
+	gold: '#E0A41A',
+	green: '#7DFF4A',
+	ochre: '#A45A22',
+	white: '#FFFEF6',
+}
 
 type DiagramFigureProps = {
 	spec: Record<string, unknown>
+	id?: string
 }
 
-type Panel = {
-	label?: string
-	scene?: string
+function svgId(id: string, name: string) {
+	return `${id.replace(/[^a-zA-Z0-9_-]+/g, '-')}-${name}`
 }
 
-const MUTED = 'color-mix(in oklch, var(--foreground) 38%, transparent)'
-const FAINT = 'color-mix(in oklch, var(--foreground) 12%, transparent)'
-const FILL = 'color-mix(in oklch, var(--foreground) 4%, transparent)'
-const ACCENT = 'var(--blog-accent)'
-
-function panel(value: unknown): Panel {
-	if (!value || typeof value !== 'object') return {}
-	return value as Panel
-}
-
-function Scene({ name, className }: { name: string; className?: string }) {
-	switch (name) {
-		case 'locked':
-			return <LockedProduct className={className} />
-		case 'canvas':
-			return <BlankCanvas className={className} />
-		case 'ten-am':
-			return <TenAmStudio className={className} />
-		case 'code':
-			return <CodeStudio className={className} />
-		case 'tangle':
-			return <ToolTangle className={className} />
-		default:
-			return null
-	}
-}
-
-function LockedProduct({ className }: { className?: string }) {
-	return (
-		<svg
-			viewBox="0 0 280 188"
-			className={cn('h-auto w-full', className)}
-			role="img"
-			aria-label="A crowded product window with a locked model and a stepped workflow"
-		>
-			<g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-				<rect x="18" y="16" width="244" height="156" rx="10" fill={FILL} strokeWidth="1.4" />
-				<path d="M 18 40 H 262" strokeWidth="1.15" />
-				<circle cx="34" cy="28" r="3.2" fill={MUTED} stroke="none" />
-				<circle cx="46" cy="28" r="3.2" fill={MUTED} stroke="none" />
-				<circle cx="58" cy="28" r="3.2" fill={MUTED} stroke="none" />
-				<rect x="198" y="21" width="46" height="14" rx="7" strokeWidth="1.15" />
-				<rect x="216" y="25.2" width="7" height="6" rx="1.1" strokeWidth="1.05" />
-				<path d="M 217.6 25.2 V 23.4 A 1.7 1.7 0 0 1 221.4 23.4 V 25.2" strokeWidth="1.05" />
-
-				{[0, 1, 2, 3, 4, 5].map((index) => (
-					<rect
-						key={`tool-${index}`}
-						x={28 + index * 22}
-						y="50"
-						width="16"
-						height="10"
-						rx="2"
-						strokeWidth="1.05"
-						opacity={index > 2 ? 0.45 : 0.8}
-					/>
-				))}
-				<path d="M 168 55 H 248" strokeWidth="1" opacity="0.35" />
-
-				<rect x="28" y="72" width="54" height="84" rx="4" strokeWidth="1.1" opacity="0.7" />
-				{[0, 1, 2, 3, 4].map((index) => (
-					<line
-						key={`nav-${index}`}
-						x1="36"
-						y1={84 + index * 13}
-						x2="70"
-						y2={84 + index * 13}
-						strokeWidth="1.05"
-						opacity={0.28 + index * 0.08}
-					/>
-				))}
-
-				<rect x="96" y="72" width="148" height="84" rx="4" strokeWidth="1.15" />
-				<circle cx="128" cy="108" r="14" strokeWidth="1.3" />
-				<text
-					x="128"
-					y="112"
-					textAnchor="middle"
-					fill={MUTED}
-					stroke="none"
-					fontSize="11"
-					fontFamily="ui-sans-serif, system-ui"
-				>
-					1
-				</text>
-				<path d="M 144 108 H 168" strokeWidth="1.25" />
-				<path d="M 168 108 L 176 102 M 168 108 L 176 114" strokeWidth="1.25" />
-				<circle cx="196" cy="108" r="14" strokeWidth="1.3" />
-				<text
-					x="196"
-					y="112"
-					textAnchor="middle"
-					fill={MUTED}
-					stroke="none"
-					fontSize="11"
-					fontFamily="ui-sans-serif, system-ui"
-				>
-					2
-				</text>
-				<path d="M 212 108 H 236" strokeWidth="1.25" opacity="0.45" />
-				<rect x="118" y="136" width="104" height="10" rx="2" strokeWidth="1" opacity="0.28" />
-			</g>
-		</svg>
-	)
-}
-
-function BlankCanvas({ className }: { className?: string }) {
-	return (
-		<svg
-			viewBox="0 0 280 188"
-			className={cn('h-auto w-full', className)}
-			role="img"
-			aria-label="An easel with a blank canvas and brushes waiting at the edge"
-		>
-			<g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-				<path d="M 86 168 L 140 22" strokeWidth="1.7" />
-				<path d="M 194 168 L 140 22" strokeWidth="1.7" />
-				<path d="M 104 124 H 176" strokeWidth="1.5" />
-				<rect
-					x="96"
-					y="40"
-					width="88"
-					height="110"
-					rx="2"
-					fill={FILL}
-					strokeWidth="1.5"
-				/>
-				<rect x="104" y="48" width="72" height="94" rx="1" strokeWidth="1" opacity="0.35" />
-				<circle cx="140" cy="22" r="3.2" fill={ACCENT} stroke="none" />
-				{[0, 1, 2, 3].map((index) => (
-					<g key={`brush-${index}`} transform={`translate(${108 + index * 18} 158)`}>
-						<line x1="0" y1="0" x2="0" y2="18" strokeWidth="1.3" />
-						<circle cx="0" cy="0" r="3.1" fill={index === 0 ? ACCENT : MUTED} stroke="none" />
-					</g>
-				))}
-			</g>
-		</svg>
-	)
-}
-
-function TenAmStudio({ className }: { className?: string }) {
-	return (
-		<svg
-			viewBox="0 0 560 220"
-			className={cn('h-auto w-full', className)}
-			role="img"
-			aria-label="A studio at 10 o'clock on a Tuesday, easel ready, no setup in the way"
-		>
-			<g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-				<circle cx="118" cy="110" r="72" strokeWidth="1.6" />
-				<circle cx="118" cy="110" r="4" fill="currentColor" stroke="none" />
-				{[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((index) => {
-					const angle = (index / 12) * Math.PI * 2
-					const inner = index % 3 === 0 ? 58 : 64
-					return (
-						<line
-							key={`tick-${index}`}
-							x1={118 + Math.sin(angle) * inner}
-							y1={110 - Math.cos(angle) * inner}
-							x2={118 + Math.sin(angle) * 68}
-							y2={110 - Math.cos(angle) * 68}
-							strokeWidth={index % 3 === 0 ? 1.6 : 1}
-							opacity={index % 3 === 0 ? 0.9 : 0.4}
-						/>
-					)
-				})}
-				<line x1="118" y1="110" x2="118" y2="58" strokeWidth="2.1" />
-				<line x1="118" y1="110" x2="78" y2="86" stroke={ACCENT} strokeWidth="2.4" />
-				<text
-					x="118"
-					y="158"
-					textAnchor="middle"
-					fill={MUTED}
-					stroke="none"
-					fontSize="13"
-					fontFamily="ui-sans-serif, system-ui"
-				>
-					Tue
-				</text>
-
-				<path d="M 248 196 L 248 48 H 520 V 196" strokeWidth="1.3" opacity="0.55" />
-				<path d="M 248 196 H 520" strokeWidth="1.3" />
-				<path d="M 248 196 L 214 214 H 548 L 520 196" stroke={FAINT} strokeWidth="1.2" />
-
-				<path d="M 338 188 L 394 58" strokeWidth="1.7" />
-				<path d="M 450 188 L 394 58" strokeWidth="1.7" />
-				<path d="M 356 148 H 432" strokeWidth="1.5" />
-				<rect x="348" y="74" width="92" height="114" rx="2" fill={FILL} strokeWidth="1.5" />
-				<rect x="356" y="82" width="76" height="98" rx="1" strokeWidth="1" opacity="0.32" />
-				<circle cx="394" cy="58" r="3.2" fill={ACCENT} stroke="none" />
-				{[0, 1, 2, 3].map((index) => (
-					<circle
-						key={`ready-${index}`}
-						cx={360 + index * 18}
-						cy="200"
-						r="3"
-						fill={index === 1 ? ACCENT : MUTED}
-						stroke="none"
-					/>
-				))}
-			</g>
-		</svg>
-	)
-}
-
-function CodeStudio({ className }: { className?: string }) {
-	return (
-		<svg
-			viewBox="0 0 280 188"
-			className={cn('h-auto w-full', className)}
-			role="img"
-			aria-label="A single coding workspace with editor and terminal on one surface"
-		>
-			<g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-				<rect x="22" y="20" width="236" height="148" rx="10" fill={FILL} strokeWidth="1.4" />
-				<path d="M 22 42 H 258" strokeWidth="1.15" />
-				<circle cx="38" cy="31" r="3.2" fill={MUTED} stroke="none" />
-				<circle cx="50" cy="31" r="3.2" fill={MUTED} stroke="none" />
-				<circle cx="62" cy="31" r="3.2" fill={MUTED} stroke="none" />
-				<path d="M 96 31 H 168" strokeWidth="1.1" opacity="0.35" />
-
-				{[0, 1, 2, 3, 4, 5, 6].map((index) => (
-					<line
-						key={`code-${index}`}
-						x1="40"
-						y1={58 + index * 12}
-						x2={index % 3 === 0 ? 150 : index % 2 === 0 ? 196 : 172}
-						y2={58 + index * 12}
-						strokeWidth="1.15"
-						opacity={index === 0 ? 0.9 : 0.35 + (index % 3) * 0.12}
-						stroke={index === 2 ? ACCENT : 'currentColor'}
-					/>
-				))}
-				<rect x="36" y="146" width="208" height="12" rx="2" strokeWidth="1" opacity="0.28" />
-			</g>
-		</svg>
-	)
-}
-
-function ToolTangle({ className }: { className?: string }) {
-	const cards = [
-		{ x: 28, y: 28, w: 108, h: 64, r: -8, label: 'notes' },
-		{ x: 132, y: 22, w: 118, h: 58, r: 6, label: 'chat' },
-		{ x: 40, y: 102, w: 100, h: 58, r: 4, label: 'docs' },
-		{ x: 148, y: 96, w: 104, h: 62, r: -5, label: 'bill' },
-	]
-
-	return (
-		<svg
-			viewBox="0 0 280 188"
-			className={cn('h-auto w-full', className)}
-			role="img"
-			aria-label="Overlapping tools that have to be coordinated by hand"
-		>
-			<g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-				<path
-					d="M 82 60 C 120 48, 150 70, 190 50"
-					strokeDasharray="4 5"
-					strokeWidth="1.15"
-					opacity="0.55"
-				/>
-				<path
-					d="M 90 130 C 130 90, 150 140, 198 126"
-					strokeDasharray="4 5"
-					strokeWidth="1.15"
-					opacity="0.55"
-					stroke={ACCENT}
-				/>
-				{cards.map((card) => (
-					<g key={card.label} transform={`rotate(${card.r} ${card.x + card.w / 2} ${card.y + card.h / 2})`}>
-						<rect
-							x={card.x}
-							y={card.y}
-							width={card.w}
-							height={card.h}
-							rx="7"
-							fill={FILL}
-							strokeWidth="1.25"
-						/>
-						<text
-							x={card.x + 14}
-							y={card.y + 36}
-							fill={MUTED}
-							stroke="none"
-							fontSize="13"
-							fontFamily="ui-sans-serif, system-ui"
-						>
-							{card.label}
-						</text>
-					</g>
-				))}
-			</g>
-		</svg>
-	)
-}
-
-function SplitDiagram({
-	left,
-	right,
+function PaintGround({
+	id,
+	animate,
+	children,
+	ariaLabel,
 }: {
-	left: Panel
-	right: Panel
+	id: string
+	animate: boolean
+	children: ReactNode
+	ariaLabel: string
 }) {
+	const grain = svgId(id, 'grain')
+	const stick = svgId(id, 'stick')
+
 	return (
-		<div className="grid gap-6 sm:grid-cols-2 sm:gap-8">
-			{[left, right].map((side, index) => (
-				<div key={`${side.scene ?? 'scene'}-${side.label ?? index}`} className="min-w-0">
-					<Scene name={side.scene ?? ''} />
-					{side.label ? (
-						<p className="mt-3 text-center text-sm text-muted-foreground">{side.label}</p>
-					) : null}
-				</div>
-			))}
-		</div>
+		<svg
+			viewBox="0 0 800 460"
+			className={cn(scrawl.className, 'h-auto w-full overflow-visible')}
+			role="img"
+			aria-label={ariaLabel}
+		>
+			<defs>
+				<filter id={grain} x="0" y="0" width="100%" height="100%">
+					<feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" seed="7" result="n" />
+					<feColorMatrix
+						in="n"
+						type="matrix"
+						values="0 0 0 0 0.9  0 0 0 0 0.86  0 0 0 0 0.78  0 0 0 0.16 0"
+					/>
+				</filter>
+				<filter id={stick} x="-10%" y="-10%" width="120%" height="120%">
+					<feTurbulence type="fractalNoise" baseFrequency="0.68" numOctaves="3" seed="9" result="n" />
+					<feDisplacementMap in="SourceGraphic" in2="n" scale="2.1" xChannelSelector="R" yChannelSelector="G" />
+				</filter>
+			</defs>
+
+			<path
+				d="M 12 28 C 40 10, 180 18, 390 12 C 610 6, 760 16, 788 14 L 794 438 C 640 450, 420 444, 210 452 C 90 456, 18 444, 10 432 Z"
+				fill={ink.canvas}
+			/>
+			<path
+				d="M 26 24 C 70 16, 220 22, 410 14 C 620 6, 750 18, 772 22 L 780 408 C 620 396, 400 404, 170 416 C 70 422, 32 410, 26 400 Z"
+				fill={ink.field}
+			/>
+			<rect x="26" y="22" width="754" height="394" filter={`url(#${grain})`} opacity="0.5" />
+			<path
+				d="M 26 400 C 180 418, 430 406, 780 408 L 788 438 C 640 450, 420 444, 210 452 C 90 456, 18 444, 10 432 L 26 400 Z"
+				fill={ink.canvas}
+			/>
+
+			<g fill="none" strokeLinecap="round" strokeLinejoin="round" filter={`url(#${stick})`}>
+				{children}
+			</g>
+		</svg>
 	)
 }
 
-export function DiagramFigure({ spec }: DiagramFigureProps) {
-	const type = asString(spec.type) ?? 'split'
-	const title = asString(spec.title)
-	const scene = asString(spec.scene)
-	const left = panel(spec.left)
-	const right = panel(spec.right)
+function draw(animate: boolean) {
+	return animate ? 'paint-stroke' : undefined
+}
+
+function reveal(animate: boolean) {
+	return animate ? 'paint-reveal' : undefined
+}
+
+function wait(animate: boolean, ms: number) {
+	return animate ? { animationDelay: `${ms}ms` } : undefined
+}
+
+function HarnessScene({ animate }: { animate: boolean }) {
+	const stroke = draw(animate)
+	const show = reveal(animate)
 
 	return (
-		<div className="space-y-3">
-			{title ? <h3 className="text-base text-foreground">{title}</h3> : null}
-			{type === 'scene' && scene ? <Scene name={scene} /> : null}
-			{type === 'split' ? <SplitDiagram left={left} right={right} /> : null}
-		</div>
+		<>
+			<path
+				className={stroke}
+				pathLength={1}
+				d="M 392 48 C 400 160, 398 280, 404 390"
+				stroke={ink.ochre}
+				strokeWidth="3.2"
+				opacity="0.55"
+				style={wait(animate, 80)}
+			/>
+
+			<rect
+				className={stroke}
+				pathLength={1}
+				x="58"
+				y="78"
+				width="250"
+				height="250"
+				stroke={ink.chalk}
+				strokeWidth="3.2"
+				style={wait(animate, 120)}
+			/>
+			{[0, 1, 2, 3].map((index) => (
+				<line
+					key={`bar-${index}`}
+					className={stroke}
+					pathLength={1}
+					x1={88 + index * 52}
+					y1="96"
+					x2={88 + index * 52}
+					y2="308"
+					stroke={ink.bone}
+					strokeWidth="1.6"
+					opacity="0.55"
+					style={wait(animate, 180 + index * 40)}
+				/>
+			))}
+			{[0, 1, 2].map((index) => (
+				<line
+					key={`rail-${index}`}
+					className={stroke}
+					pathLength={1}
+					x1="74"
+					y1={128 + index * 58}
+					x2="288"
+					y2={128 + index * 58}
+					stroke={ink.bone}
+					strokeWidth="1.6"
+					opacity="0.45"
+					style={wait(animate, 220 + index * 40)}
+				/>
+			))}
+			<rect
+				className={stroke}
+				pathLength={1}
+				x="148"
+				y="168"
+				width="64"
+				height="52"
+				rx="4"
+				stroke={ink.yellow}
+				strokeWidth="2.4"
+				style={wait(animate, 360)}
+			/>
+			<path
+				className={stroke}
+				pathLength={1}
+				d="M 164 168 V 150 A 16 16 0 0 1 196 150 V 168"
+				stroke={ink.yellow}
+				strokeWidth="2.6"
+				style={wait(animate, 400)}
+			/>
+			<path
+				className={stroke}
+				pathLength={1}
+				d="M 48 70 L 330 348"
+				stroke={ink.red}
+				strokeWidth="5"
+				style={wait(animate, 480)}
+			/>
+			<text
+				x="70"
+				y="64"
+				fill={ink.red}
+				fontSize="28"
+				className={show}
+				style={wait(animate, 200)}
+			>
+				LOCKED
+			</text>
+			<text
+				x="86"
+				y="356"
+				fill={ink.chalk}
+				fontSize="22"
+				opacity="0.8"
+				className={show}
+				style={wait(animate, 280)}
+			>
+				MODEL
+			</text>
+
+			<path className={stroke} pathLength={1} d="M 470 390 L 560 86" stroke={ink.chalk} strokeWidth="3.2" style={wait(animate, 140)} />
+			<path className={stroke} pathLength={1} d="M 670 390 L 560 86" stroke={ink.chalk} strokeWidth="3.2" style={wait(animate, 180)} />
+			<path className={stroke} pathLength={1} d="M 500 300 H 640" stroke={ink.gold} strokeWidth="3" style={wait(animate, 240)} />
+			<rect
+				className={stroke}
+				pathLength={1}
+				x="502"
+				y="118"
+				width="116"
+				height="156"
+				fill={ink.field}
+				stroke={ink.cyan}
+				strokeWidth="3.4"
+				style={wait(animate, 280)}
+			/>
+			<rect
+				x="514"
+				y="132"
+				width="92"
+				height="128"
+				stroke={ink.chalk}
+				strokeWidth="1.2"
+				opacity="0.35"
+			/>
+			<circle cx="560" cy="86" r="6" fill={ink.cyanHot} className={animate ? 'paint-pulse' : undefined} />
+			{[0, 1, 2, 3].map((index) => {
+				const colors = [ink.cyan, ink.red, ink.yellow, ink.green]
+				return (
+					<g key={`brush-${index}`} transform={`translate(${518 + index * 22} 368)`}>
+						<line className={stroke} pathLength={1} x1="0" y1="0" x2="0" y2="28" stroke={ink.chalk} strokeWidth="2" style={wait(animate, 420 + index * 40)} />
+						<circle cx="0" cy="0" r="6" fill={colors[index]} className={show} style={wait(animate, 460 + index * 40)} />
+					</g>
+				)
+			})}
+			<text
+				x="488"
+				y="64"
+				fill={ink.cyanHot}
+				fontSize="26"
+				className={show}
+				style={wait(animate, 240)}
+			>
+				HARNESS
+			</text>
+			<text
+				x="508"
+				y="112"
+				fill={ink.yellow}
+				fontSize="18"
+				className={show}
+				style={wait(animate, 320)}
+			>
+				BRUSHES
+			</text>
+		</>
+	)
+}
+
+function TenAmScene({ animate }: { animate: boolean }) {
+	const stroke = draw(animate)
+	const show = reveal(animate)
+
+	return (
+		<>
+			<circle
+				className={stroke}
+				pathLength={1}
+				cx="210"
+				cy="210"
+				r="118"
+				stroke={ink.chalk}
+				strokeWidth="3.4"
+				style={wait(animate, 80)}
+			/>
+			{[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((index) => {
+				const angle = (index / 12) * Math.PI * 2
+				const inner = index % 3 === 0 ? 92 : 102
+				return (
+					<line
+						key={`tick-${index}`}
+						className={stroke}
+						pathLength={1}
+						x1={210 + Math.sin(angle) * inner}
+						y1={210 - Math.cos(angle) * inner}
+						x2={210 + Math.sin(angle) * 110}
+						y2={210 - Math.cos(angle) * 110}
+						stroke={ink.bone}
+						strokeWidth={index % 3 === 0 ? 3 : 1.4}
+						style={wait(animate, 120 + index * 20)}
+					/>
+				)
+			})}
+			<line className={stroke} pathLength={1} x1="210" y1="210" x2="210" y2="118" stroke={ink.white} strokeWidth="4" style={wait(animate, 360)} />
+			<line className={stroke} pathLength={1} x1="210" y1="210" x2="138" y2="168" stroke={ink.red} strokeWidth="5" style={wait(animate, 400)} />
+			<circle cx="210" cy="210" r="7" fill={ink.cyanHot} className={animate ? 'paint-pulse' : undefined} />
+			<text x="168" y="268" fill={ink.yellow} fontSize="34" className={show} style={wait(animate, 280)}>
+				TUE
+			</text>
+			<text x="86" y="64" fill={ink.cyan} fontSize="30" className={show} style={wait(animate, 160)}>
+				10 AM
+			</text>
+
+			<path className={stroke} pathLength={1} d="M 430 390 L 560 92" stroke={ink.chalk} strokeWidth="3.2" style={wait(animate, 200)} />
+			<path className={stroke} pathLength={1} d="M 700 390 L 560 92" stroke={ink.chalk} strokeWidth="3.2" style={wait(animate, 240)} />
+			<path className={stroke} pathLength={1} d="M 470 292 H 650" stroke={ink.gold} strokeWidth="3" style={wait(animate, 300)} />
+			<rect
+				className={stroke}
+				pathLength={1}
+				x="478"
+				y="128"
+				width="164"
+				height="214"
+				fill={ink.field}
+				stroke={ink.cyan}
+				strokeWidth="3.2"
+				style={wait(animate, 340)}
+			/>
+			<rect x="494" y="146" width="132" height="178" stroke={ink.chalk} strokeWidth="1.2" opacity="0.3" />
+			<circle cx="560" cy="92" r="6" fill={ink.cyanHot} className={animate ? 'paint-pulse' : undefined} />
+			<path
+				d="M 420 400 C 500 388, 620 408, 720 396"
+				stroke={ink.ochre}
+				strokeWidth="10"
+				opacity="0.55"
+				className={show}
+				style={wait(animate, 480)}
+			/>
+			{[0, 1, 2, 3].map((index) => (
+				<circle
+					key={`ready-${index}`}
+					cx={500 + index * 28}
+					cy="372"
+					r="6"
+					fill={[ink.cyan, ink.red, ink.yellow, ink.green][index]}
+					className={show}
+					style={wait(animate, 500 + index * 40)}
+				/>
+			))}
+			<text x="478" y="112" fill={ink.chalk} fontSize="22" className={show} style={wait(animate, 320)}>
+				READY
+			</text>
+		</>
+	)
+}
+
+function GapScene({ animate }: { animate: boolean }) {
+	const stroke = draw(animate)
+	const show = reveal(animate)
+
+	return (
+		<>
+			<path className={stroke} pathLength={1} d="M 86 390 L 176 96" stroke={ink.chalk} strokeWidth="3" style={wait(animate, 80)} />
+			<path className={stroke} pathLength={1} d="M 276 390 L 176 96" stroke={ink.chalk} strokeWidth="3" style={wait(animate, 120)} />
+			<path className={stroke} pathLength={1} d="M 118 292 H 238" stroke={ink.gold} strokeWidth="2.8" style={wait(animate, 180)} />
+			<rect
+				className={stroke}
+				pathLength={1}
+				x="118"
+				y="128"
+				width="116"
+				height="154"
+				fill={ink.field}
+				stroke={ink.cyan}
+				strokeWidth="3.2"
+				style={wait(animate, 220)}
+			/>
+			{[0, 1, 2, 3, 4].map((index) => (
+				<line
+					key={`code-${index}`}
+					className={stroke}
+					pathLength={1}
+					x1="132"
+					y1={152 + index * 22}
+					x2={index % 2 === 0 ? 214 : 198}
+					y2={152 + index * 22}
+					stroke={index === 2 ? ink.cyan : ink.chalk}
+					strokeWidth="2"
+					opacity={0.55}
+					style={wait(animate, 280 + index * 30)}
+				/>
+			))}
+			<text x="70" y="64" fill={ink.cyanHot} fontSize="28" className={show} style={wait(animate, 160)}>
+				CODE
+			</text>
+
+			<path
+				className={stroke}
+				pathLength={1}
+				d="M 360 70 C 480 180, 520 120, 740 80"
+				stroke={ink.red}
+				strokeWidth="3"
+				style={wait(animate, 200)}
+			/>
+			<path
+				className={animate ? 'paint-drift' : undefined}
+				d="M 380 360 C 500 240, 620 320, 750 200"
+				stroke={ink.yellow}
+				strokeWidth="2.2"
+				strokeDasharray="7 11"
+			/>
+
+			{[
+				{ x: 390, y: 110, r: -11, label: 'NOTES', color: ink.yellow },
+				{ x: 560, y: 96, r: 8, label: 'CHAT', color: ink.cyan },
+				{ x: 420, y: 230, r: 6, label: 'DOCS', color: ink.green },
+				{ x: 590, y: 220, r: -7, label: 'BILL', color: ink.red },
+			].map((card, index) => (
+				<g key={card.label} transform={`rotate(${card.r} ${card.x + 70} ${card.y + 44})`}>
+					<rect
+						className={stroke}
+						pathLength={1}
+						x={card.x}
+						y={card.y}
+						width="140"
+						height="88"
+						fill={ink.field}
+						stroke={card.color}
+						strokeWidth="2.8"
+						style={wait(animate, 240 + index * 60)}
+					/>
+					<text
+						x={card.x + 16}
+						y={card.y + 54}
+						fill={card.color}
+						fontSize="22"
+						className={show}
+						style={wait(animate, 280 + index * 60)}
+					>
+						{card.label}
+					</text>
+				</g>
+			))}
+			<text x="430" y="64" fill={ink.red} fontSize="24" className={show} style={wait(animate, 200)}>
+				PILE OF TOOLS
+			</text>
+		</>
+	)
+}
+
+export function DiagramFigure({ spec, id = 'diagram' }: DiagramFigureProps) {
+	const animate = asBoolean(spec.animate) ?? true
+	const scene = asString(spec.scene) ?? asString(spec.type) ?? 'harness'
+	const aria =
+		scene === 'ten-am'
+			? 'A painted studio at 10 o’clock on a Tuesday, easel already ready'
+			: scene === 'gap'
+				? 'A painted split: one coding easel versus a pile of crooked tool canvases'
+				: 'A painted split: a locked model cage versus an easel with brushes waiting'
+
+	return (
+		<PaintGround id={id} animate={animate} ariaLabel={aria}>
+			{scene === 'ten-am' ? <TenAmScene animate={animate} /> : null}
+			{scene === 'gap' ? <GapScene animate={animate} /> : null}
+			{scene === 'harness' || scene === 'locked' || scene === 'canvas' || scene === 'split' ? (
+				<HarnessScene animate={animate} />
+			) : null}
+		</PaintGround>
 	)
 }
