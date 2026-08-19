@@ -69,27 +69,27 @@ export function PaintingFigure({ spec, id = 'painting' }: PaintingFigureProps) {
 		const reveals = root.selectAll<SVGElement, unknown>('.paint-reveal')
 		let played = false
 
+		strokes.style('stroke-dasharray', 1).style('stroke-dashoffset', 1)
+		reveals.style('opacity', 0)
+
 		const play = () => {
 			if (played) return
 			played = true
 			strokes.each(function () {
 				select(this)
-					.attr('stroke-dasharray', 1)
-					.attr('stroke-dashoffset', 1)
 					.transition()
 					.delay(delayOf(this))
 					.duration(1850)
 					.ease(easeCubicOut)
-					.attr('stroke-dashoffset', 0)
+					.style('stroke-dashoffset', 0)
 			})
 			reveals.each(function () {
 				select(this)
-					.style('opacity', '0')
 					.transition()
 					.delay(delayOf(this))
 					.duration(900)
 					.ease(easeCubicOut)
-					.style('opacity', '1')
+					.style('opacity', 1)
 			})
 		}
 
