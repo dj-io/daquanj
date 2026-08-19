@@ -347,84 +347,18 @@
   .compass-stroke {
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
-    animation: paint-draw 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: paint-draw 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 
   .compass-arc {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    animation: paint-draw 2.2s cubic-bezier(0.22, 1, 0.36, 1) 1.15s forwards;
+    stroke-dasharray: 0.22 0.78;
+    stroke-dashoffset: 0;
+    animation: compass-arc-spin 6.5s linear infinite;
   }
 
-  .compass-leg-left,
-  .compass-leg-right,
-  .compass-leg-left-rest,
-  .compass-leg-right-rest {
-    transform-box: view-box;
-    transform-origin: 100px 40px;
-  }
-
-  .compass-leg-left {
-    animation: compass-open-left 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
-  }
-
-  .compass-leg-right {
-    animation: compass-open-right 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
-  }
-
-  .compass-leg-left-rest {
-    transform: rotate(16deg);
-  }
-
-  .compass-leg-right-rest {
-    transform: rotate(-16deg);
-  }
-
-  .compass-lead {
-    animation: compass-lead 2.8s ease-in-out 1.3s infinite;
-  }
-
-  .compass-idle {
-    animation: compass-idle 7s ease-in-out 2.4s infinite;
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-
-  @keyframes compass-open-left {
-    from {
-      transform: rotate(3deg);
-    }
+  @keyframes compass-arc-spin {
     to {
-      transform: rotate(16deg);
-    }
-  }
-
-  @keyframes compass-open-right {
-    from {
-      transform: rotate(-3deg);
-    }
-    to {
-      transform: rotate(-16deg);
-    }
-  }
-
-  @keyframes compass-lead {
-    0%,
-    100% {
-      opacity: 0.8;
-    }
-    50% {
-      opacity: 1;
-    }
-  }
-
-  @keyframes compass-idle {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-3px);
+      stroke-dashoffset: -1;
     }
   }
 
@@ -441,10 +375,6 @@
     .paint-jitter,
     .compass-stroke,
     .compass-arc,
-    .compass-leg-left,
-    .compass-leg-right,
-    .compass-lead,
-    .compass-idle,
     .hero-slab {
       animation: none;
     }
@@ -455,16 +385,13 @@
       stroke-dashoffset: 0;
     }
 
+    .compass-arc {
+      stroke-dasharray: 1;
+      opacity: 0.45;
+    }
+
     .paint-reveal {
       opacity: 1;
-    }
-
-    .compass-leg-left {
-      transform: rotate(16deg);
-    }
-
-    .compass-leg-right {
-      transform: rotate(-16deg);
     }
   }
 

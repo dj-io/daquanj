@@ -61,7 +61,7 @@ export function BlogFigure({ id, record, caption, priority }: BlogFigureProps) {
 	const creditCaption = record.kind === 'image' || record.kind === 'painting'
 
 	return (
-		<figure className={cn('my-8 space-y-3', record.kind === 'compass' && 'my-12')}>
+		<figure className={cn(record.kind === 'compass' ? 'my-5' : 'my-8 space-y-3')}>
 			<div
 				data-viz={record.kind}
 				className={record.kind === 'painting' || record.kind === 'compass' ? 'overflow-visible' : undefined}
