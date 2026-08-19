@@ -82,13 +82,13 @@ export default function RootLayout({
             defaultTheme="system"
             disableTransitionOnChange
           >
-            <div className=" flex flex-col bg-background">
+            <div className="flex min-h-dvh flex-col bg-background">
               <IntroProvider>
                 <Header />
                 <CursorTrail />
-                <main className="flex-1 flex items-center justify-center overflow-x-clip md:overflow-auto bg-background">
+                <div className="flex-1 overflow-x-clip bg-background">
                   {children}
-                </main>
+                </div>
               </IntroProvider>
             </div>
           </ThemeProvider>

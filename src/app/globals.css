@@ -30,6 +30,7 @@
   --color-ring: var(--ring);
   --color-grit: var(--grit);
   --color-apollo: var(--apollo);
+  --color-blog-accent: var(--blog-accent);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -73,14 +74,15 @@
   --border: oklch(0.92 0.004 286.32);
   --input: oklch(0.92 0.004 286.32);
   --ring: oklch(0.705 0.015 286.067);
-  --chart-1: oklch(0.646 0.222 41.116);
+  --chat:  oklch(1 0 0);
+  --grit: oklch(0.2221 0.0455 29.86);
+  --apollo: oklch(0.6522 0.2134 37.87);
+  --blog-accent: var(--apollo);
+  --chart-1: var(--apollo);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --chat:  oklch(1 0 0);
-  --grit: oklch(0.2221 0.0455 29.86);
-  --apollo: oklch(0.6522 0.2134 37.87);
   --chat-foreground: oklch(0.9602 0 129.63);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
@@ -117,9 +119,10 @@
   --border: oklch(1 0 0 / 10%);
   --grit: oklch(0.3992 0.0982 45.46);
   --apollo: oklch(0.6522 0.2134 37.87);
+  --blog-accent: var(--apollo);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.552 0.016 285.938);
-  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-1: var(--apollo);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
@@ -177,6 +180,185 @@
   /* For code blocks */
   code, pre {
     font-family: "SF Mono", Menlo, "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  .paint-stroke {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: paint-draw 1.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .paint-reveal {
+    opacity: 0;
+    animation: paint-reveal 0.9s ease-out forwards;
+  }
+
+  .paint-float {
+    animation: paint-float 6.5s ease-in-out 1.6s infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .paint-drift {
+    stroke-dasharray: 7 11;
+    animation: paint-drift 16s linear infinite;
+  }
+
+  .paint-pulse {
+    animation: paint-pulse 2.4s ease-in-out 1.6s infinite;
+  }
+
+  .paint-flicker {
+    animation: paint-flicker 3.4s ease-in-out 1.5s infinite;
+  }
+
+  .paint-glow {
+    animation: paint-glow 4.2s ease-in-out 1.4s infinite;
+  }
+
+  .paint-drip {
+    animation: paint-drip 7.5s ease-in-out 2s infinite;
+    transform-box: fill-box;
+    transform-origin: top center;
+  }
+
+  .paint-jitter {
+    animation: paint-jitter 5.5s steps(7) 2s infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  @keyframes paint-drift {
+    to {
+      stroke-dashoffset: -220;
+    }
+  }
+
+  @keyframes paint-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes paint-reveal {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes paint-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  @keyframes paint-pulse {
+    0%,
+    100% {
+      opacity: 0.72;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes paint-flicker {
+    0%,
+    90%,
+    100% {
+      opacity: 1;
+    }
+    93% {
+      opacity: 0.28;
+    }
+    96% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes paint-glow {
+    0%,
+    100% {
+      opacity: 0.86;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes paint-drip {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(7px);
+    }
+  }
+
+  @keyframes paint-jitter {
+    0%,
+    100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    20% {
+      transform: translate(0.4px, -0.3px) rotate(-0.15deg);
+    }
+    40% {
+      transform: translate(-0.3px, 0.4px) rotate(0.12deg);
+    }
+    60% {
+      transform: translate(0.3px, 0.2px) rotate(-0.08deg);
+    }
+    80% {
+      transform: translate(-0.2px, -0.3px) rotate(0.1deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .paint-stroke,
+    .paint-reveal,
+    .paint-float,
+    .paint-drift,
+    .paint-pulse,
+    .paint-flicker,
+    .paint-glow,
+    .paint-drip,
+    .paint-jitter {
+      animation: none;
+    }
+
+    .paint-stroke {
+      stroke-dashoffset: 0;
+    }
+
+    .paint-reveal {
+      opacity: 1;
+    }
+  }
+
+  .blog-prose pre code {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+  }
+
+  .blog-prose :target {
+    scroll-margin-top: 6rem;
+  }
+
+  .blog-prose mark {
+    background: color-mix(in oklch, var(--blog-accent) 22%, transparent);
+    color: inherit;
+    padding: 0.05em 0.2em;
   }
   * {
     @apply border-border outline-ring/50;

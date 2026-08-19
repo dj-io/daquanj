@@ -1,4 +1,4 @@
-import { Copy, ProjectTimeline } from './types'
+import { Copy, ProjectLink, ProjectTimeline, SocialLink } from './types'
 import { CheckCircleIcon } from 'lucide-react'
 
 export const INTRO_FADE_DURATION = 0.45
@@ -12,31 +12,32 @@ export const COPY: Copy[] = [
 ]
 
 // Social links
-export const SOCIAL_LINKS = [
+export const SOCIAL_LINKS: SocialLink[] = [
 	{
 		name: 'LinkedIn',
 		url: 'https://www.linkedin.com/in/daquanj/',
-		handle: 'IN/DAQUANJ'
+		handle: 'IN/DAQUANJ',
 	},
 	{
 		name: 'GitHub',
 		url: 'https://github.com/dj-io',
-		handle: '@DJ-IO'
+		handle: '@DJ-IO',
 	},
 	{
-		name: 'Substack',
-		url: 'https://stratumlabs.substack.com',
-		handle: 'BLOG'
+		name: 'Blog',
+		url: '/blog',
+		handle: 'BLOG',
+		internal: true,
 	},
 	{
 		name: 'X',
 		url: 'https://x.com/@d16nx',
-		handle: '@D16NX'
+		handle: '@D16NX',
 	},
 ]
 
 // Project links
-export const PROJECT_LINKS = [
+export const PROJECT_LINKS: ProjectLink[] = [
 	{
 		name: 'Grit',
 		url: 'https://gritai.app',
