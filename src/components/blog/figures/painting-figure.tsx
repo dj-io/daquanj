@@ -96,7 +96,7 @@ export function PaintingFigure({ spec }: PaintingFigureProps) {
 
 			<g fill="none" strokeLinecap="round" strokeLinejoin="round" filter="url(#paint-stick)">
 				{/* Impasto swipes — paint first, drawing later, some paint over again */}
-				<g filter="url(#paint-impasto)" className={reveal} style={wait(40)}>
+				<g filter="url(#paint-impasto)">
 					<path
 						d="M 86 48 C 118 210, 64 430, 132 730"
 						stroke={ink.brown}
@@ -264,6 +264,15 @@ export function PaintingFigure({ spec }: PaintingFigureProps) {
 						stroke={ink.chalk}
 						strokeWidth="4.2"
 						style={wait(80)}
+					/>
+					<path
+						className={draw}
+						pathLength={1}
+						d="M 98 438 C 72 320, 118 214, 210 196 C 314 176, 386 232, 396 342 C 408 452, 352 554, 230 582 C 108 610, 74 528, 98 438 Z"
+						stroke={ink.white}
+						strokeWidth="2.2"
+						opacity="0.55"
+						style={wait(140)}
 					/>
 					<path
 						className={draw}
@@ -477,23 +486,21 @@ export function PaintingFigure({ spec }: PaintingFigureProps) {
 						pathLength={1}
 						d="M 328 170 L 360 58 L 398 168"
 						stroke={ink.cyanHot}
-						strokeWidth="5"
-						style={wait(200)}
+						strokeWidth="6.2"
 					/>
 					<path
 						className={draw}
 						pathLength={1}
 						d="M 392 172 L 448 36 L 504 170"
 						stroke={ink.cyan}
-						strokeWidth="5.4"
-						style={wait(260)}
+						strokeWidth="6.8"
 					/>
 					<path
 						className={draw}
 						pathLength={1}
-						d="M 496 168 L 544 58 L 578 172"
+						d="M 496 168 L 544 48 L 578 172"
 						stroke={ink.cyanHot}
-						strokeWidth="5"
+						strokeWidth="6.2"
 						style={wait(320)}
 					/>
 					<path
@@ -627,60 +634,60 @@ export function PaintingFigure({ spec }: PaintingFigureProps) {
 			{/* Scrawled labels — cramped, rotated, struck-through, repeated */}
 			<g className={animate ? 'paint-jitter' : undefined} filter="url(#paint-stick)">
 				<text
-					x="214"
-					y="58"
+					x="198"
+					y="62"
 					fill={ink.chalk}
-					fontSize="28"
-					transform="rotate(-8 214 58)"
+					fontSize="34"
+					transform="rotate(-8 198 62)"
 					className={reveal}
-					style={wait(360)}
+					style={wait(80)}
 				>
 					RAMESES II
 				</text>
 				<line
-					x1="210"
-					y1="62"
-					x2="430"
-					y2="48"
+					x1="196"
+					y1="68"
+					x2="468"
+					y2="50"
 					stroke={ink.red}
-					strokeWidth="4"
+					strokeWidth="5"
 					className={draw}
 					pathLength={1}
-					style={wait(520)}
+					style={wait(220)}
 				/>
 				<text
-					x="236"
-					y="92"
+					x="228"
+					y="102"
 					fill={ink.yellow}
-					fontSize="22"
-					transform="rotate(-4 236 92)"
+					fontSize="26"
+					transform="rotate(-4 228 102)"
 					className={reveal}
-					style={wait(480)}
+					style={wait(140)}
 				>
 					RAMESES II
 				</text>
 				<text
-					x="468"
-					y="122"
+					x="448"
+					y="128"
 					fill={ink.cyanHot}
-					fontSize="18"
-					transform="rotate(6 468 122)"
+					fontSize="22"
+					transform="rotate(6 448 128)"
 					className={reveal}
-					style={wait(560)}
+					style={wait(180)}
 				>
 					CROWN COPYRIGHT
 				</text>
-				<text x="472" y="146" fill={ink.cyan} fontSize="20" className={reveal} style={wait(600)}>
+				<text x="472" y="146" fill={ink.cyan} fontSize="24" className={reveal} style={wait(200)}>
 					©
 				</text>
 				<text
 					x="428"
 					y="258"
 					fill={ink.cyan}
-					fontSize="14"
+					fontSize="16"
 					textAnchor="middle"
 					className={reveal}
-					style={wait(640)}
+					style={wait(220)}
 				>
 					CROWN
 				</text>
@@ -688,28 +695,28 @@ export function PaintingFigure({ spec }: PaintingFigureProps) {
 					x="78"
 					y="188"
 					fill={ink.bone}
-					fontSize="16"
+					fontSize="18"
 					transform="rotate(-18 78 188)"
 					className={reveal}
-					style={wait(500)}
+					style={wait(120)}
 				>
 					SCALP
 				</text>
-				<text x="332" y="500" fill={ink.red} fontSize="22" className={reveal} style={wait(720)}>
+				<text x="332" y="500" fill={ink.red} fontSize="28" className={reveal} style={wait(200)}>
 					TEETH
 				</text>
 				<text
-					x="64"
-					y="520"
+					x="54"
+					y="524"
 					fill={ink.chalk}
-					fontSize="20"
-					transform="rotate(-12 64 520)"
+					fontSize="26"
+					transform="rotate(-12 54 524)"
 					className={reveal}
-					style={wait(680)}
+					style={wait(160)}
 				>
 					JAW
 				</text>
-				<text x="92" y="700" fill={ink.ochre} fontSize="26" className={reveal} style={wait(760)}>
+				<text x="88" y="704" fill={ink.ochre} fontSize="32" className={reveal} style={wait(240)}>
 					TORSO
 				</text>
 				<line
@@ -721,30 +728,30 @@ export function PaintingFigure({ spec }: PaintingFigureProps) {
 					strokeWidth="3"
 					className={draw}
 					pathLength={1}
-					style={wait(820)}
+					style={wait(280)}
 				/>
 				<text
 					x="556"
 					y="252"
 					fill={ink.yellow}
-					fontSize="13"
+					fontSize="15"
 					transform="rotate(-7 556 252)"
 					className={reveal}
-					style={wait(640)}
+					style={wait(180)}
 				>
 					SIDE VIEW OF HEAD
 				</text>
-				<text x="604" y="478" fill={ink.magenta} fontSize="20" className={reveal} style={wait(780)}>
+				<text x="604" y="478" fill={ink.magenta} fontSize="26" className={reveal} style={wait(220)}>
 					PEZ
 				</text>
 				<text
 					x="640"
 					y="176"
 					fill={ink.red}
-					fontSize="18"
+					fontSize="28"
 					transform="rotate(8 640 176)"
 					className={reveal}
-					style={wait(700)}
+					style={wait(160)}
 				>
 					II
 				</text>
@@ -752,11 +759,11 @@ export function PaintingFigure({ spec }: PaintingFigureProps) {
 					x="430"
 					y="710"
 					fill={ink.chalk}
-					fontSize="15"
-					opacity="0.7"
+					fontSize="18"
+					opacity="0.75"
 					transform="rotate(-3 430 710)"
 					className={reveal}
-					style={wait(840)}
+					style={wait(260)}
 				>
 					KINGS
 				</text>
