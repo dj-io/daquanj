@@ -58,7 +58,7 @@ export const PROJECT_LINKS: ProjectLink[] = [
             about: "Xcelerate — CCaaS on Twilio Flex",
 			timelineIcon: CheckCircleIcon,
 			timeline: 'Completed' satisfies ProjectTimeline,
-            role: "Full Stack Engineer",
+            role: "Software Engineer II",
             contributions: "Built a CRM-agnostic, multi-tenant integration layer for Salesforce, HubSpot, and Zendesk, plus agent notifications and custom client solutions.",
         }
 	},
