@@ -1,18 +1,18 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
 import rehypeSlug from 'rehype-slug'
+import { ArticleByline } from '@/components/blog/article-byline'
+import { ArticleFigure } from '@/components/blog/article-figure'
+import { ArticlePager } from '@/components/blog/article-pager'
 import { ArticleToc } from '@/components/blog/article-toc'
 import { mdxComponents } from '@/components/blog/mdx-components'
-import { PostList } from '@/components/blog/post-list'
-import { PostMeta } from '@/components/blog/post-meta'
 import {
 	BLOG_TOPICS,
+	getAdjacentPosts,
 	getAllPosts,
 	getPostBySlug,
-	getRelatedPosts,
 } from '@/lib/blog'
 
 type ArticlePageProps = {
@@ -36,6 +36,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 			description: post.description,
 			type: 'article',
 			publishedTime: post.date,
+			images: post.image ? [{ url: post.image }] : undefined,
 		},
 		alternates: {
 			canonical: `/blog/${post.slug}`,
@@ -49,58 +50,45 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 	if (!post) notFound()
 
 	const topic = BLOG_TOPICS[post.topic]
-	const related = getRelatedPosts(post)
+	const { older, newer } = getAdjacentPosts(post.slug)
 
 	return (
-		<article className="mx-auto w-full max-w-2xl">
-			<nav className="mb-10 text-xs tracking-wide text-muted-foreground">
-				<Link href="/blog" className="transition-colors hover:text-foreground">
-					Writing
-				</Link>
-				<span className="mx-2" aria-hidden>
-					/
-				</span>
-				<Link
-					href={`/blog/topic/${topic.slug}`}
-					className="transition-colors hover:text-foreground"
-				>
-					{topic.label}
-				</Link>
-			</nav>
+		<>
+			<article className="mx-auto w-full max-w-2xl pb-28">
+				<ArticleToc headings={post.headings} />
 
-			<header className="mb-10">
-				<h1 className="font-crimson text-4xl italic leading-tight text-grit md:text-5xl">
+				<p className="mt-10 text-sm text-muted-foreground">{topic.label}</p>
+				<h1 className="mt-3 text-[2rem] font-bold leading-[1.15] tracking-tight text-foreground sm:text-4xl">
 					{post.title}
 				</h1>
-				<p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
-					{post.description}
-				</p>
-				<PostMeta post={post} className="mt-6" />
-			</header>
+				<ArticleByline post={post} />
 
-			<ArticleToc headings={post.headings} />
+				{post.image ? (
+					<ArticleFigure
+						src={post.image}
+						title={post.imageTitle}
+						subtitle={post.imageSubtitle}
+						alt={post.imageTitle ?? post.title}
+						priority
+						className="mt-10"
+					/>
+				) : null}
 
-			<div className="blog-prose">
-				<MDXRemote
-					source={post.content}
-					components={mdxComponents}
-					options={{
-						mdxOptions: {
-							remarkPlugins: [remarkGfm],
-							rehypePlugins: [rehypeSlug],
-						},
-					}}
-				/>
-			</div>
+				<div className="blog-prose mt-2">
+					<MDXRemote
+						source={post.content}
+						components={mdxComponents}
+						options={{
+							mdxOptions: {
+								remarkPlugins: [remarkGfm],
+								rehypePlugins: [rehypeSlug],
+							},
+						}}
+					/>
+				</div>
+			</article>
 
-			{related.length > 0 && (
-				<section className="mt-20 border-t border-border/60 pt-10">
-					<p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-						More in {topic.label}
-					</p>
-					<PostList posts={related} />
-				</section>
-			)}
-		</article>
+			<ArticlePager older={older} newer={newer} />
+		</>
 	)
 }

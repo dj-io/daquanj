@@ -1,15 +1,29 @@
-import type { BlogHeading } from '@/lib/blog'
+'use client'
+
+import type { BlogHeading } from '@/lib/blog-meta'
+import { cn } from '@/lib/utils'
 
 export function ArticleToc({ headings }: { headings: BlogHeading[] }) {
 	const sections = headings.filter((heading) => heading.level === 2)
-	if (sections.length < 3) return null
+	if (sections.length === 0) return null
 
 	return (
-		<nav aria-label="On this page" className="mb-12">
-			<p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-				Contents
-			</p>
-			<ol className="space-y-2">
+		<details className="group rounded-lg bg-muted/80 open:bg-muted">
+			<summary
+				className={cn(
+					'flex cursor-pointer list-none items-center gap-2.5 px-4 py-3 text-sm font-medium text-foreground',
+					'[&::-webkit-details-marker]:hidden',
+				)}
+			>
+				<span
+					aria-hidden
+					className="inline-block text-[0.65rem] leading-none transition-transform duration-200 group-open:rotate-90"
+				>
+					▶
+				</span>
+				On this page
+			</summary>
+			<ol className="space-y-2.5 px-4 pb-4">
 				{sections.map((heading) => (
 					<li key={heading.id}>
 						<a
@@ -21,6 +35,6 @@ export function ArticleToc({ headings }: { headings: BlogHeading[] }) {
 					</li>
 				))}
 			</ol>
-		</nav>
+		</details>
 	)
 }

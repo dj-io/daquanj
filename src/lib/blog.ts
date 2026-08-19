@@ -15,6 +15,7 @@ export {
 	BLOG_AUTHOR,
 	BLOG_TOPICS,
 	formatDate,
+	formatDateLong,
 	parseDate,
 	type BlogFrontmatter,
 	type BlogHeading,
@@ -74,6 +75,10 @@ function normalizeDate(value: unknown, slug: string) {
 	throw new Error(`Post "${slug}" has an invalid date`)
 }
 
+function optionalString(value: unknown) {
+	return typeof value === 'string' && value.trim() ? value.trim() : undefined
+}
+
 function parseFrontmatter(data: Record<string, unknown>, slug: string): BlogFrontmatter {
 	const title = data.title
 	const description = data.description
@@ -95,7 +100,9 @@ function parseFrontmatter(data: Record<string, unknown>, slug: string): BlogFron
 		description: description.trim(),
 		date,
 		topic,
-		image: typeof data.image === 'string' && data.image.trim() ? data.image.trim() : undefined,
+		image: optionalString(data.image),
+		imageTitle: optionalString(data.imageTitle),
+		imageSubtitle: optionalString(data.imageSubtitle),
 		featured: Boolean(data.featured),
 		draft: Boolean(data.draft),
 	}
@@ -157,6 +164,16 @@ export function getRelatedPosts(post: BlogPostMeta, limit = 3): BlogPost[] {
 	return getPostsByTopic(post.topic)
 		.filter((candidate) => candidate.slug !== post.slug)
 		.slice(0, limit)
+}
+
+export function getAdjacentPosts(slug: string) {
+	const posts = getAllPosts()
+	const index = posts.findIndex((post) => post.slug === slug)
+
+	return {
+		newer: index > 0 ? posts[index - 1] : null,
+		older: index >= 0 && index < posts.length - 1 ? posts[index + 1] : null,
+	}
 }
 
 export function getTopic(slug: string) {

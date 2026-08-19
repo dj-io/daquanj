@@ -33,6 +33,8 @@ export type BlogPostMeta = {
 	date: string
 	topic: BlogTopicSlug
 	image?: string
+	imageTitle?: string
+	imageSubtitle?: string
 	featured: boolean
 	draft: boolean
 	readingTime: number
@@ -50,6 +52,8 @@ export type BlogFrontmatter = {
 	date: string
 	topic: BlogTopicSlug
 	image?: string
+	imageTitle?: string
+	imageSubtitle?: string
 	featured?: boolean
 	draft?: boolean
 }
@@ -62,6 +66,14 @@ export function parseDate(date: string) {
 export function formatDate(date: string) {
 	return new Intl.DateTimeFormat('en-US', {
 		month: 'short',
+		day: 'numeric',
+		year: 'numeric',
+	}).format(parseDate(date))
+}
+
+export function formatDateLong(date: string) {
+	return new Intl.DateTimeFormat('en-US', {
+		month: 'long',
 		day: 'numeric',
 		year: 'numeric',
 	}).format(parseDate(date))

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import type { MDXComponents } from 'mdx/types'
+import { ArticleFigure } from '@/components/blog/article-figure'
 import { cn } from '@/lib/utils'
 
 function Note({ children }: { children: ReactNode }) {
@@ -15,7 +16,7 @@ export const mdxComponents = {
 	h1: ({ className, ...props }) => (
 		<h1
 			className={cn(
-				'mt-12 mb-4 font-crimson text-3xl italic leading-tight text-grit',
+				'mt-12 mb-4 text-2xl font-bold tracking-tight text-foreground',
 				className,
 			)}
 			{...props}
@@ -24,7 +25,7 @@ export const mdxComponents = {
 	h2: ({ className, ...props }) => (
 		<h2
 			className={cn(
-				'mt-12 mb-4 font-crimson text-2xl italic leading-snug text-grit',
+				'mt-12 mb-4 text-xl font-bold tracking-tight text-foreground',
 				className,
 			)}
 			{...props}
@@ -42,7 +43,7 @@ export const mdxComponents = {
 	p: ({ className, ...props }) => (
 		<p
 			className={cn(
-				'my-5 text-[1.05rem] leading-7 text-foreground/90',
+				'my-5 text-[1.05rem] leading-[1.7] text-foreground/90',
 				className,
 			)}
 			{...props}
@@ -134,4 +135,5 @@ export const mdxComponents = {
 		<td className={cn('border-b border-border/60 py-2 pr-4 text-muted-foreground', className)} {...props} />
 	),
 	Note,
+	Figure: ArticleFigure,
 } satisfies MDXComponents
