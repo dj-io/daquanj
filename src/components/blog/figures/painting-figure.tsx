@@ -31,13 +31,22 @@ const ink = {
 
 type PaintingFigureProps = {
 	spec: Record<string, unknown>
+	id?: string
 }
 
-export function PaintingFigure({ spec }: PaintingFigureProps) {
+function svgId(id: string, name: string) {
+	return `${id.replace(/[^a-zA-Z0-9_-]+/g, '-')}-${name}`
+}
+
+export function PaintingFigure({ spec, id = 'painting' }: PaintingFigureProps) {
 	const animate = asBoolean(spec.animate) ?? true
 	const draw = animate ? 'paint-stroke' : undefined
 	const reveal = animate ? 'paint-reveal' : undefined
 	const wait = (ms: number) => (animate ? { animationDelay: `${ms}ms` } : undefined)
+	const grain = svgId(id, 'grain')
+	const stick = svgId(id, 'stick')
+	const impasto = svgId(id, 'impasto')
+	const glow = svgId(id, 'glow')
 
 	return (
 		<svg
@@ -46,7 +55,7 @@ export function PaintingFigure({ spec }: PaintingFigureProps) {
 			aria-hidden
 		>
 			<defs>
-				<filter id="paint-grain" x="0" y="0" width="100%" height="100%">
+				<filter id={grain} x="0" y="0" width="100%" height="100%">
 					<feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" seed="7" result="n" />
 					<feColorMatrix
 						in="n"
@@ -54,16 +63,16 @@ export function PaintingFigure({ spec }: PaintingFigureProps) {
 						values="0 0 0 0 0.9  0 0 0 0 0.86  0 0 0 0 0.78  0 0 0 0.16 0"
 					/>
 				</filter>
-				<filter id="paint-stick" x="-12%" y="-12%" width="124%" height="124%">
+				<filter id={stick} x="-12%" y="-12%" width="124%" height="124%">
 					<feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="3" seed="11" result="n" />
 					<feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G" />
 				</filter>
-				<filter id="paint-impasto" x="-18%" y="-18%" width="136%" height="136%">
+				<filter id={impasto} x="-18%" y="-18%" width="136%" height="136%">
 					<feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="3" result="n" />
 					<feDisplacementMap in="SourceGraphic" in2="n" scale="9" xChannelSelector="R" yChannelSelector="G" />
 					<feGaussianBlur stdDeviation="0.35" />
 				</filter>
-				<filter id="paint-glow" x="-40%" y="-40%" width="180%" height="180%">
+				<filter id={glow} x="-40%" y="-40%" width="180%" height="180%">
 					<feGaussianBlur stdDeviation="4.5" result="b" />
 					<feMerge>
 						<feMergeNode in="b" />
@@ -81,7 +90,7 @@ export function PaintingFigure({ spec }: PaintingFigureProps) {
 				d="M28 22 C 70 14, 200 20, 400 12 C 610 4, 760 18, 778 22 L 786 742 C 620 728, 400 736, 170 748 C 70 754, 32 742, 26 730 Z"
 				fill={ink.field}
 			/>
-			<rect x="26" y="22" width="760" height="726" filter="url(#paint-grain)" opacity="0.55" />
+			<rect x="26" y="22" width="760" height="726" filter={`url(#${grain})`} opacity="0.55" />
 			<path
 				d="M26 730 C 180 748, 430 736, 786 742 L 794 798 C 640 812, 420 806, 210 816 C 90 822, 22 804, 10 790 L 26 730 Z"
 				fill={ink.canvas}
@@ -94,9 +103,9 @@ export function PaintingFigure({ spec }: PaintingFigureProps) {
 				opacity="0.55"
 			/>
 
-			<g fill="none" strokeLinecap="round" strokeLinejoin="round" filter="url(#paint-stick)">
+			<g fill="none" strokeLinecap="round" strokeLinejoin="round" filter={`url(#${stick})`}>
 				{/* Impasto swipes — paint first, drawing later, some paint over again */}
-				<g filter="url(#paint-impasto)">
+				<g filter={`url(#${impasto})`}>
 					<path
 						d="M 86 48 C 118 210, 64 430, 132 730"
 						stroke={ink.brown}
@@ -389,7 +398,7 @@ export function PaintingFigure({ spec }: PaintingFigureProps) {
 						stroke={ink.brown}
 						strokeWidth="22"
 						opacity="0.32"
-						filter="url(#paint-impasto)"
+						filter={`url(#${impasto})`}
 						className={reveal}
 						style={wait(700)}
 					/>
@@ -462,7 +471,7 @@ export function PaintingFigure({ spec }: PaintingFigureProps) {
 				</g>
 
 				{/* Crown — three points, cyan, gold, the painting’s sovereign mark */}
-				<g className={animate ? 'paint-float' : undefined} filter="url(#paint-glow)">
+				<g className={animate ? 'paint-float' : undefined} filter={`url(#${glow})`}>
 					<g className={animate ? 'paint-glow' : undefined}>
 						<path
 							className={reveal}
@@ -632,7 +641,7 @@ export function PaintingFigure({ spec }: PaintingFigureProps) {
 			</g>
 
 			{/* Scrawled labels — cramped, rotated, struck-through, repeated */}
-			<g className={animate ? 'paint-jitter' : undefined} filter="url(#paint-stick)">
+			<g className={animate ? 'paint-jitter' : undefined} filter={`url(#${stick})`}>
 				<text
 					x="198"
 					y="62"

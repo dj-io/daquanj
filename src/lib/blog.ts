@@ -1,9 +1,11 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { cache } from 'react'
 import matter from 'gray-matter'
 import {
-	coverImageFromFigures,
+	coverFromFigures,
 	extractFigurePlaceholders,
+	matchFigureLine,
 	parseFiguresFile,
 	validateFigurePlaceholders,
 } from './blog-figures'
@@ -30,6 +32,7 @@ export {
 	formatDateLong,
 	getAuthor,
 	parseDate,
+	toUtcDate,
 	topicFromTag,
 	type ArticleDocument,
 	type ArticleFrontmatter,
@@ -44,6 +47,7 @@ export { adaptArticleMarkdown, adaptCalloutPlaceholders, adaptFigurePlaceholders
 
 const BLOG_DIR = path.join(process.cwd(), 'content/blog')
 const WORDS_PER_MINUTE = 220
+const POST_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 
 function isTopicSlug(value: string): value is BlogTopicSlug {
 	return value in BLOG_TOPICS
@@ -76,7 +80,14 @@ function extractHeadings(content: string): BlogHeading[] {
 }
 
 function readingStats(content: string) {
-	const words = content.trim().split(/\s+/).filter(Boolean).length
+	const words = content
+		.split('\n')
+		.filter((line) => !matchFigureLine(line))
+		.join('\n')
+		.trim()
+		.split(/\s+/)
+		.filter(Boolean).length
+
 	return {
 		wordCount: words,
 		readingTime: Math.max(1, Math.round(words / WORDS_PER_MINUTE)),
@@ -84,12 +95,11 @@ function readingStats(content: string) {
 }
 
 function normalizeDate(value: unknown, slug: string) {
-	if (value instanceof Date && !Number.isNaN(value.getTime())) {
-		return value.toISOString().slice(0, 10)
-	}
-
-	if (typeof value === 'string' && !Number.isNaN(Date.parse(value))) {
-		return value.slice(0, 10)
+	if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+		if (Number.isNaN(Date.parse(`${value}T00:00:00.000Z`))) {
+			throw new Error(`Post "${slug}" has an invalid date`)
+		}
+		return value
 	}
 
 	throw new Error(`Post "${slug}" has an invalid date`)
@@ -162,7 +172,12 @@ function buildMarkdown(frontmatter: ArticleFrontmatter, body: string, canonicalU
 
 function readArticleFile(slug: string): BlogPost {
 	const file = path.join(BLOG_DIR, slug, 'article.json')
-	const raw = JSON.parse(fs.readFileSync(file, 'utf8')) as Record<string, unknown>
+	let raw: Record<string, unknown>
+	try {
+		raw = JSON.parse(fs.readFileSync(file, 'utf8')) as Record<string, unknown>
+	} catch {
+		throw new Error(`Post "${slug}" has invalid article JSON`)
+	}
 	const documentSlug = typeof raw.slug === 'string' && raw.slug.trim() ? raw.slug.trim() : slug
 	if (documentSlug !== slug) {
 		throw new Error(`Post "${slug}" slug does not match folder name`)
@@ -185,10 +200,11 @@ function readArticleFile(slug: string): BlogPost {
 	validateFigurePlaceholders(slug, placeholders, figures)
 	const figureIds = placeholders.map((placeholder) => placeholder.id)
 	const { wordCount, readingTime } = readingStats(content)
-	const canonicalUrl = `${blogOrigin()}/blog/${slug}/`
+	const canonicalUrl = `${blogOrigin()}/blog/${slug}`
 	const markdown = buildMarkdown(frontmatter, content, canonicalUrl)
 	const headings = extractHeadings(content)
 	const topic = topicFromTag(frontmatter.tag)
+	const cover = coverFromFigures(figureIds, figures)
 
 	const document: ArticleDocument = {
 		slug,
@@ -214,7 +230,8 @@ function readArticleFile(slug: string): BlogPost {
 		authors: frontmatter.authors,
 		tag: frontmatter.tag,
 		doi: frontmatter.doi,
-		image: coverImageFromFigures(figureIds, figures),
+		image: cover?.src,
+		imageAlt: cover?.alt,
 		draft: frontmatter.draft,
 		readingTime,
 		wordCount,
@@ -233,7 +250,7 @@ function listPostSlugs() {
 		.readdirSync(BLOG_DIR, { withFileTypes: true })
 		.filter((entry) => entry.isDirectory())
 		.map((entry) => entry.name)
-		.filter((slug) => fs.existsSync(path.join(BLOG_DIR, slug, 'article.json')))
+		.filter((slug) => POST_SLUG.test(slug) && fs.existsSync(path.join(BLOG_DIR, slug, 'article.json')))
 }
 
 function isPublished(post: BlogPostMeta) {
@@ -246,24 +263,25 @@ function comparePosts(a: BlogPostMeta, b: BlogPostMeta) {
 }
 
 export function blogOrigin() {
-	return (
+	const origin =
 		process.env.NEXT_PUBLIC_SITE_URL ||
 		(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
-	)
+	return origin.replace(/\/+$/, '')
 }
 
-export function getAllPosts(): BlogPost[] {
+export const getAllPosts = cache((): BlogPost[] => {
 	return listPostSlugs()
 		.map(readArticleFile)
 		.filter(isPublished)
 		.sort(comparePosts)
-}
+})
 
-export function getPostBySlug(slug: string): BlogPost | null {
-	if (!listPostSlugs().includes(slug)) return null
+export const getPostBySlug = cache((slug: string): BlogPost | null => {
+	if (!POST_SLUG.test(slug)) return null
+	if (!fs.existsSync(path.join(BLOG_DIR, slug, 'article.json'))) return null
 	const post = readArticleFile(slug)
 	return isPublished(post) ? post : null
-}
+})
 
 export function getPostsByTopic(topic: BlogTopicSlug): BlogPost[] {
 	return getAllPosts().filter((post) => post.topic === topic)

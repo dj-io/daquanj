@@ -2,16 +2,17 @@ import type { Metadata } from 'next'
 import { SiteFooter } from '@/components/site-footer'
 
 export const metadata: Metadata = {
-	title: "Writing · a'Quan Johnson",
+	title: "Writing · Da'Quan Johnson",
 	description:
 		'Field notes from applied AI, shipping software, and the work of thinking clearly.',
 	openGraph: {
-		title: "Writing · a'Quan Johnson",
+		title: "Writing · Da'Quan Johnson",
 		description:
 			'Field notes from applied AI, shipping software, and the work of thinking clearly.',
 		type: 'website',
 	},
 	alternates: {
+		canonical: '/blog',
 		types: {
 			'application/rss+xml': '/blog/rss.xml',
 		},

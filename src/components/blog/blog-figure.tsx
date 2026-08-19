@@ -14,15 +14,17 @@ type BlogFigureProps = {
 }
 
 function FigureViz({
+	id,
 	record,
 	priority,
 }: {
+	id: string
 	record: FigureRecord
 	priority?: boolean
 }) {
 	switch (record.kind) {
 		case 'painting':
-			return <PaintingFigure spec={record.spec} />
+			return <PaintingFigure id={id} spec={record.spec} />
 		case 'compass':
 			return <CompassFigure spec={record.spec} />
 		case 'image':
@@ -47,7 +49,7 @@ export function BlogFigure({ id, record, caption, priority }: BlogFigureProps) {
 				data-viz={record.kind}
 				className={record.kind === 'painting' || record.kind === 'compass' ? 'overflow-visible' : undefined}
 			>
-				<FigureViz record={record} priority={priority} />
+				<FigureViz id={id} record={record} priority={priority} />
 			</div>
 			{resolvedCaption && !captionInside ? (
 				<figcaption

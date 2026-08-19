@@ -199,10 +199,6 @@
     transform-origin: center;
   }
 
-  .paint-dots {
-    animation: paint-dots 5.5s ease-in-out 1.4s infinite;
-  }
-
   .paint-drift {
     stroke-dasharray: 7 11;
     animation: paint-drift 16s linear infinite;
@@ -260,16 +256,6 @@
     }
     50% {
       transform: translateY(-5px);
-    }
-  }
-
-  @keyframes paint-dots {
-    0%,
-    100% {
-      opacity: 0.85;
-    }
-    50% {
-      opacity: 1;
     }
   }
 
@@ -340,7 +326,6 @@
     .paint-stroke,
     .paint-reveal,
     .paint-float,
-    .paint-dots,
     .paint-drift,
     .paint-pulse,
     .paint-flicker,

@@ -72,6 +72,7 @@ export type BlogPostMeta = {
 	tag: string
 	doi: string
 	image?: string
+	imageAlt?: string
 	draft: boolean
 	readingTime: number
 	wordCount: number
@@ -89,6 +90,10 @@ export type BlogPost = BlogPostMeta & {
 export function parseDate(date: string) {
 	const [year, month, day] = date.split('-').map(Number)
 	return new Date(year, month - 1, day)
+}
+
+export function toUtcDate(date: string) {
+	return new Date(`${date}T00:00:00.000Z`)
 }
 
 export function formatDate(date: string) {

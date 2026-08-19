@@ -29,7 +29,7 @@ export function PostCard({ post, variant = 'tile' }: PostCardProps) {
 				{post.image ? (
 					<Image
 						src={post.image}
-						alt=""
+						alt={post.imageAlt ?? post.title}
 						fill
 						sizes={isLead ? '(min-width: 768px) 768px, 100vw' : '(min-width: 768px) 384px, 50vw'}
 						className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"

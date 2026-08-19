@@ -18,6 +18,7 @@ export type FigurePlaceholder = {
 const FIGURE_LINE =
 	/^>\s*\[Figure:\s*(\S+)\s+[—–-]\s+([a-z0-9-]+):\s+([^\]]+)\]\s*$/
 const ITALIC_CAPTION = /^\*(.+)\*$/
+const FIGURE_ID = /^[a-z0-9]+(?:[/-][a-z0-9]+)*$/
 
 export function isRenderableFigureKind(value: string): value is FigureKind {
 	return (FIGURE_KINDS as readonly string[]).includes(value)
@@ -52,14 +53,14 @@ export function adaptFigurePlaceholders(markdown: string) {
 
 		const italic = cursor < lines.length ? ITALIC_CAPTION.exec(lines[cursor].trim()) : null
 		if (italic) {
-			output.push(`<BlogFigure id="${placeholder.id}">`)
+			output.push(`<BlogFigure id=${JSON.stringify(placeholder.id)}>`)
 			output.push(italic[1])
 			output.push('</BlogFigure>')
 			index = cursor
 			continue
 		}
 
-		output.push(`<BlogFigure id="${placeholder.id}" />`)
+		output.push(`<BlogFigure id=${JSON.stringify(placeholder.id)} />`)
 	}
 
 	return output.join('\n')
@@ -82,16 +83,25 @@ export function adaptArticleMarkdown(markdown: string) {
 	return adaptFigurePlaceholders(adaptCalloutPlaceholders(markdown))
 }
 
-export function coverImageFromFigures(figureIds: string[], figures: BlogFigures) {
+export function coverFromFigures(figureIds: string[], figures: BlogFigures) {
 	const ordered = [
+		...Object.keys(figures).filter((id) => id.endsWith('/cover')),
 		...figureIds,
-		...Object.keys(figures).filter((id) => !figureIds.includes(id)),
+		...Object.keys(figures),
 	]
+	const seen = new Set<string>()
 
 	for (const id of ordered) {
+		if (seen.has(id)) continue
+		seen.add(id)
+
 		const figure = figures[id]
-		if (figure?.kind === 'image' && typeof figure.spec.src === 'string') {
-			return figure.spec.src
+		const src = figure?.kind === 'image' ? asString(figure.spec.src) : undefined
+		if (!src) continue
+
+		return {
+			src,
+			alt: asString(figure.spec.alt) ?? asString(figure.spec.title),
 		}
 	}
 
@@ -120,6 +130,12 @@ export function parseFiguresFile(slug: string, data: unknown): BlogFigures {
 		if (typeof kind !== 'string' || !kind.trim()) {
 			throw new Error(`Post "${slug}" figure "${id}" is missing a kind`)
 		}
+		if (!FIGURE_ID.test(id)) {
+			throw new Error(`Post "${slug}" figure "${id}" has an invalid id`)
+		}
+		if (!isRenderableFigureKind(kind)) {
+			throw new Error(`Post "${slug}" figure "${id}" has unsupported kind "${kind}"`)
+		}
 		if (!spec || typeof spec !== 'object' || Array.isArray(spec)) {
 			throw new Error(`Post "${slug}" figure "${id}" is missing a spec object`)
 		}
@@ -136,6 +152,15 @@ export function validateFigurePlaceholders(
 	figures: BlogFigures,
 ) {
 	for (const placeholder of placeholders) {
+		if (!FIGURE_ID.test(placeholder.id)) {
+			throw new Error(`Post "${slug}" figure "${placeholder.id}" has an invalid id`)
+		}
+		if (!isRenderableFigureKind(placeholder.kind)) {
+			throw new Error(
+				`Post "${slug}" figure "${placeholder.id}" has unsupported kind "${placeholder.kind}"`,
+			)
+		}
+
 		const figure = figures[placeholder.id]
 		if (!figure) {
 			throw new Error(`Post "${slug}" references missing figure "${placeholder.id}"`)

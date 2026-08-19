@@ -19,6 +19,14 @@ export async function generateMetadata({ params }: TopicPageProps): Promise<Meta
 	return {
 		title: `${topic.label} · Writing`,
 		description: topic.description,
+		openGraph: {
+			title: `${topic.label} · Writing`,
+			description: topic.description,
+			type: 'website',
+		},
+		alternates: {
+			canonical: `/blog/topic/${topic.slug}`,
+		},
 	}
 }
 
