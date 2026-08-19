@@ -37,6 +37,7 @@ export {
 	topicFromTag,
 	type ArticleDocument,
 	type ArticleFrontmatter,
+	type BlogAuthor,
 	type BlogAuthorId,
 	type BlogHeading,
 	type BlogPost,

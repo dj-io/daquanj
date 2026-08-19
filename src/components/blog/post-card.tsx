@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { AuthorAvatars } from '@/components/blog/author-avatar'
 import { PaintingFigure } from '@/components/blog/figures/painting-figure'
-import { BLOG_AUTHOR, BLOG_TOPICS, formatDate, type BlogPostMeta } from '@/lib/blog'
+import { getAuthor, BLOG_TOPICS, formatDate, type BlogPostMeta } from '@/lib/blog'
 import { asString } from '@/lib/blog-figures'
 import { cn } from '@/lib/utils'
 
@@ -31,10 +32,7 @@ function CardVisual({
 				aria-hidden
 			>
 				<div className="absolute left-1/2 top-[48%] w-[118%] -translate-x-1/2 -translate-y-1/2">
-					<PaintingFigure
-						id={`${cover.id}-card`}
-						spec={{ ...cover.spec, animate: false }}
-					/>
+					<PaintingFigure id={`${cover.id}-card`} spec={cover.spec} />
 				</div>
 			</div>
 		)
@@ -65,6 +63,7 @@ function CardVisual({
 export function PostCard({ post, variant = 'tile' }: PostCardProps) {
 	const topic = BLOG_TOPICS[post.topic]
 	const isLead = variant === 'lead'
+	const authors = (post.authors?.length ? post.authors : ['daquan-johnson']).map(getAuthor)
 
 	return (
 		<Link
@@ -105,8 +104,11 @@ export function PostCard({ post, variant = 'tile' }: PostCardProps) {
 				>
 					{post.description}
 				</p>
-				<p className="mt-auto pt-4 text-xs text-muted-foreground">
-					{BLOG_AUTHOR} · {post.readingTime} min read
+				<p className="mt-auto flex items-center gap-2 pt-4 text-xs text-muted-foreground">
+					<AuthorAvatars ids={post.authors} avatarClassName="size-5 ring-1 ring-background" />
+					<span>
+						{authors.map((author) => author.name).join(', ')} · {post.readingTime} min read
+					</span>
 				</p>
 			</div>
 		</Link>

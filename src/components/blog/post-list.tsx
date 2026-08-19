@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { BLOG_AUTHOR, BLOG_TOPICS, formatDate, type BlogPostMeta } from '@/lib/blog-meta'
+import { AuthorAvatars } from '@/components/blog/author-avatar'
+import { getAuthor, BLOG_TOPICS, formatDate, type BlogPostMeta } from '@/lib/blog-meta'
 import { cn } from '@/lib/utils'
 
 type PostListProps = {
@@ -26,6 +27,7 @@ export function PostList({
 				<ul>
 					{posts.map((post) => {
 						const topic = BLOG_TOPICS[post.topic]
+						const authors = (post.authors?.length ? post.authors : ['daquan-johnson']).map(getAuthor)
 
 						return (
 							<li
@@ -44,8 +46,11 @@ export function PostList({
 									<h2 className="mt-2 text-[1.15rem] font-semibold leading-snug tracking-tight text-foreground">
 										{post.title}
 									</h2>
-									<p className="mt-2 text-[13px] text-muted-foreground">
-										{BLOG_AUTHOR} · {post.readingTime}m
+									<p className="mt-2 flex items-center gap-2 text-[13px] text-muted-foreground">
+										<AuthorAvatars ids={post.authors} avatarClassName="size-5 ring-1 ring-background" />
+										<span>
+											{authors.map((author) => author.name).join(', ')} · {post.readingTime}m
+										</span>
 									</p>
 								</Link>
 							</li>

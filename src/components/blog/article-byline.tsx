@@ -1,3 +1,4 @@
+import { AuthorAvatars } from '@/components/blog/author-avatar'
 import { getAuthor, formatDateLong, type BlogPostMeta } from '@/lib/blog-meta'
 
 export function ArticleByline({
@@ -9,17 +10,7 @@ export function ArticleByline({
 
 	return (
 		<div className="mt-5 flex items-center gap-2.5 text-sm">
-			<div className="flex items-center -space-x-1.5">
-				{authors.map((author) => (
-					<div
-						key={author.id}
-						aria-hidden
-						className="flex size-7 shrink-0 items-center justify-center rounded-full bg-grit text-[11px] font-semibold text-white"
-					>
-						{author.initial}
-					</div>
-				))}
-			</div>
+			<AuthorAvatars ids={post.authors} />
 			<p className="flex flex-wrap items-center gap-x-1.5 text-muted-foreground">
 				<span className="font-medium text-foreground">
 					{authors.map((author, index) => (

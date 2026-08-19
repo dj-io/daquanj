@@ -22,14 +22,23 @@ export const BLOG_TOPICS = {
 
 export type BlogTopicSlug = keyof typeof BLOG_TOPICS
 
+export type BlogAuthor = {
+	id: string
+	name: string
+	initial: string
+	url?: string
+	image?: string
+}
+
 export const BLOG_AUTHORS = {
 	'daquan-johnson': {
 		id: 'daquan-johnson',
 		name: "Da'Quan Johnson",
 		url: 'https://x.com/d16nx',
 		initial: 'D',
+		image: '/images/gleam_crypto_punk.jpg',
 	},
-} as const
+} as const satisfies Record<string, BlogAuthor>
 
 export type BlogAuthorId = keyof typeof BLOG_AUTHORS
 
@@ -123,11 +132,12 @@ export function topicFromTag(tag: string): BlogTopicSlug {
 	return topic.slug
 }
 
-export function getAuthor(id: string) {
-	return BLOG_AUTHORS[id as BlogAuthorId] ?? {
-		id,
-		name: id,
-		url: undefined,
-		initial: id.slice(0, 1).toUpperCase(),
-	}
+export function getAuthor(id: string): BlogAuthor {
+	return (
+		BLOG_AUTHORS[id as BlogAuthorId] ?? {
+			id,
+			name: id,
+			initial: id.slice(0, 1).toUpperCase(),
+		}
+	)
 }
