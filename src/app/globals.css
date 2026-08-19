@@ -193,12 +193,18 @@
   .paint-stroke {
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
-    animation: paint-draw 1.35s ease-out forwards;
+    animation: paint-draw 1.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .paint-reveal {
+    opacity: 0;
+    animation: paint-reveal 0.9s ease-out forwards;
   }
 
   .paint-float {
-    animation: paint-float 6s ease-in-out 1.2s infinite;
-    transform-origin: 356px 90px;
+    animation: paint-float 6.5s ease-in-out 1.6s infinite;
+    transform-box: fill-box;
+    transform-origin: center;
   }
 
   .paint-dots {
@@ -206,13 +212,37 @@
   }
 
   .paint-drift {
-    stroke-dasharray: 6 9;
-    animation: paint-drift 14s linear infinite;
+    stroke-dasharray: 7 11;
+    animation: paint-drift 16s linear infinite;
+  }
+
+  .paint-pulse {
+    animation: paint-pulse 2.4s ease-in-out 1.6s infinite;
+  }
+
+  .paint-flicker {
+    animation: paint-flicker 3.4s ease-in-out 1.5s infinite;
+  }
+
+  .paint-glow {
+    animation: paint-glow 4.2s ease-in-out 1.4s infinite;
+  }
+
+  .paint-drip {
+    animation: paint-drip 7.5s ease-in-out 2s infinite;
+    transform-box: fill-box;
+    transform-origin: top center;
+  }
+
+  .paint-jitter {
+    animation: paint-jitter 5.5s steps(7) 2s infinite;
+    transform-box: fill-box;
+    transform-origin: center;
   }
 
   @keyframes paint-drift {
     to {
-      stroke-dashoffset: -180;
+      stroke-dashoffset: -220;
     }
   }
 
@@ -222,13 +252,22 @@
     }
   }
 
+  @keyframes paint-reveal {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   @keyframes paint-float {
     0%,
     100% {
       transform: translateY(0);
     }
     50% {
-      transform: translateY(-4px);
+      transform: translateY(-5px);
     }
   }
 
@@ -242,17 +281,90 @@
     }
   }
 
+  @keyframes paint-pulse {
+    0%,
+    100% {
+      opacity: 0.72;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes paint-flicker {
+    0%,
+    90%,
+    100% {
+      opacity: 1;
+    }
+    93% {
+      opacity: 0.28;
+    }
+    96% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes paint-glow {
+    0%,
+    100% {
+      opacity: 0.86;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes paint-drip {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(7px);
+    }
+  }
+
+  @keyframes paint-jitter {
+    0%,
+    100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    20% {
+      transform: translate(0.4px, -0.3px) rotate(-0.15deg);
+    }
+    40% {
+      transform: translate(-0.3px, 0.4px) rotate(0.12deg);
+    }
+    60% {
+      transform: translate(0.3px, 0.2px) rotate(-0.08deg);
+    }
+    80% {
+      transform: translate(-0.2px, -0.3px) rotate(0.1deg);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .paint-stroke,
+    .paint-reveal,
     .paint-float,
     .paint-dots,
     .paint-drift,
+    .paint-pulse,
+    .paint-flicker,
+    .paint-glow,
+    .paint-drip,
+    .paint-jitter,
     .hero-slab {
       animation: none;
     }
 
     .paint-stroke {
       stroke-dashoffset: 0;
+    }
+
+    .paint-reveal {
+      opacity: 1;
     }
   }
 

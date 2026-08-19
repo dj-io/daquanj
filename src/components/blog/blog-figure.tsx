@@ -58,7 +58,7 @@ export function BlogFigure({ id, record, caption, priority }: BlogFigureProps) {
 
 	return (
 		<figure className="my-8 space-y-3">
-			<div data-viz={record.kind}>
+			<div data-viz={record.kind} className={record.kind === 'painting' ? 'overflow-visible' : undefined}>
 				<FigureViz record={record} priority={priority} />
 			</div>
 			{resolvedCaption && !captionInside ? (
