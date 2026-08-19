@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import type { FigureRecord } from '@/lib/blog-figures'
+import { asString } from '@/lib/blog-figures'
 import { AlgorithmFigure } from '@/components/blog/figures/algorithm-figure'
 import { CanvasHeroFigure } from '@/components/blog/figures/canvas-hero-figure'
 import { ChartFigure } from '@/components/blog/figures/chart-figure'
@@ -51,21 +52,23 @@ export function BlogFigure({ id, record, caption, priority }: BlogFigureProps) {
 		throw new Error(`Unknown figure "${id}"`)
 	}
 
-	const captionInside = record.kind === 'hero' || record.kind === 'canvas-hero' || record.kind === 'painting'
+	const captionInside = record.kind === 'hero' || record.kind === 'canvas-hero'
+	const resolvedCaption = caption ?? asString(record.spec.caption)
+	const creditCaption = record.kind === 'image' || record.kind === 'painting'
 
 	return (
 		<figure className="my-8 space-y-3">
 			<div data-viz={record.kind}>
 				<FigureViz record={record} priority={priority} />
 			</div>
-			{caption && !captionInside ? (
+			{resolvedCaption && !captionInside ? (
 				<figcaption
 					className={cn(
 						'text-sm leading-6 text-muted-foreground [&_p]:my-0',
-						record.kind === 'image' && 'text-center',
+						creditCaption && 'text-center',
 					)}
 				>
-					{caption}
+					{resolvedCaption}
 				</figcaption>
 			) : null}
 		</figure>
