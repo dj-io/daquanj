@@ -21,7 +21,7 @@ export function ArticleToc({ headings }: { headings: BlogHeading[] }) {
 				>
 					▶
 				</span>
-				On this page
+				What's on this page
 			</summary>
 			<ol className="space-y-2.5 px-4 pb-4">
 				{sections.map((heading) => (

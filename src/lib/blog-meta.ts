@@ -50,6 +50,15 @@ export type BlogHeading = {
 	level: 2 | 3
 }
 
+export function slugifyHeading(value: string) {
+	return value
+		.toLowerCase()
+		.trim()
+		.replace(/[`*_~[\]()]/g, '')
+		.replace(/[^\w\s-]/g, '')
+		.replace(/\s+/g, '-')
+}
+
 export type ArticleFrontmatter = {
 	title: string
 	description: string

@@ -15,6 +15,7 @@ import {
 	BLOG_TOPICS,
 	getAuthor,
 	parseDate,
+	slugifyHeading,
 	topicFromTag,
 	type ArticleDocument,
 	type ArticleFrontmatter,
@@ -55,16 +56,14 @@ function isTopicSlug(value: string): value is BlogTopicSlug {
 	return value in BLOG_TOPICS
 }
 
-function slugify(value: string) {
-	return value
-		.toLowerCase()
-		.trim()
-		.replace(/[`*_~[\]()]/g, '')
-		.replace(/[^\w\s-]/g, '')
-		.replace(/\s+/g, '-')
+function headingLabel(text: string) {
+	const dot = text.indexOf('. ')
+	const sentence = (dot === -1 ? text : text.slice(0, dot + 1)).trim()
+	if (sentence.length <= 72) return sentence
+	return `${sentence.slice(0, 69).trimEnd()}…`
 }
 
-function extractHeadings(content: string): BlogHeading[] {
+function extractMarkdownHeadings(content: string): BlogHeading[] {
 	const headings: BlogHeading[] = []
 
 	for (const line of content.split('\n')) {
@@ -75,10 +74,34 @@ function extractHeadings(content: string): BlogHeading[] {
 
 		const level = match[1].length as 2 | 3
 		const text = match[2].replace(/[*_`]/g, '').trim()
-		headings.push({ id: slugify(text), text, level })
+		headings.push({ id: slugifyHeading(text), text, level })
 	}
 
 	return headings
+}
+
+function extractQuoteHeadings(content: string): BlogHeading[] {
+	const headings: BlogHeading[] = []
+
+	for (const line of content.split('\n')) {
+		if (matchFigureLine(line)) continue
+		if (/^>\s*\*\*/.test(line)) continue
+
+		const quote = /^>\s+(.+)$/.exec(line)
+		if (!quote) continue
+
+		const text = quote[1].replace(/[*_`]/g, '').trim()
+		if (!text) continue
+		headings.push({ id: slugifyHeading(text), text: headingLabel(text), level: 2 })
+	}
+
+	return headings
+}
+
+function extractHeadings(content: string): BlogHeading[] {
+	const headings = extractMarkdownHeadings(content)
+	if (headings.some((heading) => heading.level === 2)) return headings
+	return extractQuoteHeadings(content)
 }
 
 function readingStats(content: string) {

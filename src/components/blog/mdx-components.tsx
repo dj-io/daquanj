@@ -4,6 +4,7 @@ import type { MDXComponents } from 'mdx/types'
 import { Callout } from '@/components/blog/article-callout'
 import { BlogFigure } from '@/components/blog/blog-figure'
 import type { BlogFigures } from '@/lib/blog-figures'
+import { slugifyHeading } from '@/lib/blog-meta'
 import { cn } from '@/lib/utils'
 
 function Note({ children }: { children: ReactNode }) {
@@ -12,6 +13,16 @@ function Note({ children }: { children: ReactNode }) {
 			{children}
 		</aside>
 	)
+}
+
+function textFromChildren(node: ReactNode): string {
+	if (node == null || typeof node === 'boolean') return ''
+	if (typeof node === 'string' || typeof node === 'number') return String(node)
+	if (Array.isArray(node)) return node.map(textFromChildren).join('')
+	if (typeof node === 'object' && 'props' in node) {
+		return textFromChildren((node as { props?: { children?: ReactNode } }).props?.children)
+	}
+	return ''
 }
 
 export function createMdxComponents(
@@ -31,7 +42,7 @@ export function createMdxComponents(
 		h2: ({ className, ...props }) => (
 			<h2
 				className={cn(
-					'mt-12 mb-4 text-xl font-bold tracking-tight text-foreground',
+					'mt-12 mb-4 scroll-mt-28 text-xl font-bold tracking-tight text-foreground',
 					className,
 				)}
 				{...props}
@@ -40,7 +51,7 @@ export function createMdxComponents(
 		h3: ({ className, ...props }) => (
 			<h3
 				className={cn(
-					'mt-8 mb-3 text-base font-semibold tracking-tight text-foreground',
+					'mt-8 mb-3 scroll-mt-28 text-base font-semibold tracking-tight text-foreground',
 					className,
 				)}
 				{...props}
@@ -85,15 +96,23 @@ export function createMdxComponents(
 		li: ({ className, ...props }) => (
 			<li className={cn('pl-1 text-foreground/90', className)} {...props} />
 		),
-		blockquote: ({ className, ...props }) => (
-			<blockquote
-				className={cn(
-					'my-8 border-l-[3px] border-blog-accent pl-5 font-crimson text-xl italic leading-relaxed text-grit',
-					className,
-				)}
-				{...props}
-			/>
-		),
+		blockquote: ({ className, children, ...props }) => {
+			const text = textFromChildren(children).replace(/\s+/g, ' ').trim()
+			const id = text ? slugifyHeading(text) : undefined
+
+			return (
+				<blockquote
+					id={id}
+					className={cn(
+						'my-8 scroll-mt-28 border-l-[3px] border-blog-accent pl-5 font-crimson text-xl italic leading-relaxed text-grit',
+						className,
+					)}
+					{...props}
+				>
+					{children}
+				</blockquote>
+			)
+		},
 		hr: ({ className, ...props }) => (
 			<hr className={cn('my-12 border-border/70', className)} {...props} />
 		),

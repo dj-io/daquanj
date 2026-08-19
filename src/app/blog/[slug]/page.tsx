@@ -128,7 +128,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 						{topic.label}
 					</Link>
 				</p>
-				<h1 className="mt-3 text-[2rem] font-bold leading-[1.15] tracking-tight text-foreground sm:text-4xl">
+				<h1 className="mt-3 text-[2.35rem] font-bold leading-[1.12] tracking-tight text-foreground sm:text-5xl">
 					{post.title}
 				</h1>
 				<p className="mt-3 max-w-2xl text-lg leading-7 text-muted-foreground">
