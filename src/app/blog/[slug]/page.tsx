@@ -65,9 +65,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 				<h1 className="mt-3 text-[2rem] font-bold leading-[1.15] tracking-tight text-foreground sm:text-4xl">
 					{post.title}
 				</h1>
+				<p className="mt-3 max-w-2xl text-lg leading-7 text-muted-foreground">
+					{post.description}
+				</p>
 				<ArticleByline post={post} />
 
-				<div className="blog-prose mt-2">
+				<div className="blog-prose mt-8">
 					<MDXRemote
 						source={adaptArticleMarkdown(post.content)}
 						components={createMdxComponents(post.figures, {
