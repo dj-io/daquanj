@@ -22,12 +22,15 @@ export const BLOG_TOPICS = {
 
 export type BlogTopicSlug = keyof typeof BLOG_TOPICS
 
+export const BLOG_AUTHOR = "Da'Quan Johnson"
+
 export type BlogPostMeta = {
 	slug: string
 	title: string
 	description: string
 	date: string
 	topic: BlogTopicSlug
+	image?: string
 	featured: boolean
 	draft: boolean
 	readingTime: number
@@ -50,6 +53,7 @@ export type BlogFrontmatter = {
 	description: string
 	date: string
 	topic: BlogTopicSlug
+	image?: string
 	featured?: boolean
 	draft?: boolean
 }
@@ -126,6 +130,7 @@ function parseFrontmatter(data: Record<string, unknown>, slug: string): BlogFron
 		description: description.trim(),
 		date,
 		topic,
+		image: typeof data.image === 'string' && data.image.trim() ? data.image.trim() : undefined,
 		featured: Boolean(data.featured),
 		draft: Boolean(data.draft),
 	}
@@ -194,10 +199,6 @@ export function getPostBySlug(slug: string): BlogPost | null {
 
 export function getPostsByTopic(topic: BlogTopicSlug): BlogPost[] {
 	return getAllPosts().filter((post) => post.topic === topic)
-}
-
-export function getFeaturedPost<T extends BlogPostMeta>(posts: T[]): T | undefined {
-	return posts.find((post) => post.featured) ?? posts[0]
 }
 
 export function getRelatedPosts(post: BlogPostMeta, limit = 3): BlogPost[] {

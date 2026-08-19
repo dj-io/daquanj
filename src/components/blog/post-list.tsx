@@ -1,6 +1,5 @@
 import Link from 'next/link'
-import type { BlogPostMeta } from '@/lib/blog'
-import { PostMeta } from './post-meta'
+import { BLOG_AUTHOR, BLOG_TOPICS, formatDate, type BlogPostMeta } from '@/lib/blog'
 
 type PostListProps = {
 	posts: BlogPostMeta[]
@@ -10,30 +9,38 @@ type PostListProps = {
 export function PostList({ posts, emptyLabel = 'Nothing here yet.' }: PostListProps) {
 	if (posts.length === 0) {
 		return (
-			<p className="py-16 text-center font-crimson text-xl italic text-muted-foreground">
+			<p className="py-16 text-center text-sm text-muted-foreground">
 				{emptyLabel}
 			</p>
 		)
 	}
 
 	return (
-		<ul className="divide-y divide-border/60">
-			{posts.map((post) => (
-				<li key={post.slug}>
-					<Link
-						href={`/blog/${post.slug}`}
-						className="group block py-7 transition-colors"
-					>
-						<PostMeta post={post} className="mb-2" />
-						<h2 className="font-crimson text-2xl italic leading-snug text-grit transition-colors group-hover:text-foreground">
-							{post.title}
-						</h2>
-						<p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
-							{post.description}
-						</p>
-					</Link>
-				</li>
-			))}
+		<ul>
+			{posts.map((post) => {
+				const topic = BLOG_TOPICS[post.topic]
+
+				return (
+					<li key={post.slug} className="border-b border-border/70 last:border-b-0">
+						<Link
+							href={`/blog/${post.slug}`}
+							className="group block py-5 transition-colors"
+						>
+							<p className="text-xs text-muted-foreground">
+								<time dateTime={post.date}>{formatDate(post.date)}</time>
+								<span aria-hidden> · </span>
+								<span>{topic.label}</span>
+							</p>
+							<h2 className="mt-1.5 text-[1.05rem] font-semibold leading-snug tracking-tight text-foreground transition-colors group-hover:text-grit">
+								{post.title}
+							</h2>
+							<p className="mt-1.5 text-xs text-muted-foreground">
+								{BLOG_AUTHOR} · {post.readingTime}m
+							</p>
+						</Link>
+					</li>
+				)
+			})}
 		</ul>
 	)
 }
