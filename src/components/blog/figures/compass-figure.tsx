@@ -10,44 +10,24 @@ type CompassFigureProps = {
 
 const DEG = 180 / Math.PI
 const LEG = 44
-const REST_THETA = 15 / DEG
+const REST_SPIN = 15 / DEG
 const REST_OPENING = 30 / DEG
 const CLOSED_OPENING = 0.1
-const DRAW_TURN = 0.4
-const NEEDLE = { x: 52, y: 72 }
 const MARK_RADIUS = 2 * LEG * Math.sin(REST_OPENING / 2)
-const PENCIL_START = -Math.PI / 2
 const LAP = Math.PI * 2
-const DRAW_SPEED = 1.15
-const REST_PIVOT = {
-	x: NEEDLE.x - LEG * Math.sin(REST_THETA),
-	y: NEEDLE.y - LEG * Math.cos(REST_THETA),
-}
+const DRAW_SPEED = 1.05
+const ORIGIN = { x: 64, y: 72 }
 
 type Phase = 'drop' | 'open' | 'draw'
 
-function pivotAt(theta: number) {
-	return {
-		x: NEEDLE.x - LEG * Math.sin(theta),
-		y: NEEDLE.y - LEG * Math.cos(theta),
-	}
-}
-
-function leadMark(start: number, end: number) {
-	let delta = end - start
-	while (delta < 0) delta += LAP
-	if (delta < 0.03) return ''
-	if (delta > LAP - 0.03) delta = LAP
-
-	const steps = Math.max(8, Math.ceil(delta / 0.04))
+function leadFrom(start: number, distance: number) {
+	if (distance < 0.03) return ''
+	const span = Math.min(distance, LAP)
+	const steps = Math.max(8, Math.ceil(span / 0.04))
 	const points = range(steps + 1).map((index) => {
-		const angle = start + (delta * index) / steps
-		return [
-			NEEDLE.x + MARK_RADIUS * Math.sin(angle),
-			NEEDLE.y + MARK_RADIUS * Math.cos(angle),
-		] as [number, number]
+		const angle = start - (span * index) / steps
+		return [MARK_RADIUS * Math.sin(angle), MARK_RADIUS * Math.cos(angle)] as [number, number]
 	})
-
 	return line()(points) ?? ''
 }
 
@@ -65,34 +45,27 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 
 		const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 		const node = select(svg)
-		const rig = node.select('[data-part="rig"]')
-		const handle = node.select('[data-part="handle"]')
-		const needleLeg = node.select('[data-part="needle"]')
-		const pencilLeg = node.select('[data-part="pencil"]')
+		const world = node.select('[data-part="world"]')
+		const spin = node.select('[data-part="spin"]')
+		const pencil = node.select('[data-part="pencil"]')
 		const mark = node.select('[data-part="mark"]')
 		const guide = node.select('[data-part="guide"]')
 
-		const pose = (theta: number, opening: number, y = 0) => {
-			const pivot = pivotAt(theta)
-			const bisector = (theta - opening / 2) * DEG
-			rig.attr('transform', `translate(0 ${y})`)
-			handle.attr('transform', `translate(${pivot.x} ${pivot.y}) rotate(${bisector})`)
-			needleLeg.attr('transform', `translate(${pivot.x} ${pivot.y}) rotate(${theta * DEG})`)
-			pencilLeg.attr(
-				'transform',
-				`translate(${pivot.x} ${pivot.y}) rotate(${(theta - opening) * DEG})`,
-			)
+		const pose = (spinAngle: number, opening: number, y = 0) => {
+			world.attr('transform', `translate(${ORIGIN.x} ${ORIGIN.y + y})`)
+			spin.attr('transform', `rotate(${spinAngle * DEG})`)
+			pencil.attr('transform', `rotate(${-opening * DEG})`)
 		}
 
 		if (reduced) {
-			pose(REST_THETA, REST_OPENING)
+			pose(REST_SPIN, REST_OPENING)
 			guide.attr('opacity', 0.45)
 			return
 		}
 
 		let phase: Phase = 'drop'
 		let phaseTime = 0
-		let theta = REST_THETA
+		let spinAngle = REST_SPIN
 		let opening = CLOSED_OPENING
 		let openingVel = 0
 		let y = -14
@@ -100,7 +73,7 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 		let drawn = 0
 		let prev = 0
 
-		pose(theta, opening, y)
+		pose(spinAngle, opening, y)
 		guide.attr('opacity', 0)
 		mark.attr('d', '')
 
@@ -136,21 +109,20 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 				}
 			} else if (phase === 'draw') {
 				drawn += DRAW_SPEED * dt
-				const lap = drawn % LAP
-				const turning = 0.5 - 0.5 * Math.cos(lap)
-				theta = REST_THETA + DRAW_TURN * turning
-				opening = REST_OPENING + 0.025 * Math.sin(lap * 2)
+				spinAngle = REST_SPIN + drawn
+				opening = REST_OPENING
 
+				const pencilAngle = Math.PI / 2 - (spinAngle - REST_SPIN)
 				if (drawn < LAP) {
-					mark.attr('d', leadMark(PENCIL_START, PENCIL_START + drawn))
-					guide.attr('opacity', 0)
+					mark.attr('d', leadFrom(Math.PI / 2, drawn))
+					guide.attr('opacity', Math.min(0.22, drawn / LAP))
 				} else {
-					guide.attr('opacity', 0.4)
-					mark.attr('d', leadMark(PENCIL_START, PENCIL_START + lap))
+					guide.attr('opacity', 0.42)
+					mark.attr('d', leadFrom(pencilAngle + 0.9, 0.9))
 				}
 			}
 
-			pose(theta, opening, y)
+			pose(spinAngle, opening, y)
 		}
 
 		let loop: ReturnType<typeof timer> | undefined
@@ -188,70 +160,63 @@ export function CompassFigure({ spec }: CompassFigureProps) {
 		<div ref={rootRef} className="flex flex-col items-start gap-2">
 			<svg
 				ref={svgRef}
-				viewBox="18 12 72 92"
-				className="h-auto w-32 shrink-0 overflow-visible text-foreground sm:w-40"
+				viewBox="0 0 128 136"
+				className="h-auto w-40 shrink-0 overflow-visible text-foreground sm:w-48"
 				role="img"
 				aria-label="Drawing compass"
 			>
-				<circle
-					data-part="guide"
-					cx={NEEDLE.x}
-					cy={NEEDLE.y}
-					r={MARK_RADIUS}
-					fill="none"
-					stroke="currentColor"
-					strokeWidth="1.15"
-					opacity={animate ? 0 : 0.45}
-				/>
-				<path
-					data-part="mark"
-					fill="none"
-					stroke="currentColor"
-					strokeWidth="1.35"
-					strokeLinecap="round"
-					opacity="0.88"
-				/>
+				<g data-part="world" transform={`translate(${ORIGIN.x} ${ORIGIN.y})`}>
+					<circle
+						data-part="guide"
+						r={MARK_RADIUS}
+						fill="none"
+						stroke="currentColor"
+						strokeWidth="1.15"
+						opacity={animate ? 0 : 0.45}
+					/>
+					<path
+						data-part="mark"
+						fill="none"
+						stroke="currentColor"
+						strokeWidth="1.35"
+						strokeLinecap="round"
+						opacity="0.9"
+					/>
 
-				<g
-					data-part="rig"
-					fill="none"
-					stroke="currentColor"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-				>
-					<g
-						data-part="handle"
-						transform={`translate(${REST_PIVOT.x} ${REST_PIVOT.y})`}
-					>
-						<rect x="-2.6" y="-14" width="5.2" height="11" rx="1.4" strokeWidth="1.35" />
-						<path d="M -3.8 -2 L 0 -4.4 L 3.8 -2 L 2.8 3.2 L 0 5 L -2.8 3.2 Z" strokeWidth="1.4" />
-						<circle cx="0" cy="0" r="1.55" strokeWidth="1.15" />
-					</g>
+					<g data-part="spin" transform={`rotate(${REST_SPIN * DEG})`}>
+						<g
+							data-part="hinge"
+							transform={`translate(0 ${-LEG})`}
+							fill="none"
+							stroke="currentColor"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						>
+							<rect x="-2.6" y="-14" width="5.2" height="11" rx="1.4" strokeWidth="1.35" />
+							<path
+								d="M -3.8 -2 L 0 -4.4 L 3.8 -2 L 2.8 3.2 L 0 5 L -2.8 3.2 Z"
+								strokeWidth="1.4"
+							/>
+							<circle cx="0" cy="0" r="1.55" strokeWidth="1.15" />
 
-					<g
-						data-part="needle"
-						transform={`translate(${REST_PIVOT.x} ${REST_PIVOT.y}) rotate(15)`}
-					>
-						<line x1="0" y1="4" x2="0" y2="34" strokeWidth="2.35" />
-						<circle cx="0" cy="31.5" r="1.7" strokeWidth="1.05" />
-						<path d="M -1.3 34 L 0 44 L 1.3 34" strokeWidth="1.25" />
-					</g>
+							<line x1="0" y1="4" x2="0" y2="34" strokeWidth="2.35" />
+							<circle cx="0" cy="31.5" r="1.7" strokeWidth="1.05" />
+							<path d="M -1.3 34 L 0 44 L 1.3 34" strokeWidth="1.25" />
 
-					<g
-						data-part="pencil"
-						transform={`translate(${REST_PIVOT.x} ${REST_PIVOT.y}) rotate(-15)`}
-					>
-						<line x1="0" y1="4" x2="0" y2="28" strokeWidth="2.35" />
-						<circle cx="0" cy="29.5" r="2" strokeWidth="1.15" />
-						<path d="M -1.5 32 L -1.5 38.5 L 1.5 38.5 L 1.5 32" strokeWidth="1.2" />
-						<line
-							x1="0"
-							y1="38.5"
-							x2="0"
-							y2="44"
-							stroke="var(--blog-accent)"
-							strokeWidth="1.7"
-						/>
+							<g data-part="pencil" transform={`rotate(${-REST_OPENING * DEG})`}>
+								<line x1="0" y1="4" x2="0" y2="28" strokeWidth="2.35" />
+								<circle cx="0" cy="29.5" r="2" strokeWidth="1.15" />
+								<path d="M -1.5 32 L -1.5 38.5 L 1.5 38.5 L 1.5 32" strokeWidth="1.2" />
+								<line
+									x1="0"
+									y1="38.5"
+									x2="0"
+									y2="44"
+									stroke="var(--blog-accent)"
+									strokeWidth="1.7"
+								/>
+							</g>
+						</g>
 					</g>
 				</g>
 			</svg>
