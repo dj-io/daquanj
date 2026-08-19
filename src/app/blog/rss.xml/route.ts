@@ -1,10 +1,7 @@
-import { BLOG_TOPICS, getAllPosts } from '@/lib/blog'
+import { BLOG_TOPICS, blogOrigin, getAllPosts } from '@/lib/blog'
 
 function siteUrl() {
-	return (
-		process.env.NEXT_PUBLIC_SITE_URL ||
-		(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
-	)
+	return blogOrigin()
 }
 
 function escapeXml(value: string) {

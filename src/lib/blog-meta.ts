@@ -1,3 +1,5 @@
+import type { BlogFigures } from './blog-figures'
+
 export const BLOG_TOPICS = {
 	research: {
 		slug: 'research',
@@ -33,17 +35,17 @@ export type BlogPostMeta = {
 	date: string
 	topic: BlogTopicSlug
 	image?: string
-	imageTitle?: string
-	imageSubtitle?: string
 	featured: boolean
 	draft: boolean
 	readingTime: number
 	wordCount: number
 	headings: BlogHeading[]
+	figureIds: string[]
 }
 
 export type BlogPost = BlogPostMeta & {
 	content: string
+	figures: BlogFigures
 }
 
 export type BlogFrontmatter = {
@@ -51,9 +53,6 @@ export type BlogFrontmatter = {
 	description: string
 	date: string
 	topic: BlogTopicSlug
-	image?: string
-	imageTitle?: string
-	imageSubtitle?: string
 	featured?: boolean
 	draft?: boolean
 }

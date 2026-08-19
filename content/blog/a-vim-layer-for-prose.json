@@ -1,0 +1,13 @@
+{
+  "figures": {
+    "a-vim-layer-for-prose/hero": {
+      "kind": "image",
+      "spec": {
+        "version": 1,
+        "src": "/images/blog/blog-vim.jpg",
+        "title": "A vim layer for prose.",
+        "alt": "A vim layer for prose."
+      }
+    }
+  }
+}

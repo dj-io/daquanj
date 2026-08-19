@@ -202,12 +202,6 @@
     color: inherit;
     padding: 0.05em 0.2em;
   }
-
-  .blog-prose table tbody tr.featured td,
-  .blog-prose table tbody tr[data-featured] td {
-    background: color-mix(in oklch, var(--blog-accent) 9%, var(--card));
-    box-shadow: inset 3px 0 0 var(--blog-accent);
-  }
   * {
     @apply border-border outline-ring/50;
     caret-color: var(--destructive);

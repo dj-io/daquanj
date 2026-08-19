@@ -1,0 +1,13 @@
+{
+  "figures": {
+    "from-spec-to-software/hero": {
+      "kind": "image",
+      "spec": {
+        "version": 1,
+        "src": "/images/blog/blog-spec.jpg",
+        "title": "Translate before you invent.",
+        "alt": "Translate before you invent."
+      }
+    }
+  }
+}

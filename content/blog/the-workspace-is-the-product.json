@@ -1,0 +1,13 @@
+{
+  "figures": {
+    "the-workspace-is-the-product/hero": {
+      "kind": "image",
+      "spec": {
+        "version": 1,
+        "src": "/images/blog/blog-workspace.jpg",
+        "title": "Chat is a doorway.",
+        "alt": "Chat is a doorway."
+      }
+    }
+  }
+}

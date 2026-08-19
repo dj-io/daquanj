@@ -2,6 +2,14 @@ import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
 import {
+	adaptFigurePlaceholders,
+	coverImageFromFigures,
+	extractFigurePlaceholders,
+	parseFiguresFile,
+	validateFigurePlaceholders,
+	type BlogFigures,
+} from './blog-figures'
+import {
 	BLOG_TOPICS,
 	parseDate,
 	type BlogFrontmatter,
@@ -24,6 +32,8 @@ export {
 	type BlogTopicSlug,
 } from './blog-meta'
 
+export { adaptFigurePlaceholders } from './blog-figures'
+
 const BLOG_DIR = path.join(process.cwd(), 'content/blog')
 const WORDS_PER_MINUTE = 220
 
@@ -44,6 +54,8 @@ function extractHeadings(content: string): BlogHeading[] {
 	const headings: BlogHeading[] = []
 
 	for (const line of content.split('\n')) {
+		if (line.startsWith('> [Figure:') || line.startsWith('<BlogFigure')) continue
+
 		const match = /^(#{2,3})\s+(.+)$/.exec(line)
 		if (!match) continue
 
@@ -75,10 +87,6 @@ function normalizeDate(value: unknown, slug: string) {
 	throw new Error(`Post "${slug}" has an invalid date`)
 }
 
-function optionalString(value: unknown) {
-	return typeof value === 'string' && value.trim() ? value.trim() : undefined
-}
-
 function parseFrontmatter(data: Record<string, unknown>, slug: string): BlogFrontmatter {
 	const title = data.title
 	const description = data.description
@@ -100,12 +108,17 @@ function parseFrontmatter(data: Record<string, unknown>, slug: string): BlogFron
 		description: description.trim(),
 		date,
 		topic,
-		image: optionalString(data.image),
-		imageTitle: optionalString(data.imageTitle),
-		imageSubtitle: optionalString(data.imageSubtitle),
 		featured: Boolean(data.featured),
 		draft: Boolean(data.draft),
 	}
+}
+
+function loadFigures(slug: string): BlogFigures {
+	const file = path.join(BLOG_DIR, `${slug}.json`)
+	if (!fs.existsSync(file)) return {}
+
+	const data = JSON.parse(fs.readFileSync(file, 'utf8')) as unknown
+	return parseFiguresFile(slug, data)
 }
 
 function readPostFile(filename: string): BlogPost {
@@ -113,6 +126,10 @@ function readPostFile(filename: string): BlogPost {
 	const raw = fs.readFileSync(path.join(BLOG_DIR, filename), 'utf8')
 	const { data, content } = matter(raw)
 	const frontmatter = parseFrontmatter(data, slug)
+	const figures = loadFigures(slug)
+	const placeholders = extractFigurePlaceholders(content)
+	validateFigurePlaceholders(slug, placeholders, figures)
+	const figureIds = placeholders.map((placeholder) => placeholder.id)
 	const { wordCount, readingTime } = readingStats(content)
 
 	return {
@@ -120,9 +137,12 @@ function readPostFile(filename: string): BlogPost {
 		...frontmatter,
 		featured: frontmatter.featured ?? false,
 		draft: frontmatter.draft ?? false,
+		image: coverImageFromFigures(figureIds, figures),
 		readingTime,
 		wordCount,
 		headings: extractHeadings(content),
+		figureIds,
+		figures,
 		content,
 	}
 }
@@ -139,6 +159,13 @@ function isPublished(post: BlogPostMeta) {
 
 function comparePosts(a: BlogPostMeta, b: BlogPostMeta) {
 	return parseDate(b.date).getTime() - parseDate(a.date).getTime()
+}
+
+export function blogOrigin() {
+	return (
+		process.env.NEXT_PUBLIC_SITE_URL ||
+		(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+	)
 }
 
 export function getAllPosts(): BlogPost[] {
@@ -188,4 +215,46 @@ export function getTopics() {
 		...topic,
 		count: posts.filter((post) => post.topic === topic.slug).length,
 	}))
+}
+
+export function serializeArticle(post: BlogPost) {
+	const origin = blogOrigin()
+
+	return {
+		slug: post.slug,
+		frontmatter: {
+			title: post.title,
+			description: post.description,
+			date: post.date,
+			topic: post.topic,
+			slug: post.slug,
+			featured: post.featured,
+			draft: post.draft,
+		},
+		canonicalUrl: `${origin}/blog/${post.slug}/`,
+		markdown: post.content,
+		headings: post.headings,
+		readingTimeMinutes: post.readingTime,
+		wordCount: post.wordCount,
+		figureIds: post.figureIds,
+		figures: post.figures,
+	}
+}
+
+export function serializeArticleMarkdown(post: BlogPost) {
+	const yaml = [
+		'---',
+		`title: ${JSON.stringify(post.title)}`,
+		`description: ${JSON.stringify(post.description)}`,
+		`date: ${JSON.stringify(post.date)}`,
+		`topic: ${JSON.stringify(post.topic)}`,
+		`slug: ${JSON.stringify(post.slug)}`,
+		`canonical: ${JSON.stringify(`${blogOrigin()}/blog/${post.slug}/`)}`,
+		'---',
+		'',
+		post.content.trim(),
+		'',
+	].join('\n')
+
+	return yaml
 }
