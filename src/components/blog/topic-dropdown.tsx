@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { CheckIcon, ChevronDownIcon } from 'lucide-react'
-import { BLOG_TOPICS, type BlogTopicSlug } from '@/lib/blog'
+import { BLOG_TOPICS, type BlogTopicSlug } from '@/lib/blog-meta'
 import { cn } from '@/lib/utils'
 import {
 	DropdownMenu,

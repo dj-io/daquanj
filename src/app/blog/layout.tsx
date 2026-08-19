@@ -25,7 +25,7 @@ export default function BlogLayout({
 }) {
 	return (
 		<div className="flex min-h-dvh flex-col bg-background">
-			<div className="flex-1 px-6 pb-8 pt-24 sm:px-8">{children}</div>
+			<div className="flex-1 px-5 pb-8 pt-36 sm:px-8 sm:pt-32">{children}</div>
 			<SiteFooter />
 		</div>
 	)
