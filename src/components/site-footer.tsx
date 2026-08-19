@@ -1,5 +1,6 @@
 'use client'
 
+import { usePathname } from 'next/navigation'
 import { SOCIAL_LINKS } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { SOCIAL_ICON_MAP } from './social-icons'
@@ -10,7 +11,20 @@ interface SiteFooterProps {
 	variant?: 'fixed' | 'page'
 }
 
+const HOME_LINK = {
+	name: 'Home',
+	url: '/',
+	handle: 'HOME',
+	internal: true as const,
+}
+
 export function SiteFooter({ className, variant = 'page' }: SiteFooterProps) {
+	const pathname = usePathname()
+	const onBlog = pathname.startsWith('/blog')
+	const links = onBlog
+		? SOCIAL_LINKS.map((link) => (link.name === 'Blog' ? HOME_LINK : link))
+		: SOCIAL_LINKS
+
 	return (
 		<footer
 			className={cn(
@@ -27,7 +41,7 @@ export function SiteFooter({ className, variant = 'page' }: SiteFooterProps) {
 				</p>
 				<SocialLinks
 					className="text-sm"
-					LINKS={SOCIAL_LINKS}
+					LINKS={links}
 					iconMap={SOCIAL_ICON_MAP}
 				/>
 			</div>

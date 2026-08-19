@@ -9,7 +9,7 @@ export function ArticleByline({
 		<div className="mt-5 flex items-center gap-2.5 text-sm">
 			<div
 				aria-hidden
-				className="flex size-7 shrink-0 items-center justify-center rounded-full bg-grit text-[11px] font-semibold text-background"
+				className="flex size-7 shrink-0 items-center justify-center rounded-full bg-grit text-[11px] font-semibold text-white"
 			>
 				D
 			</div>

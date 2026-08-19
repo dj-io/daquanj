@@ -1,19 +1,22 @@
 'use client'
 
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { Button } from './ui/button'
 import { ContactDialog } from './contact-dialog'
 import { captureEvent } from '@/lib/posthog'
 import { INTRO_FADE_DELAY, INTRO_FADE_DURATION } from '@/lib/constants'
+import { cn } from '@/lib/utils'
 import { motion, useReducedMotion } from 'motion/react'
+import { useEffect, useState } from 'react'
 
 export function Header() {
 	const { setTheme, resolvedTheme } = useTheme()
 	const pathname = usePathname()
 	const shouldReduceMotion = useReducedMotion()
 	const isHome = pathname === '/'
+	const isBlog = pathname.startsWith('/blog')
+	const [released, setReleased] = useState(false)
 
 	const toggleTheme = () => {
 		const newTheme = resolvedTheme === 'dark' ? 'light' : 'dark'
@@ -24,6 +27,28 @@ export function Header() {
 		})
 	}
 
+	useEffect(() => {
+		if (!isBlog) {
+			setReleased(false)
+			return
+		}
+
+		const sentinel = document.getElementById('blog-content-start')
+		if (!sentinel) return
+
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				const leftThroughTop =
+					!entry.isIntersecting && entry.boundingClientRect.top < 0
+				setReleased(leftThroughTop)
+			},
+			{ threshold: 0 },
+		)
+
+		observer.observe(sentinel)
+		return () => observer.disconnect()
+	}, [isBlog, pathname])
+
 	return (
 		<motion.nav
 			initial={shouldReduceMotion ? false : { opacity: 0 }}
@@ -32,7 +57,11 @@ export function Header() {
 				duration: INTRO_FADE_DURATION,
 				delay: shouldReduceMotion || !isHome ? 0 : INTRO_FADE_DELAY,
 			}}
-			className="flex flex-col items-center fixed left-4 top-2 z-50 bg-transparent"
+			className={cn(
+				'fixed left-4 top-2 z-50 flex flex-col items-center bg-transparent',
+				'transition-[transform,opacity] duration-300 ease-out',
+				isBlog && released && 'pointer-events-none -translate-y-[120%] opacity-0',
+			)}
 		>
 			<div className="flex flex-row items-center gap-2">
 				<div className="w-3 h-3 object-cover transition-colors bg-apollo rounded-xs" />
@@ -61,26 +90,6 @@ export function Header() {
 					</span>
 				</Button>
 			</div>
-			{!isHome && (
-				<div className="flex flex-row items-center gap-2 -mt-2">
-					<div className="w-3 h-3 object-cover transition-colors bg-grit rounded-xs" />
-					<Button
-						variant="ghost"
-						size="icon"
-						className="flex items-center justify-between"
-						asChild
-					>
-						<Link
-							href="/"
-							onClick={() => captureEvent('home_link_clicked', { from: pathname })}
-						>
-							<span className="text-sm text-grit font-semibold tracking-tight">
-								HOME
-							</span>
-						</Link>
-					</Button>
-				</div>
-			)}
 		</motion.nav>
 	)
 }
