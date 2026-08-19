@@ -182,14 +182,6 @@
     font-family: "SF Mono", Menlo, "JetBrains Mono", ui-monospace, monospace;
   }
 
-  .blog-prose {
-    --blog-chart-highlight: var(--blog-accent);
-  }
-
-  .hero-slab {
-    animation: hero-slab-in 700ms ease-out both;
-  }
-
   .paint-stroke {
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
@@ -354,8 +346,7 @@
     .paint-flicker,
     .paint-glow,
     .paint-drip,
-    .paint-jitter,
-    .hero-slab {
+    .paint-jitter {
       animation: none;
     }
 
@@ -364,16 +355,6 @@
     }
 
     .paint-reveal {
-      opacity: 1;
-    }
-  }
-
-  @keyframes hero-slab-in {
-    from {
-      opacity: 0.35;
-      transform: translateY(12%);
-    }
-    to {
       opacity: 1;
     }
   }

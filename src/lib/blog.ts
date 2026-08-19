@@ -269,12 +269,6 @@ export function getPostsByTopic(topic: BlogTopicSlug): BlogPost[] {
 	return getAllPosts().filter((post) => post.topic === topic)
 }
 
-export function getRelatedPosts(post: BlogPostMeta, limit = 3): BlogPost[] {
-	return getPostsByTopic(post.topic)
-		.filter((candidate) => candidate.slug !== post.slug)
-		.slice(0, limit)
-}
-
 export function getAdjacentPosts(slug: string) {
 	const posts = getAllPosts()
 	const index = posts.findIndex((post) => post.slug === slug)
@@ -288,15 +282,6 @@ export function getAdjacentPosts(slug: string) {
 export function getTopic(slug: string) {
 	if (!isTopicSlug(slug)) return null
 	return BLOG_TOPICS[slug]
-}
-
-export function getTopics() {
-	const posts = getAllPosts()
-
-	return Object.values(BLOG_TOPICS).map((topic) => ({
-		...topic,
-		count: posts.filter((post) => post.topic === topic.slug).length,
-	}))
 }
 
 export function serializeArticle(post: BlogPost): ArticleDocument {

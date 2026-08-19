@@ -1,14 +1,4 @@
-export const FIGURE_KINDS = [
-	'hero',
-	'canvas-hero',
-	'painting',
-	'compass',
-	'image',
-	'chart',
-	'table',
-	'algorithm',
-	'stat-grid',
-] as const
+export const FIGURE_KINDS = ['painting', 'compass', 'image'] as const
 
 export type FigureKind = (typeof FIGURE_KINDS)[number]
 
@@ -162,15 +152,6 @@ export function asString(value: unknown) {
 	return typeof value === 'string' ? value : undefined
 }
 
-export function asNumber(value: unknown) {
-	return typeof value === 'number' && Number.isFinite(value) ? value : undefined
-}
-
 export function asBoolean(value: unknown) {
 	return typeof value === 'boolean' ? value : undefined
-}
-
-export function asStringArray(value: unknown) {
-	if (!Array.isArray(value)) return []
-	return value.filter((item): item is string => typeof item === 'string')
 }

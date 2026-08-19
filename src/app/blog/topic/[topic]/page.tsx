@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { BlogIndex } from '@/components/blog/blog-index'
-import { BLOG_TOPICS, getAllPosts, getTopic } from '@/lib/blog'
+import { BLOG_TOPICS, getPostsByTopic, getTopic } from '@/lib/blog'
 
 type TopicPageProps = {
 	params: Promise<{ topic: string }>
@@ -27,5 +27,5 @@ export default async function TopicPage({ params }: TopicPageProps) {
 	const topic = getTopic(slug)
 	if (!topic) notFound()
 
-	return <BlogIndex posts={getAllPosts()} topic={topic.slug} />
+	return <BlogIndex posts={getPostsByTopic(topic.slug)} topic={topic.slug} />
 }

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import type { MDXComponents } from 'mdx/types'
-import { Callout, Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/blog/article-tabs'
+import { Callout } from '@/components/blog/article-callout'
 import { BlogFigure } from '@/components/blog/blog-figure'
 import type { BlogFigures } from '@/lib/blog-figures'
 import { cn } from '@/lib/utils'
@@ -143,10 +143,6 @@ export function createMdxComponents(
 		mark: ({ className, ...props }) => <mark className={className} {...props} />,
 		Note,
 		Callout,
-		Tabs,
-		TabsList,
-		TabsTrigger,
-		TabsContent,
 		BlogFigure: ({ id, children }: { id: string; children?: ReactNode }) => (
 			<BlogFigure
 				id={id}
