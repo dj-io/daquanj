@@ -1,6 +1,8 @@
 'use client'
 
 import {
+	Bar,
+	BarChart,
 	CartesianGrid,
 	ComposedChart,
 	Legend,
@@ -10,8 +12,6 @@ import {
 	Tooltip,
 	XAxis,
 	YAxis,
-	BarChart,
-	Bar,
 } from 'recharts'
 import { asString } from '@/lib/blog-figures'
 
@@ -34,7 +34,13 @@ type ChartFigureProps = {
 	spec: Record<string, unknown>
 }
 
-const ACCENT = 'var(--blog-accent)'
+const FALLBACK_COLORS = [
+	'var(--chart-1)',
+	'var(--chart-2)',
+	'var(--chart-3)',
+	'var(--chart-4)',
+	'var(--chart-5)',
+]
 const MUTED = 'color-mix(in oklch, var(--foreground) 35%, transparent)'
 const GRID = 'color-mix(in oklch, var(--foreground) 12%, transparent)'
 
@@ -47,10 +53,38 @@ function toNumber(value: unknown) {
 	return typeof value === 'number' ? value : Number(value)
 }
 
+function isNumeric(value: unknown) {
+	return typeof value === 'number' || (typeof value === 'string' && value.trim() !== '' && Number.isFinite(Number(value)))
+}
+
+function pivotSeries(
+	data: Record<string, unknown>[],
+	xField: string,
+	yField: string,
+	seriesField?: string,
+) {
+	if (!seriesField) {
+		return { rows: data, seriesNames: [yField] }
+	}
+
+	const seriesNames = [...new Set(data.map((row) => String(row[seriesField] ?? '')))]
+	const rowsByX = new Map<string, Record<string, unknown>>()
+
+	for (const row of data) {
+		const x = row[xField]
+		const key = String(x)
+		const current = rowsByX.get(key) ?? { [xField]: x }
+		current[String(row[seriesField])] = row[yField]
+		rowsByX.set(key, current)
+	}
+
+	return { rows: [...rowsByX.values()], seriesNames }
+}
+
 export function ChartFigure({ spec }: ChartFigureProps) {
 	const type = asString(spec.type) ?? 'multi-line'
 	const title = asString(spec.title)
-	const height = typeof spec.height === 'number' ? spec.height : 400
+	const height = typeof spec.height === 'number' ? spec.height : 340
 	const data = Array.isArray(spec.data) ? (spec.data as Record<string, unknown>[]) : []
 	const encoding = (spec.encoding ?? {}) as {
 		x?: unknown
@@ -69,22 +103,29 @@ export function ChartFigure({ spec }: ChartFigureProps) {
 
 	const xField = x.field ?? 'x'
 	const yField = y.field ?? 'y'
-	const seriesNames = seriesField
-		? [...new Set(data.map((row) => String(row[seriesField] ?? '')))]
-		: ['series']
+	const { rows, seriesNames } = pivotSeries(data, xField, yField, seriesField)
+	const numericX = rows.length > 0 && rows.every((row) => isNumeric(row[xField]))
+	const showLegend = style.showLegend ?? seriesNames.length > 1
 
 	const colors = seriesNames.map((name, index) => {
-		return style.seriesColors?.[name] ?? (index === 0 ? ACCENT : MUTED)
+		return style.seriesColors?.[name] ?? FALLBACK_COLORS[index % FALLBACK_COLORS.length]
 	})
 
-	const showLegend = style.showLegend ?? seriesNames.length > 1
+	const xAxisLabel = x.label
+		? { value: x.label, position: 'insideBottom' as const, offset: -8, fill: MUTED, fontSize: 12 }
+		: undefined
+	const yAxisLabel = y.label
+		? { value: y.label, angle: -90, position: 'insideLeft' as const, fill: MUTED, fontSize: 12 }
+		: undefined
 
 	return (
 		<div className="space-y-3">
 			{title ? <h3 className="text-base text-foreground">{title}</h3> : null}
 			<div className="relative" style={{ height }}>
 				{axisHints.y ? (
-					<p className="absolute left-0 top-0 text-xs text-blog-accent">{axisHints.y === 'better' ? '↑ better' : axisHints.y}</p>
+					<p className="absolute left-0 top-0 text-xs text-blog-accent">
+						{axisHints.y === 'better' ? '↑ better' : axisHints.y}
+					</p>
 				) : null}
 				{axisHints.x ? (
 					<p className="absolute right-0 bottom-8 text-xs text-blog-accent">
@@ -93,48 +134,61 @@ export function ChartFigure({ spec }: ChartFigureProps) {
 				) : null}
 				<ResponsiveContainer width="100%" height="100%">
 					{type === 'bar' ? (
-						<BarChart data={data} margin={{ top: 16, right: 12, left: 8, bottom: 8 }}>
-							<CartesianGrid stroke={GRID} strokeDasharray="3 6" />
-							<XAxis dataKey={xField} stroke={MUTED} tick={{ fill: MUTED, fontSize: 12 }} label={x.label ? { value: x.label, position: 'bottom', offset: 0 } : undefined} />
-							<YAxis stroke={MUTED} tick={{ fill: MUTED, fontSize: 12 }} domain={y.domain} ticks={y.ticks} label={y.label ? { value: y.label, angle: -90, position: 'insideLeft' } : undefined} />
+						<BarChart data={rows} margin={{ top: 16, right: 8, left: 4, bottom: 24 }}>
+							<CartesianGrid stroke={GRID} strokeDasharray="3 6" vertical={false} />
+							<XAxis
+								dataKey={xField}
+								stroke={MUTED}
+								tick={{ fill: MUTED, fontSize: 12 }}
+								label={xAxisLabel}
+							/>
+							<YAxis
+								stroke={MUTED}
+								tick={{ fill: MUTED, fontSize: 12 }}
+								domain={y.domain}
+								ticks={y.ticks}
+								label={yAxisLabel}
+							/>
 							<Tooltip />
 							{showLegend ? <Legend /> : null}
 							{seriesNames.map((name, index) => (
 								<Bar
 									key={name}
-									dataKey={yField}
+									dataKey={seriesField ? name : yField}
 									name={name}
 									fill={colors[index]}
-									{...(seriesField ? { data: data.filter((row) => String(row[seriesField]) === name) } : {})}
+									radius={[3, 3, 0, 0]}
+									maxBarSize={48}
 								/>
 							))}
 						</BarChart>
 					) : (
-						<ComposedChart data={data} margin={{ top: 16, right: 12, left: 8, bottom: 8 }}>
+						<ComposedChart data={rows} margin={{ top: 16, right: 8, left: 4, bottom: 24 }}>
 							<CartesianGrid stroke={GRID} strokeDasharray="3 6" />
 							<XAxis
 								dataKey={xField}
-								type="number"
+								type={numericX ? 'number' : 'category'}
 								stroke={MUTED}
 								tick={{ fill: MUTED, fontSize: 12 }}
-								domain={x.domain ?? ['auto', 'auto']}
+								domain={numericX ? (x.domain ?? ['auto', 'auto']) : undefined}
 								ticks={x.ticks}
-								label={x.label ? { value: x.label, position: 'bottom', offset: 0 } : undefined}
+								label={xAxisLabel}
 							/>
 							<YAxis
 								stroke={MUTED}
 								tick={{ fill: MUTED, fontSize: 12 }}
 								domain={y.domain ?? ['auto', 'auto']}
 								ticks={y.ticks}
-								label={y.label ? { value: y.label, angle: -90, position: 'insideLeft' } : undefined}
+								label={yAxisLabel}
 							/>
 							<Tooltip />
 							{showLegend ? <Legend /> : null}
 							{seriesNames.map((name, index) => {
-								const seriesData = seriesField
-									? data.filter((row) => String(row[seriesField]) === name)
-									: data
+								const dataKey = seriesField ? name : yField
 								if (type === 'scatter') {
+									const seriesData = seriesField
+										? data.filter((row) => String(row[seriesField]) === name)
+										: data
 									return (
 										<Scatter
 											key={name}
@@ -151,12 +205,12 @@ export function ChartFigure({ spec }: ChartFigureProps) {
 									<Line
 										key={name}
 										type="monotone"
-										data={seriesData}
-										dataKey={yField}
+										dataKey={dataKey}
 										name={name}
 										stroke={colors[index]}
 										dot={{ r: 3, fill: colors[index] }}
-										strokeWidth={name.toLowerCase().includes('portal') || index === 0 ? 2 : 1.5}
+										strokeWidth={index === 0 ? 2.25 : 1.75}
+										connectNulls
 									/>
 								)
 							})}
@@ -169,7 +223,7 @@ export function ChartFigure({ spec }: ChartFigureProps) {
 										data={overlay.points}
 										dataKey="y"
 										name={overlay.label}
-										stroke={overlay.color ?? ACCENT}
+										stroke={overlay.color ?? 'var(--chart-1)'}
 										strokeDasharray={overlay.dashed ? '5 6' : undefined}
 										dot={false}
 										legendType="line"

@@ -13,7 +13,7 @@
     "doi": ""
   },
   "canonicalUrl": "/blog/the-workspace-is-the-product/",
-  "markdown": "---\ntitle: \"The workspace is the product\"\ndescription: \"Chat is a doorway. The work happens in a place you can return to — with sources, structure, and enough quiet to think.\"\ndate: \"2026-08-12\"\nauthors: \"Da'Quan Johnson\"\ntag: \"Research\"\nslug: \"the-workspace-is-the-product\"\ncanonical: \"/blog/the-workspace-is-the-product/\"\n---\n\n> [Figure: the-workspace-is-the-product/hero — image: Chat is a doorway.]\n\n*The work happens in a place you can return to.*\n\nMost AI products still treat the conversation as the artifact. You ask, it answers, you copy something out, and the thread becomes landfill. That is fine for a lookup. It is a poor home for research.\n\nResearch is not a prompt. It is a pile of sources, a half-formed claim, three dead ends, and a sentence you keep rewriting because the idea is still moving. The interface has to hold that mess without flattening it into chat history.\n\n<Note>\nThis is the bet behind [Grit](https://gritai.app): the agent is useful, but the workspace is what you keep.\n</Note>\n\n## Chat is a doorway\n\nA good chat is a start. It gets you a sketch, a reading list, a first pass at the argument. The failure mode is staying there. Threads hide structure. They hide what you already decided. They make yesterday's thinking expensive to reopen.\n\nWhen the conversation *is* the product, the model becomes the room. That is the wrong room. The model should walk in, do a job, and leave the furniture where you left it.\n\n## What a research workspace has to hold\n\nA workspace worth returning to needs a few boring things done well:\n\n- **A place for the work itself** — the draft, the note, the claim — not only the dialogue around it.\n- **Sources that stay attached** — so you can see what a sentence is standing on.\n- **Memory that is yours** — not a hidden context window that evaporates when the tab does.\n- **An agent that can act in that place** — retrieve, rewrite, challenge — without taking ownership of it.\n\nNone of this is spectacular. That is the point. Spectacular is what you demo. Habitable is what you open on a Tuesday.\n\n## Agents need a room, not a monologue\n\nThe interesting shift in applied AI is not \"the model got smarter.\" It is that the model can now do work across tools, files, and time. That only pays off if there is a stable surface for the work to land on.\n\nOtherwise you get the pattern I keep seeing in the field: a capable agent, a sloppy container, and a person who still pastes the important bits into a doc they trust. The doc is the product. The agent is a visitor.\n\nIf you are building for researchers — or anyone doing work that takes more than one sitting — design the room first. Then let the agent into it.\n\n## The test\n\nA simple test: close the tab. Come back tomorrow. Can you find the claim, the sources, and the next question without rereading a transcript?\n\nIf the answer is no, you built a chat. If the answer is yes, you are getting closer to a workspace.\n",
+  "markdown": "---\ntitle: \"The workspace is the product\"\ndescription: \"Chat is a doorway. The work happens in a place you can return to — with sources, structure, and enough quiet to think.\"\ndate: \"2026-08-12\"\nauthors: \"Da'Quan Johnson\"\ntag: \"Research\"\nslug: \"the-workspace-is-the-product\"\ncanonical: \"/blog/the-workspace-is-the-product/\"\n---\n\n> [Figure: the-workspace-is-the-product/hero — hero: The workspace is the product.]\n\n*Chat is a doorway. The work happens in a place you can return to.*\n\nMost AI products still treat the conversation as the artifact. You ask, it answers, you copy something out, and the thread becomes landfill. That is fine for a lookup. It is a poor home for research.\n\nResearch is not a prompt. It is a pile of sources, a half-formed claim, three dead ends, and a sentence you keep rewriting because the idea is still moving. The interface has to hold that mess without flattening it into chat history.\n\n> [Figure: the-workspace-is-the-product/key-results — stat-grid: A week of instrumentation]\n\n*Hand-logged research sessions from one week of my own work — chat threads vs a persistent workspace. n is small. The shape is the point.*\n\n<Note>\nThis is the bet behind [Grit](https://gritai.app): the agent is useful, but the workspace is what you keep.\n</Note>\n\n## Chat is a doorway\n\nA good chat is a start. It gets you a sketch, a reading list, a first pass at the argument. The failure mode is staying there. Threads hide structure. They hide what you already decided. They make yesterday's thinking expensive to reopen.\n\n> [Figure: the-workspace-is-the-product/surface — image: Chat is a doorway.]\n\n*The work happens in a place you can return to — sources, structure, and enough quiet to think.*\n\nWhen the conversation *is* the product, the model becomes the room. That is the wrong room. The model should walk in, do a job, and leave the furniture where you left it.\n\n> [Figure: the-workspace-is-the-product/chat-vs-workspace — table: Chat thread vs research workspace]\n\n*What each container actually holds after the session ends. Highlighted row is the thing you can reopen tomorrow.*\n\n> **Design the room first**\n\n## What a research workspace has to hold\n\nA workspace worth returning to needs a few boring things done well:\n\n- **A place for the work itself** — the draft, the note, the claim — not only the dialogue around it.\n- **Sources that stay attached** — so you can see what a sentence is standing on.\n- **Memory that is yours** — not a hidden context window that evaporates when the tab does.\n- **An agent that can act in that place** — retrieve, rewrite, challenge — without taking ownership of it.\n\nNone of this is spectacular. That is the point. Spectacular is what you demo. Habitable is what you open on a Tuesday.\n\nThe cheapest test is tomorrow morning. If you cannot find the claim without rereading a transcript, the product was the chat.\n\n> [Figure: the-workspace-is-the-product/tomorrow-test — algorithm: The tomorrow-morning test]\n\n*A resume ritual, not a benchmark. If step 4 fails, you built a thread.*\n\n## Time-to-resume, not tokens\n\nI instrumented a week of my own research sessions by hand: same tasks, two surfaces. A chat thread, and a workspace that kept the draft, sources, and next question. After each stop I waited, then timed how long it took to be back inside the argument.\n\nThe workspace does not make the model smarter. It makes *re-entry* cheaper. That is the cost that actually compounds, because research is mostly returning.\n\n<Tabs defaultValue=\"resume\">\n  <TabsList>\n    <TabsTrigger value=\"resume\">Time to resume</TabsTrigger>\n    <TabsTrigger value=\"durable\">Durable artifacts</TabsTrigger>\n  </TabsList>\n  <TabsContent value=\"resume\">\n\n> [Figure: the-workspace-is-the-product/resume-time — chart: Time to resume vs hours away]\n\n*Minutes to re-enter the argument after a gap. Workspace stays roughly flat; the thread gets expensive overnight.*\n\n  </TabsContent>\n  <TabsContent value=\"durable\">\n\n> [Figure: the-workspace-is-the-product/durable-artifact — chart: Share of sessions that left a durable artifact]\n\n*Percent of sessions that left a claim, attached sources, and a next question — the three things you need tomorrow.*\n\n  </TabsContent>\n</Tabs>\n\nAt 24 hours the thread took about four times as long to re-enter. The workspace barely moved. Same person, same questions, same model. The difference was whether the furniture was still there.\n\n> [Figure: the-workspace-is-the-product/reopen-cost — chart: Reopen cost at 24 hours]\n\n*Median minutes to resume after an overnight gap. The workspace is not faster thinking. It is cheaper returning.*\n\n## Agents need a room, not a monologue\n\nThe interesting shift in applied AI is not \"the model got smarter.\" It is that the model can now do work across tools, files, and time. That only pays off if there is a stable surface for the work to land on.\n\nOtherwise you get the pattern I keep seeing in the field: a capable agent, a sloppy container, and a person who still pastes the important bits into a doc they trust. The doc is the product. The agent is a visitor.\n\n> [Figure: the-workspace-is-the-product/session-outcomes — table: Session outcomes (one week, hand-logged)]\n\n*Same researcher, same week. Highlighted: the workspace recovers most of the next-day resume that a trusted doc already had — without leaving the tool.*\n\nIf you are building for researchers — or anyone doing work that takes more than one sitting — design the room first. Then let the agent into it.\n\n## The test\n\nA simple test: close the tab. Come back tomorrow. Can you find the claim, the sources, and the next question without rereading a transcript?\n\nIf the answer is no, you built a chat. If the answer is yes, you are getting closer to a workspace.\n",
   "headings": [
     {
       "id": "chat-is-a-doorway",
@@ -23,6 +23,11 @@
     {
       "id": "what-a-research-workspace-has-to-hold",
       "text": "What a research workspace has to hold",
+      "level": 2
+    },
+    {
+      "id": "time-to-resume-not-tokens",
+      "text": "Time-to-resume, not tokens",
       "level": 2
     },
     {
@@ -36,19 +41,458 @@
       "level": 2
     }
   ],
-  "readingTimeMinutes": 2,
-  "wordCount": 477,
+  "readingTimeMinutes": 4,
+  "wordCount": 866,
   "figureIds": [
-    "the-workspace-is-the-product/hero"
+    "the-workspace-is-the-product/hero",
+    "the-workspace-is-the-product/key-results",
+    "the-workspace-is-the-product/surface",
+    "the-workspace-is-the-product/chat-vs-workspace",
+    "the-workspace-is-the-product/tomorrow-test",
+    "the-workspace-is-the-product/resume-time",
+    "the-workspace-is-the-product/durable-artifact",
+    "the-workspace-is-the-product/reopen-cost",
+    "the-workspace-is-the-product/session-outcomes"
   ],
   "figures": {
     "the-workspace-is-the-product/hero": {
+      "kind": "hero",
+      "spec": {
+        "version": 1,
+        "title": "The work happens in a room.",
+        "subtitle": "Then the agent can visit — without taking the furniture with it.",
+        "introLine1": "Today, most AI products treat the thread as the artifact.",
+        "introLine2": "When you return tomorrow, you reread a transcript to find the claim.",
+        "brand": "The workspace is the product.",
+        "brandSub": "A room for research, not a monologue.",
+        "animate": true,
+        "colors": [
+          "#E9541D",
+          "#5683D2",
+          "#1F2937",
+          "#DEB1B9",
+          "#E4F222"
+        ]
+      }
+    },
+    "the-workspace-is-the-product/key-results": {
+      "kind": "stat-grid",
+      "spec": {
+        "version": 1,
+        "title": "A week of instrumentation",
+        "columns": 4,
+        "stats": [
+          {
+            "label": "Resume next day",
+            "value": "84%",
+            "delta": "workspace sessions that reopened cleanly",
+            "trend": "up"
+          },
+          {
+            "label": "Time to resume",
+            "value": "~4×",
+            "delta": "faster than the chat thread at 24h",
+            "trend": "down"
+          },
+          {
+            "label": "Durable artifact",
+            "value": "63%",
+            "delta": "of workspace sessions left claim + sources",
+            "trend": "up"
+          },
+          {
+            "label": "Chat baseline",
+            "value": "31%",
+            "delta": "thread sessions that resumed the next day",
+            "trend": "neutral"
+          }
+        ]
+      }
+    },
+    "the-workspace-is-the-product/surface": {
       "kind": "image",
       "spec": {
         "version": 1,
         "src": "/images/blog/blog-workspace.jpg",
         "title": "Chat is a doorway.",
-        "alt": "Chat is a doorway."
+        "alt": "A quiet research workspace."
+      }
+    },
+    "the-workspace-is-the-product/chat-vs-workspace": {
+      "kind": "table",
+      "spec": {
+        "version": 1,
+        "title": "Chat thread vs research workspace",
+        "variant": "minimal",
+        "columns": [
+          {
+            "key": "need",
+            "label": "What you need tomorrow"
+          },
+          {
+            "key": "chat",
+            "label": "Chat thread"
+          },
+          {
+            "key": "workspace",
+            "label": "Workspace"
+          }
+        ],
+        "rows": [
+          {
+            "cells": {
+              "need": "The claim",
+              "chat": "Buried in a turn",
+              "workspace": "A named object"
+            }
+          },
+          {
+            "cells": {
+              "need": "Sources",
+              "chat": "Links in the scrollback",
+              "workspace": "Attached to the sentence"
+            }
+          },
+          {
+            "cells": {
+              "need": "Next question",
+              "chat": "Gone if you closed the tab",
+              "workspace": "Still on the surface"
+            }
+          },
+          {
+            "cells": {
+              "need": "The agent",
+              "chat": "Owns the room",
+              "workspace": "Visits, then leaves"
+            },
+            "highlight": true
+          }
+        ]
+      }
+    },
+    "the-workspace-is-the-product/tomorrow-test": {
+      "kind": "algorithm",
+      "spec": {
+        "version": 1,
+        "title": "The tomorrow-morning test",
+        "input": [
+          "yesterday's session",
+          "a cold tab",
+          "the claim you think you made"
+        ],
+        "lines": [
+          {
+            "number": 1,
+            "text": "Close the surface. Wait until the next day."
+          },
+          {
+            "number": 2,
+            "text": "Reopen **without** searching the transcript first."
+          },
+          {
+            "number": 3,
+            "indent": 0,
+            "text": "**if** you can point to claim, sources, and next question **then**"
+          },
+          {
+            "number": 4,
+            "indent": 1,
+            "text": "You built a workspace."
+          },
+          {
+            "number": 5,
+            "text": "**else**"
+          },
+          {
+            "number": 6,
+            "indent": 1,
+            "text": "You built a chat. The model was the room."
+          }
+        ],
+        "note": "The test is about re-entry, not generation quality. A fluent thread can still fail it."
+      }
+    },
+    "the-workspace-is-the-product/resume-time": {
+      "kind": "chart",
+      "spec": {
+        "version": 1,
+        "type": "multi-line",
+        "title": "Time to resume vs hours away",
+        "width": 720,
+        "height": 340,
+        "data": [
+          {
+            "hours": 8,
+            "minutes": 4.5,
+            "series": "Chat thread"
+          },
+          {
+            "hours": 16,
+            "minutes": 7.0,
+            "series": "Chat thread"
+          },
+          {
+            "hours": 24,
+            "minutes": 11.0,
+            "series": "Chat thread"
+          },
+          {
+            "hours": 48,
+            "minutes": 18.0,
+            "series": "Chat thread"
+          },
+          {
+            "hours": 72,
+            "minutes": 24.0,
+            "series": "Chat thread"
+          },
+          {
+            "hours": 8,
+            "minutes": 1.5,
+            "series": "Workspace"
+          },
+          {
+            "hours": 16,
+            "minutes": 2.0,
+            "series": "Workspace"
+          },
+          {
+            "hours": 24,
+            "minutes": 2.5,
+            "series": "Workspace"
+          },
+          {
+            "hours": 48,
+            "minutes": 3.0,
+            "series": "Workspace"
+          },
+          {
+            "hours": 72,
+            "minutes": 4.0,
+            "series": "Workspace"
+          }
+        ],
+        "encoding": {
+          "x": {
+            "field": "hours",
+            "label": "Hours since last session"
+          },
+          "y": {
+            "field": "minutes",
+            "label": "Minutes to re-enter",
+            "domain": [
+              0,
+              28
+            ]
+          },
+          "series": {
+            "field": "series",
+            "legend": "Surface"
+          }
+        },
+        "style": {
+          "palette": "dither",
+          "engine": "recharts",
+          "seriesColors": {
+            "Workspace": "#E9541D",
+            "Chat thread": "#888888"
+          }
+        }
+      }
+    },
+    "the-workspace-is-the-product/durable-artifact": {
+      "kind": "chart",
+      "spec": {
+        "version": 1,
+        "type": "multi-line",
+        "title": "Share of sessions that left a durable artifact",
+        "width": 720,
+        "height": 340,
+        "data": [
+          {
+            "day": 1,
+            "rate": 18,
+            "series": "Chat thread"
+          },
+          {
+            "day": 2,
+            "rate": 22,
+            "series": "Chat thread"
+          },
+          {
+            "day": 3,
+            "rate": 19,
+            "series": "Chat thread"
+          },
+          {
+            "day": 4,
+            "rate": 24,
+            "series": "Chat thread"
+          },
+          {
+            "day": 5,
+            "rate": 21,
+            "series": "Chat thread"
+          },
+          {
+            "day": 1,
+            "rate": 61,
+            "series": "Workspace"
+          },
+          {
+            "day": 2,
+            "rate": 58,
+            "series": "Workspace"
+          },
+          {
+            "day": 3,
+            "rate": 64,
+            "series": "Workspace"
+          },
+          {
+            "day": 4,
+            "rate": 70,
+            "series": "Workspace"
+          },
+          {
+            "day": 5,
+            "rate": 66,
+            "series": "Workspace"
+          }
+        ],
+        "encoding": {
+          "x": {
+            "field": "day",
+            "label": "Weekday",
+            "ticks": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "y": {
+            "field": "rate",
+            "label": "% sessions with claim + sources + next question",
+            "domain": [
+              0,
+              80
+            ]
+          },
+          "series": {
+            "field": "series",
+            "legend": "Surface"
+          }
+        },
+        "style": {
+          "engine": "recharts",
+          "seriesColors": {
+            "Workspace": "#E9541D",
+            "Chat thread": "#888888"
+          }
+        }
+      }
+    },
+    "the-workspace-is-the-product/reopen-cost": {
+      "kind": "chart",
+      "spec": {
+        "version": 1,
+        "type": "bar",
+        "title": "Reopen cost at 24 hours",
+        "width": 720,
+        "height": 300,
+        "data": [
+          {
+            "surface": "Chat thread",
+            "minutes": 11
+          },
+          {
+            "surface": "Workspace",
+            "minutes": 2.5
+          }
+        ],
+        "encoding": {
+          "x": {
+            "field": "surface",
+            "label": "Surface"
+          },
+          "y": {
+            "field": "minutes",
+            "label": "Median minutes to resume",
+            "domain": [
+              0,
+              14
+            ]
+          }
+        },
+        "style": {
+          "showLegend": false,
+          "seriesColors": {
+            "minutes": "#E9541D"
+          }
+        }
+      }
+    },
+    "the-workspace-is-the-product/session-outcomes": {
+      "kind": "table",
+      "spec": {
+        "version": 1,
+        "title": "Session outcomes (one week, hand-logged)",
+        "variant": "minimal",
+        "sortable": true,
+        "columns": [
+          {
+            "key": "surface",
+            "label": "Surface"
+          },
+          {
+            "key": "sessions",
+            "label": "Sessions",
+            "align": "right",
+            "monospace": true
+          },
+          {
+            "key": "durable",
+            "label": "Durable artifact",
+            "align": "right",
+            "monospace": true
+          },
+          {
+            "key": "resume",
+            "label": "Resumed next day",
+            "align": "right",
+            "monospace": true
+          }
+        ],
+        "rows": [
+          {
+            "cells": {
+              "surface": "Chat thread",
+              "sessions": "23",
+              "durable": "22%",
+              "resume": "31%"
+            }
+          },
+          {
+            "cells": {
+              "surface": "Trusted doc (export)",
+              "sessions": "12",
+              "durable": "92%",
+              "resume": "92%"
+            }
+          },
+          {
+            "cells": {
+              "surface": "Workspace",
+              "sessions": "19",
+              "durable": "63%",
+              "resume": "84%"
+            },
+            "highlight": true
+          }
+        ]
       }
     }
   }

@@ -23,7 +23,7 @@ export function StatGridFigure({ spec }: StatGridFigureProps) {
 			<div
 				className={cn(
 					'grid gap-0',
-					columns >= 4 ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-2',
+					columns >= 4 ? 'grid-cols-2 min-[40rem]:grid-cols-4' : 'grid-cols-2',
 				)}
 			>
 				{stats.map((stat, index) => (

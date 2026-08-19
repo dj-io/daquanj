@@ -58,7 +58,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
 	return (
 		<>
-			<article className="mx-auto w-full max-w-2xl pb-28">
+			<article className="mx-auto w-full max-w-3xl pb-28">
 				<ArticleToc headings={post.headings} />
 
 				<p className="mt-10 text-sm text-muted-foreground">{topic.label}</p>
@@ -71,7 +71,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 					<MDXRemote
 						source={adaptArticleMarkdown(post.content)}
 						components={createMdxComponents(post.figures, {
-							priorityFigureId: post.figureIds[0],
+							priorityFigureId:
+								post.figureIds.find((id) => post.figures[id]?.kind === 'image') ??
+								post.figureIds[0],
 						})}
 						options={{
 							mdxOptions: {
