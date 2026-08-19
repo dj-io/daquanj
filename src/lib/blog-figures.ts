@@ -2,6 +2,7 @@ export const FIGURE_KINDS = [
 	'painting',
 	'compass',
 	'image',
+	'diagram',
 	'chart',
 	'table',
 	'algorithm',

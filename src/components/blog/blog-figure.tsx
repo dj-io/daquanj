@@ -4,6 +4,7 @@ import { asString } from '@/lib/blog-figures'
 import { AlgorithmFigure } from '@/components/blog/figures/algorithm-figure'
 import { ChartFigure } from '@/components/blog/figures/chart-figure'
 import { CompassFigure } from '@/components/blog/figures/compass-figure'
+import { DiagramFigure } from '@/components/blog/figures/diagram-figure'
 import { ImageFigure } from '@/components/blog/figures/image-figure'
 import { PaintingFigure } from '@/components/blog/figures/painting-figure'
 import { StatGridFigure } from '@/components/blog/figures/stat-grid-figure'
@@ -33,6 +34,8 @@ function FigureViz({
 			return <CompassFigure spec={record.spec} />
 		case 'image':
 			return <ImageFigure spec={record.spec} priority={priority} />
+		case 'diagram':
+			return <DiagramFigure spec={record.spec} />
 		case 'chart':
 			return <ChartFigure spec={record.spec} />
 		case 'table':
