@@ -4,6 +4,7 @@ import { cache } from 'react'
 import matter from 'gray-matter'
 import {
 	coverFromFigures,
+	coverVisualFromFigures,
 	extractFigurePlaceholders,
 	matchFigureLine,
 	parseFiguresFile,
@@ -204,6 +205,7 @@ function readArticleFile(slug: string): BlogPost {
 	const markdown = buildMarkdown(frontmatter, content, canonicalUrl)
 	const headings = extractHeadings(content)
 	const topic = topicFromTag(frontmatter.tag)
+	const coverFigure = coverVisualFromFigures(figureIds, figures)
 	const cover = coverFromFigures(figureIds, figures)
 
 	const document: ArticleDocument = {
@@ -232,6 +234,7 @@ function readArticleFile(slug: string): BlogPost {
 		doi: frontmatter.doi,
 		image: cover?.src,
 		imageAlt: cover?.alt,
+		coverFigure,
 		draft: frontmatter.draft,
 		readingTime,
 		wordCount,

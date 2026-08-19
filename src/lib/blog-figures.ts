@@ -15,6 +15,12 @@ export type FigurePlaceholder = {
 	title: string
 }
 
+export type BlogCoverFigure = {
+	id: string
+	kind: FigureKind
+	spec: Record<string, unknown>
+}
+
 const FIGURE_LINE =
 	/^>\s*\[Figure:\s*(\S+)\s+[—–-]\s+([a-z0-9-]+):\s+([^\]]+)\]\s*$/
 const ITALIC_CAPTION = /^\*(.+)\*$/
@@ -102,6 +108,34 @@ export function coverFromFigures(figureIds: string[], figures: BlogFigures) {
 		return {
 			src,
 			alt: asString(figure.spec.alt) ?? asString(figure.spec.title),
+		}
+	}
+
+	return undefined
+}
+
+export function coverVisualFromFigures(
+	figureIds: string[],
+	figures: BlogFigures,
+): BlogCoverFigure | undefined {
+	const ordered = [
+		...figureIds.filter((id) => figures[id]?.kind === 'painting'),
+		...Object.keys(figures).filter((id) => id.endsWith('/cover')),
+		...figureIds,
+		...Object.keys(figures),
+	]
+	const seen = new Set<string>()
+
+	for (const id of ordered) {
+		if (seen.has(id)) continue
+		seen.add(id)
+
+		const figure = figures[id]
+		if (figure?.kind === 'painting') {
+			return { id, kind: 'painting', spec: figure.spec }
+		}
+		if (figure?.kind === 'image' && asString(figure.spec.src)) {
+			return { id, kind: 'image', spec: figure.spec }
 		}
 	}
 

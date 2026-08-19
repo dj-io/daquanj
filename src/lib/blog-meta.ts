@@ -1,4 +1,6 @@
-import type { BlogFigures } from './blog-figures'
+import type { BlogCoverFigure, BlogFigures } from './blog-figures'
+
+export type { BlogCoverFigure }
 
 export const BLOG_TOPICS = {
 	research: {
@@ -73,6 +75,7 @@ export type BlogPostMeta = {
 	doi: string
 	image?: string
 	imageAlt?: string
+	coverFigure?: BlogCoverFigure
 	draft: boolean
 	readingTime: number
 	wordCount: number
