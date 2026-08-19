@@ -1,9 +1,13 @@
 import type { ReactNode } from 'react'
 import type { FigureRecord } from '@/lib/blog-figures'
 import { asString } from '@/lib/blog-figures'
+import { AlgorithmFigure } from '@/components/blog/figures/algorithm-figure'
+import { ChartFigure } from '@/components/blog/figures/chart-figure'
 import { CompassFigure } from '@/components/blog/figures/compass-figure'
 import { ImageFigure } from '@/components/blog/figures/image-figure'
 import { PaintingFigure } from '@/components/blog/figures/painting-figure'
+import { StatGridFigure } from '@/components/blog/figures/stat-grid-figure'
+import { TableFigure } from '@/components/blog/figures/table-figure'
 import { cn } from '@/lib/utils'
 
 type BlogFigureProps = {
@@ -29,6 +33,14 @@ function FigureViz({
 			return <CompassFigure spec={record.spec} />
 		case 'image':
 			return <ImageFigure spec={record.spec} priority={priority} />
+		case 'chart':
+			return <ChartFigure spec={record.spec} />
+		case 'table':
+			return <TableFigure spec={record.spec} />
+		case 'algorithm':
+			return <AlgorithmFigure spec={record.spec} />
+		case 'stat-grid':
+			return <StatGridFigure spec={record.spec} />
 		default:
 			throw new Error(`Unsupported figure kind "${String((record as FigureRecord).kind)}"`)
 	}
