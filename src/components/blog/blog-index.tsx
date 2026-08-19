@@ -29,8 +29,14 @@ export function BlogIndex({ posts, topic, counts }: BlogIndexProps) {
 					{activeTopic?.description ??
 						'Field notes from applied AI, shipping software, and the work of thinking clearly.'}
 				</p>
-				<div className="mt-8">
+				<div className="mt-8 flex flex-wrap items-center justify-between gap-4">
 					<TopicFilter active={topic ?? 'all'} counts={counts} />
+					<a
+						href="/blog/rss.xml"
+						className="text-xs tracking-wide text-muted-foreground transition-colors hover:text-foreground"
+					>
+						RSS
+					</a>
 				</div>
 			</header>
 

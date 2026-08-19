@@ -27,6 +27,7 @@ export function TopicFilter({ active = 'all', counts }: TopicFilterProps) {
 					<Link
 						key={topic.slug}
 						href={topic.href}
+						aria-current={isActive ? 'page' : undefined}
 						className={cn(
 							'text-sm tracking-wide transition-colors duration-300',
 							isActive
