@@ -190,6 +190,72 @@
     animation: hero-slab-in 700ms ease-out both;
   }
 
+  .paint-stroke {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: paint-draw 1.35s ease-out forwards;
+  }
+
+  .paint-float {
+    animation: paint-float 6s ease-in-out 1.2s infinite;
+    transform-origin: 356px 90px;
+  }
+
+  .paint-dots {
+    animation: paint-dots 5.5s ease-in-out 1.4s infinite;
+  }
+
+  .paint-drift {
+    stroke-dasharray: 6 9;
+    animation: paint-drift 14s linear infinite;
+  }
+
+  @keyframes paint-drift {
+    to {
+      stroke-dashoffset: -180;
+    }
+  }
+
+  @keyframes paint-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes paint-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+
+  @keyframes paint-dots {
+    0%,
+    100% {
+      opacity: 0.85;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .paint-stroke,
+    .paint-float,
+    .paint-dots,
+    .paint-drift,
+    .hero-slab {
+      animation: none;
+    }
+
+    .paint-stroke {
+      stroke-dashoffset: 0;
+    }
+  }
+
   @keyframes hero-slab-in {
     from {
       opacity: 0.35;

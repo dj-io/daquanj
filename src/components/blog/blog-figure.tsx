@@ -5,6 +5,7 @@ import { CanvasHeroFigure } from '@/components/blog/figures/canvas-hero-figure'
 import { ChartFigure } from '@/components/blog/figures/chart-figure'
 import { HeroFigure } from '@/components/blog/figures/hero-figure'
 import { ImageFigure } from '@/components/blog/figures/image-figure'
+import { PaintingFigure } from '@/components/blog/figures/painting-figure'
 import { StatGridFigure } from '@/components/blog/figures/stat-grid-figure'
 import { TableFigure } from '@/components/blog/figures/table-figure'
 import { cn } from '@/lib/utils'
@@ -28,6 +29,8 @@ function FigureViz({
 			return <HeroFigure spec={record.spec} />
 		case 'canvas-hero':
 			return <CanvasHeroFigure spec={record.spec} />
+		case 'painting':
+			return <PaintingFigure spec={record.spec} />
 		case 'image':
 			return <ImageFigure spec={record.spec} priority={priority} />
 		case 'chart':
@@ -48,7 +51,7 @@ export function BlogFigure({ id, record, caption, priority }: BlogFigureProps) {
 		throw new Error(`Unknown figure "${id}"`)
 	}
 
-	const captionInside = record.kind === 'hero' || record.kind === 'canvas-hero'
+	const captionInside = record.kind === 'hero' || record.kind === 'canvas-hero' || record.kind === 'painting'
 
 	return (
 		<figure className="my-8 space-y-3">
