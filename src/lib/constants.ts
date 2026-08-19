@@ -6,7 +6,7 @@ export const INTRO_FADE_DELAY = 1.7
 
 export const COPY: Copy[] = [
 	{
-		heading: 'Product Engineer with 0 -> 1 experience taking products from problem to production. ',
+		heading: 'Product Engineer with 0 → 1 experience taking products from problem to production. ',
 		body: 'Now focused on applied AI, building better ways to solve practical problems.',
 	},
 ]
