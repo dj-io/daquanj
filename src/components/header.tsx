@@ -17,6 +17,8 @@ export function Header() {
 	const isHome = pathname === '/'
 	const isBlog = pathname.startsWith('/blog')
 	const [released, setReleased] = useState(false)
+	const hidden = isBlog && released
+	const skipIntroDelay = Boolean(shouldReduceMotion) || !isHome
 
 	const toggleTheme = () => {
 		const newTheme = resolvedTheme === 'dark' ? 'light' : 'dark'
@@ -51,16 +53,16 @@ export function Header() {
 
 	return (
 		<motion.nav
-			initial={shouldReduceMotion ? false : { opacity: 0 }}
-			animate={{ opacity: 1 }}
+			initial={shouldReduceMotion ? false : { opacity: 0, y: 0 }}
+			animate={hidden ? { opacity: 0, y: '-120%' } : { opacity: 1, y: 0 }}
 			transition={{
-				duration: INTRO_FADE_DURATION,
-				delay: shouldReduceMotion || !isHome ? 0 : INTRO_FADE_DELAY,
+				duration: hidden ? 0.3 : INTRO_FADE_DURATION,
+				delay: hidden || skipIntroDelay ? 0 : INTRO_FADE_DELAY,
+				ease: 'easeOut',
 			}}
 			className={cn(
 				'fixed left-4 top-2 z-50 flex flex-col items-center bg-transparent',
-				'transition-[transform,opacity] duration-300 ease-out',
-				isBlog && released && 'pointer-events-none -translate-y-[120%] opacity-0',
+				hidden && 'pointer-events-none',
 			)}
 		>
 			<div className="flex flex-row items-center gap-2">
