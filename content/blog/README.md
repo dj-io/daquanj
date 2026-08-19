@@ -115,7 +115,7 @@ Ids are `your-slug/name`. Caption can also live on `spec.caption`. Compass print
 | Kind | Use |
 | --- | --- |
 | `painting` | SVG studio painting (Blank Canvas hero). `animate` defaults true. |
-| `compass` | Drawing-compass sign-off. D3 plants the needle, opens the hinge, then holds the left arm still while the right arm cones around that axis and the lead draws the circle. `animate` defaults true. `label` defaults to `Proven with Grit`; `""` is icon only. |
+| `compass` | Drawing-compass sign-off. D3 plants the needle, opens the hinge, then turns the needle in place so the rigid compass carries the lead around the circle. Label sits on the same line. `animate` defaults true. `label` defaults to `Proven with Grit`; `""` is icon only. |
 | `image` | Photograph. `src` under `/public`, plus `alt`. Optional `title`, `aspect`. |
 | `chart` | Recharts. `type`: `bar`, `multi-line`, or `scatter`. |
 | `table` | Sortable comparison table. |
