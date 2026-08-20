@@ -10,7 +10,7 @@ export const COPY: Copy[] = [
 		body: 'Staying sharp with Grit, deciding what to build, designing how it works, and shipping.',
 		bodyLink: {
 			label: 'Grit',
-			href: 'https://gritai.app',
+			href: 'https://gritai.app/changelog',
 		},
 	},
 ]
