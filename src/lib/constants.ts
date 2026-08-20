@@ -7,7 +7,7 @@ export const INTRO_FADE_DELAY = 1.7
 export const COPY: Copy[] = [
 	{
 		heading: 'Product Engineer with 0 → 1 experience turning problems into shippable software. ',
-		body: 'Product work at Grit on an agent workspace for researchers, scoping what to build and shipping it.',
+		body: 'Product work at Grit, an agent workspace for researchers, scoping what to build and shipping it.',
 	},
 ]
 
