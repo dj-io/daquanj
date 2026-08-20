@@ -7,7 +7,7 @@ export const INTRO_FADE_DELAY = 1.7
 export const COPY: Copy[] = [
 	{
 		heading: 'Product Engineer with 0 → 1 experience turning problems into shippable software. ',
-		body: 'Staying sharp with Grit, scoping what to build and shipping it.',
+		body: 'Staying sharp with Grit, deciding what to build, designing how it works, and shipping it.',
 		bodyLink: {
 			label: 'Grit',
 			href: 'https://gritai.app',
