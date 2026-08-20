@@ -1,33 +1,9 @@
 'use client'
 
 import { COPY, INTRO_FADE_DURATION } from '@/lib/constants'
-import type { Copy } from '@/lib/types'
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'motion/react'
 import { useIntro } from './intro-provider'
-
-function HeroCopyBody ({ copy }: { copy: Copy }) {
-	const { body, bodyLink } = copy
-	if (!bodyLink) return body
-
-	const index = body.indexOf(bodyLink.label)
-	if (index === -1) return body
-
-	return (
-		<>
-			{body.slice(0, index)}
-			<a
-				href={bodyLink.href}
-				target="_blank"
-				rel="noreferrer"
-				className="underline decoration-dashed decoration-current/70 underline-offset-[0.22em] transition-colors hover:text-grit hover:decoration-grit"
-			>
-				{bodyLink.label}
-			</a>
-			{body.slice(index + bodyLink.label.length)}
-		</>
-	)
-}
 
 interface HeroTitleProps {
 	introComplete: boolean
@@ -76,9 +52,7 @@ export function HeroTitle ({ introComplete }: HeroTitleProps) {
 				className="text-2xl md:text-3xl text-grit leading-snug italic font-crimson"
 			>
 				{COPY?.[0]?.heading}{' '}
-				<span className="text-muted-foreground">
-					<HeroCopyBody copy={COPY[0]} />
-				</span>
+				<span className="text-muted-foreground">{COPY?.[0]?.body}</span>
 			</motion.h1>
 		</div>
 	)
