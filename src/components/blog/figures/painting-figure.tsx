@@ -1,3 +1,7 @@
+'use client'
+
+import { useLayoutEffect, useRef } from 'react'
+import { easeCubicOut, select } from 'd3'
 import { Permanent_Marker } from 'next/font/google'
 import { asBoolean } from '@/lib/blog-figures'
 import { cn } from '@/lib/utils'
@@ -38,7 +42,14 @@ function svgId(id: string, name: string) {
 	return `${id.replace(/[^a-zA-Z0-9_-]+/g, '-')}-${name}`
 }
 
+function delayOf(node: Element) {
+	const raw = (node as SVGElement).style.animationDelay
+	const ms = Number.parseFloat(raw)
+	return Number.isFinite(ms) ? ms : 0
+}
+
 export function PaintingFigure({ spec, id = 'painting' }: PaintingFigureProps) {
+	const svgRef = useRef<SVGSVGElement>(null)
 	const animate = asBoolean(spec.animate) ?? true
 	const draw = animate ? 'paint-stroke' : undefined
 	const reveal = animate ? 'paint-reveal' : undefined
@@ -48,8 +59,58 @@ export function PaintingFigure({ spec, id = 'painting' }: PaintingFigureProps) {
 	const impasto = svgId(id, 'impasto')
 	const glow = svgId(id, 'glow')
 
+	useLayoutEffect(() => {
+		const svg = svgRef.current
+		if (!svg || !animate) return
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+		const root = select(svg)
+		const strokes = root.selectAll<SVGGeometryElement, unknown>('.paint-stroke')
+		const reveals = root.selectAll<SVGElement, unknown>('.paint-reveal')
+		let played = false
+
+		strokes.style('stroke-dasharray', 1).style('stroke-dashoffset', 1)
+		reveals.style('opacity', 0)
+
+		const play = () => {
+			if (played) return
+			played = true
+			strokes.each(function () {
+				select(this)
+					.transition()
+					.delay(delayOf(this))
+					.duration(1850)
+					.ease(easeCubicOut)
+					.style('stroke-dashoffset', 0)
+			})
+			reveals.each(function () {
+				select(this)
+					.transition()
+					.delay(delayOf(this))
+					.duration(900)
+					.ease(easeCubicOut)
+					.style('opacity', 1)
+			})
+		}
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				if (entries.some((entry) => entry.isIntersecting)) play()
+			},
+			{ threshold: 0.05 },
+		)
+		observer.observe(svg)
+
+		return () => {
+			observer.disconnect()
+			strokes.interrupt()
+			reveals.interrupt()
+		}
+	}, [animate])
+
 	return (
 		<svg
+			ref={svgRef}
 			viewBox="0 0 800 820"
 			className={cn(scrawl.className, 'h-auto w-full overflow-visible')}
 			aria-hidden
