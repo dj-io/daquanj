@@ -3,6 +3,10 @@ import type { ComponentType } from 'react'
 export interface Copy {
 	heading: string
 	body: string
+	bodyLink?: {
+		label: string
+		href: string
+	}
 	subline?: string
 }
 

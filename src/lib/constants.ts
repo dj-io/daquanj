@@ -6,8 +6,12 @@ export const INTRO_FADE_DELAY = 1.7
 
 export const COPY: Copy[] = [
 	{
-		heading: 'Full Stack Engineer with forward deployed experience turning customer specs into shippable software. ',
-		body: 'Now focused on applied AI, building better ways to solve practical problems.',
+		heading: 'Product Engineer with 0 → 1 experience turning problems into shippable software. ',
+		body: 'Staying sharp with Grit, deciding what to build, designing how it works, and shipping.',
+		bodyLink: {
+			label: 'Grit',
+			href: 'https://gritai.app',
+		},
 	},
 ]
 
