@@ -1,15 +1,16 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { captureEvent } from '@/lib/posthog'
-import { PROJECT_LINKS, SOCIAL_LINKS } from '@/lib/constants'
+import type { ProjectLink, SocialLink } from '@/lib/types'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Badge } from '@/components/ui/badge'
 
 interface SocialLinksProps {
 	className?: string
-	LINKS: typeof PROJECT_LINKS | typeof SOCIAL_LINKS
+	LINKS: SocialLink[] | ProjectLink[]
 	iconMap: Record<string, React.ComponentType<{ className?: string }>>
 	popover?: boolean
 }
@@ -20,6 +21,8 @@ export function SocialLinks({
 	iconMap,
 	popover = false,
 }: SocialLinksProps) {
+	const pathname = usePathname()
+
 	const handleSocialClick = (platform: string, url: string) => {
 		captureEvent('social_link_clicked', {
 			platform,
@@ -35,6 +38,10 @@ export function SocialLinks({
 
 				const info = 'info' in link ? link.info : undefined
 				const popoverEnabled = popover && !!info
+				const isActive = Boolean(
+					link.internal &&
+						(pathname === link.url || pathname.startsWith(`${link.url}/`)),
+				)
 
 				return (
 					<Popover
@@ -47,14 +54,16 @@ export function SocialLinks({
 						<PopoverTrigger asChild>
 							<Link
 								href={link.url}
-								target="_blank"
-								rel="noopener noreferrer"
+								target={link.internal ? undefined : '_blank'}
+								rel={link.internal ? undefined : 'noopener noreferrer'}
 								onClick={() =>
 									handleSocialClick(link.name, link.url)
 								}
 								className={cn(
 									'flex items-center gap-2',
-									'text-grit dark:text-[#9CA3AF]',
+									isActive
+										? 'text-foreground'
+										: 'text-grit dark:text-[#9CA3AF]',
 									'hover:text-foreground dark:hover:text-white',
 									'transition-colors duration-300',
 								)}

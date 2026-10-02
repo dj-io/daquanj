@@ -1,4 +1,4 @@
-import { Copy, ProjectTimeline } from './types'
+import { Copy, ProjectLink, ProjectTimeline, SocialLink } from './types'
 import { CheckCircleIcon } from 'lucide-react'
 
 export const INTRO_FADE_DURATION = 0.45
@@ -8,37 +8,42 @@ export const YOE_GAP_YEARS = 1
 
 export const COPY: Copy[] = [
 	{
-		heading: 'Full Stack Engineer with forward deployed experience turning customer specs into shippable software. ',
-		body: 'Now focused on applied AI, building better ways to solve practical problems.',
+		heading: 'Product Engineer with 0 → 1 experience turning problems into shippable software. ',
+		body: 'Staying sharp with Grit, deciding what to build, designing how it works, and shipping.',
+		bodyLink: {
+			label: 'Grit',
+			href: 'https://gritai.app/changelog',
+		},
 	},
 ]
 
 // Social links
-export const SOCIAL_LINKS = [
+export const SOCIAL_LINKS: SocialLink[] = [
 	{
 		name: 'LinkedIn',
 		url: 'https://www.linkedin.com/in/daquanj/',
-		handle: 'IN/DAQUANJ'
+		handle: 'IN/DAQUANJ',
 	},
 	{
 		name: 'GitHub',
 		url: 'https://github.com/dj-io',
-		handle: '@DJ-IO'
+		handle: '@DJ-IO',
 	},
 	{
-		name: 'Substack',
-		url: 'https://stratumlabs.substack.com',
-		handle: 'BLOG'
+		name: 'Blog',
+		url: '/blog',
+		handle: 'BLOG',
+		internal: true,
 	},
 	{
 		name: 'X',
 		url: 'https://x.com/@d16nx',
-		handle: '@D16NX'
+		handle: '@D16NX',
 	},
 ]
 
 // Project links
-export const PROJECT_LINKS = [
+export const PROJECT_LINKS: ProjectLink[] = [
 	{
 		name: 'Grit',
 		url: 'https://gritai.app',
@@ -49,6 +54,18 @@ export const PROJECT_LINKS = [
 			timeline: 'Active' satisfies ProjectTimeline,
             role: "Founder",
             contributions: "0→1 product strategy, customer discovery, fundraising, and full product delivery."
+        }
+	},
+	{
+		name: 'Waterfield',
+		url: 'https://waterfieldtech.com/solutions/xcelerate/',
+		handle: 'WTI',
+		info: {
+            about: "Xcelerate — CCaaS on Twilio Flex",
+			timelineIcon: CheckCircleIcon,
+			timeline: 'Completed' satisfies ProjectTimeline,
+            role: "Software Engineer II",
+            contributions: "Built a CRM-agnostic, multi-tenant integration layer for Salesforce, HubSpot, and Zendesk, plus agent notifications and custom client solutions.",
         }
 	},
 	{

@@ -1,9 +1,33 @@
 'use client'
 
 import { COPY, INTRO_FADE_DURATION } from '@/lib/constants'
+import type { Copy } from '@/lib/types'
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'motion/react'
 import { useIntro } from './intro-provider'
+
+function HeroCopyBody ({ copy }: { copy: Copy }) {
+	const { body, bodyLink } = copy
+	if (!bodyLink) return body
+
+	const index = body.indexOf(bodyLink.label)
+	if (index === -1) return body
+
+	return (
+		<>
+			{body.slice(0, index)}
+			<a
+				href={bodyLink.href}
+				target="_blank"
+				rel="noreferrer"
+				className="underline decoration-dashed decoration-current/70 underline-offset-[0.22em] transition-colors hover:text-grit hover:decoration-grit"
+			>
+				{bodyLink.label}
+			</a>
+			{body.slice(index + bodyLink.label.length)}
+		</>
+	)
+}
 
 interface HeroTitleProps {
 	introComplete: boolean
@@ -29,7 +53,7 @@ export function HeroTitle ({ introComplete }: HeroTitleProps) {
 				className={
 					showContent
 						? 'relative h-24 w-24'
-						: 'fixed left-1/2 top-1/2 z-50 h-[min(72vw,440px)] w-[min(72vw,440px)] -translate-x-1/2 -translate-y-1/2'
+						: 'fixed inset-0 z-50 m-auto h-[min(72vw,70svh,440px)] w-[min(72vw,70svh,440px)]'
 				}
 			>
 				<Image
@@ -37,7 +61,8 @@ export function HeroTitle ({ introComplete }: HeroTitleProps) {
 					alt="DaquanJ"
 					fill
 					priority
-					className="object-cover rounded-full"
+					sizes="(max-width: 768px) 72vw, 440px"
+					className="rounded-full object-cover"
 				/>
 			</motion.div>
 			<motion.h1
@@ -51,7 +76,9 @@ export function HeroTitle ({ introComplete }: HeroTitleProps) {
 				className="text-2xl md:text-3xl text-grit leading-snug italic font-crimson"
 			>
 				{COPY?.[0]?.heading}{' '}
-				<span className="text-muted-foreground">{COPY?.[0]?.body}</span>
+				<span className="text-muted-foreground">
+					<HeroCopyBody copy={COPY[0]} />
+				</span>
 			</motion.h1>
 		</div>
 	)
