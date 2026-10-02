@@ -3,6 +3,8 @@ import { CheckCircleIcon } from 'lucide-react'
 
 export const INTRO_FADE_DURATION = 0.45
 export const INTRO_FADE_DELAY = 1.7
+export const CAREER_START_YEAR = 2021
+export const YOE_GAP_YEARS = 1
 
 export const COPY: Copy[] = [
 	{
@@ -42,7 +44,7 @@ export const PROJECT_LINKS = [
 		url: 'https://gritai.app',
 		handle: 'GRIT',
 		info: {
-            about: "The Agent Workspace For Researchers",
+            about: "The AI Research Agent",
 			timelineIcon: CheckCircleIcon,
 			timeline: 'Active' satisfies ProjectTimeline,
             role: "Founder",

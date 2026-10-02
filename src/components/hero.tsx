@@ -1,9 +1,11 @@
 'use client'
 
 import {
+	CAREER_START_YEAR,
 	INTRO_FADE_DELAY,
 	INTRO_FADE_DURATION,
 	SOCIAL_LINKS,
+	YOE_GAP_YEARS,
 } from '@/lib/constants'
 import { SocialLinks } from './social-links'
 import { HeroTitle } from './hero-title'
@@ -29,6 +31,7 @@ export function HeroSection () {
 	const shouldReduceMotion = useReducedMotion()
 	const { completeIntro } = useIntro()
 	const [introComplete, setIntroComplete] = useState(false)
+	const yoe = new Date().getFullYear() - CAREER_START_YEAR - YOE_GAP_YEARS
 
 	useEffect(() => {
 		if (shouldReduceMotion) {
@@ -71,7 +74,7 @@ export function HeroSection () {
 				<div className="mx-auto max-w-4xl px-4 py-8 text-center space-y-4">
 					{/* Copyright */}
 					<p className="text-xs text-muted-foreground/60 transition-colors duration-300">
-					Da'Quan Johnson · {new Date().getFullYear() - 2020} YOE &copy; {new Date().getFullYear()}
+					Da'Quan Johnson · {yoe} YOE &copy; {new Date().getFullYear()}
 					</p>
 
 					{/* Social Links */}
