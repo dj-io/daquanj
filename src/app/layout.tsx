@@ -4,7 +4,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/header";
 import { PostHogProvider } from "@/components/posthog-provider";
-import { CursorTrail } from "@/components/cursor-trail";
 import { IntroProvider } from "@/components/intro-provider";
 import { Crimson_Text } from "next/font/google";
 
@@ -85,7 +84,6 @@ export default function RootLayout({
             <div className="flex min-h-dvh flex-col bg-background">
               <IntroProvider>
                 <Header />
-                <CursorTrail />
                 <div className="flex-1 overflow-x-clip bg-background">
                   {children}
                 </div>
